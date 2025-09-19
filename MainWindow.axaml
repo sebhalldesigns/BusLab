@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="750"
+        x:Class="BusBar.MainWindow"
+        Title="BusBar">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="#1d1d57" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel Background="Orange">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button Content="File"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button Content="CAN"/>
+                    <Button Content="View"/>
+                    <Button Content="Tools"/>
+                    <Button Content="Help"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                    <Button Content="?"/>
+                    <Button Content="i"/>
+                    <Button Content="^"/>
+                </StackPanel>
+                <Rectangle/>
+
+            </DockPanel>
+        </Grid>
+
+
+        <Grid Background="#151552" Grid.Row="3"/>
+    </Grid>
+</Window>
