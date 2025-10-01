@@ -4,59 +4,81 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Dock.Avalonia.Themes.Simple;
+using Dock.Avalonia.Controls;
+using Dock.Model.Avalonia;
+using Dock.Model.Avalonia.Controls;
+using Dock.Model.Core;
+using Dock.Settings;
+
 namespace BusLab;
 
 public partial class MainWindow : Window
 {
 
-    bool isPointerPressed = false;
-    Point originalPosition;
-
-
     public MainWindow()
     {
         InitializeComponent();
 
-        TabButton.AddHandler(PointerPressedEvent, PointerPressed, RoutingStrategies.Tunnel);
-        TabButton.AddHandler(PointerMovedEvent, PointerMoved, RoutingStrategies.Tunnel);
-        TabButton.AddHandler(PointerReleasedEvent, PointerReleased, RoutingStrategies.Tunnel);
-    }
+        DockControl dockControl = new DockControl();
+        Factory factory = new Factory();
 
-    private void PointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        Console.WriteLine("Pointer pressed");
-        isPointerPressed = true;
-        originalPosition = e.GetPosition(this);
-    }
-
-    private void PointerMoved(object? sender, PointerEventArgs e)
-    {
-        Console.WriteLine("Pointer moved");
-        if (isPointerPressed)
+        var documentDock = new DocumentDock
         {
-            var currentPosition = e.GetPosition(this);
-            var deltaX = currentPosition.X - originalPosition.X;
-            var deltaY = currentPosition.Y - originalPosition.Y;
+            Id = "Documents",
+            IsCollapsable = false,
+            CanCreateDocument = false,
+            CanClose = false,
+            CanFloat = false
+        };
 
-            if (Math.Abs(deltaX) < 50 && Math.Abs(deltaY) < 50)
-            {
-                // Ignore small movements to prevent jitter
-                return;
-            }
+        var document = new Document
+        {
+            Id = "MsgWindow",
+            Title = "Message Window",
+            Content = new TextBox { Text = "Document 1", AcceptsReturn = true },
+            CanClose = false,
+            CanFloat = false
+        };
 
-            TabButton.RenderTransform = new Avalonia.Media.TranslateTransform(deltaX, deltaY);
-        }
+        var document2 = new Document
+        {
+            Id = "TxWindow",
+            Title = "Transmit Window",
+            Content = new TextBox { Text = "Document 2", AcceptsReturn = true },
+            CanClose = false,
+            CanFloat = false
+        };
+
+        var document3 = new Document
+        {
+            Id = "TxWindow2",
+            Title = "Transmit Window 2",
+            Content = new TextBox { Text = "Document 3", AcceptsReturn = true },
+            CanClose = false,
+            CanFloat = false
+        };
+
+        documentDock.VisibleDockables = factory.CreateList<IDockable>(document, document2, document3);
+        documentDock.ActiveDockable = document;
+
+        var mainLayout = new ProportionalDock
+        {
+            Orientation = Orientation.Horizontal,
+            VisibleDockables = factory.CreateList<IDockable>(
+                documentDock
+            )
+        };
+
+        var root = factory.CreateRootDock();
+        root.VisibleDockables = factory.CreateList<IDockable>(mainLayout);
+        root.DefaultDockable = mainLayout;
+
+        factory.InitLayout(root);
+        dockControl.Factory = factory;
+        dockControl.Layout = root;
+
+        MainContent.Content = dockControl;
     }
 
-    private void PointerReleased(object? sender, PointerReleasedEventArgs e)
-    {
-        Console.WriteLine("Pointer released");
-        isPointerPressed = false;
-
-        TabButton.RenderTransform = new Avalonia.Media.TranslateTransform(0, 0);
-    }
-    
-
-
-    
 }

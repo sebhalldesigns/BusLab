@@ -5,78 +5,75 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="BusLab.MainWindow"
         Title="BusLab">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key='Light'>
+                    <SolidColorBrush x:Key='BackgroundBrush'>#F0F0F0</SolidColorBrush>
+                    <SolidColorBrush x:Key='BorderBrush'>#C0C0C0</SolidColorBrush>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key='Dark'>
+                    <SolidColorBrush x:Key='BackgroundBrush'>#151515</SolidColorBrush>
+                    <SolidColorBrush x:Key='BorderBrush'>#404040</SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#aa5bb0ff" Offset="0.0"/>
+                <GradientStop Color="#1d9473" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="1"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="28"/>
-                <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
 
-            <DockPanel Background="#aa5bb0ff">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="2.5 2.5 0 0" Spacing="2.5">
-                    <Button Content="File"  Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
-                    <Button Content="CAN"   Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
-                    <Button Content="View"  Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
-                    <Button Content="Tools" Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
-                    <Button Content="Help"  Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="5 2.5 0 2.5" Spacing="2.5">
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="File"  Padding="10 0" CornerRadius="5" BorderThickness="1"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="CAN"   Padding="10 0" CornerRadius="5" BorderThickness="1"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="View"  Padding="10 0" CornerRadius="5" BorderThickness="1"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="Tools" Padding="10 0" CornerRadius="5" BorderThickness="1"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="Help"  Padding="10 0" CornerRadius="5" BorderThickness="1"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="2.5" Spacing="2.5">
-                    <Button Content="❔" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Help"/>
-                    <Button Content="ℹ️" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="About"/>
-                    <Button Content="⚙️" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Settings"/>
-                    <Button Content="⬆️" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Hide Ribbon"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="❔" CornerRadius="5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Help"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="ℹ️" CornerRadius="5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="About"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="⚙️" CornerRadius="5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Settings"/>
+                    <Button Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" Content="⬆️" CornerRadius="5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Hide Ribbon"/>
                 </StackPanel>
                 <Rectangle/>
             </DockPanel>
 
-            <Rectangle Grid.Row="1" Fill="Gray"/>
+            <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="5" Margin="2.5 0">
 
-            <Rectangle Grid.Row="3" Fill="Gray"/>
+            </Border>
+
         </Grid>
 
         <Grid Grid.Row="1">
-            <Border>
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                        <GradientStop Color="#aa5bb0ff" Offset="0.0"/>
-                        <GradientStop Color="#1d9473" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="28"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="2.5 2.5 0 0" Spacing="2.5">
-                    <Button Name="TabButton" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0" Padding="0">
-                        <DockPanel>
-                            <Button Content="❌" DockPanel.Dock="Right" CornerRadius="5" Margin="1" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                            </Button>
-                            <TextBlock Text="Connect" Padding="10 0" VerticalAlignment="Center"/>
-                        </DockPanel>
-                    </Button>
-                </StackPanel>
-
-            </Grid>
+            <ContentControl Name="MainContent" Margin="2.5"/>
         </Grid>
 
-        <Rectangle Grid.Row="2" Fill="Gray"/>
-        <Grid Grid.Row="3">
+        <Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="5" Margin="2.5 2.5">
             <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0">BusLab</TextBlock>
-        </Grid>
+
+        </Border>
+
     </Grid>
 </Window>
