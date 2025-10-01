@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace BusBar;
+namespace BusLab;
 
 public partial class MainWindow : Window
 {

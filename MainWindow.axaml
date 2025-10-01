@@ -2,44 +2,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="750"
-        x:Class="BusBar.MainWindow"
-        Title="BusBar">
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="BusLab.MainWindow"
+        Title="BusLab">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="120"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#1d1d57" Grid.Row="0">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="32"/>
+                <RowDefinition Height="28"/>
+                <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
 
-            <DockPanel Background="Orange">
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                    <Button Content="File"/>
+            <DockPanel Background="#aa5bb0ff">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Margin="2.5 2.5 0 0" Spacing="2.5">
+                    <Button Content="File"  Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
+                    <Button Content="CAN"   Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
+                    <Button Content="View"  Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
+                    <Button Content="Tools" Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
+                    <Button Content="Help"  Padding="10 0" CornerRadius="2.5 2.5 0 0" BorderThickness="1 1 1 0"/>
                 </StackPanel>
-                
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                    <Button Content="CAN"/>
-                    <Button Content="View"/>
-                    <Button Content="Tools"/>
-                    <Button Content="Help"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                    <Button Content="?"/>
-                    <Button Content="i"/>
-                    <Button Content="^"/>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="2.5" Spacing="2.5">
+                    <Button Content="❔" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Help"/>
+                    <Button Content="ℹ️" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="About"/>
+                    <Button Content="⚙️" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Settings"/>
+                    <Button Content="⬆️" CornerRadius="2.5" Width="22.5" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip.Tip="Hide Ribbon"/>
                 </StackPanel>
                 <Rectangle/>
-
             </DockPanel>
+
+            <Rectangle Grid.Row="1" Fill="Gray"/>
+
+            <Rectangle Grid.Row="3" Fill="Gray"/>
         </Grid>
 
+        <Grid Grid.Row="1">
+            <Border>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                        <GradientStop Color="#aa5bb0ff" Offset="0.0"/>
+                        <GradientStop Color="#1d9473" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
 
-        <Grid Background="#151552" Grid.Row="3"/>
+        <Rectangle Grid.Row="2" Fill="Gray"/>
+        <Grid Grid.Row="3">
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0">BusLab</TextBlock>
+        </Grid>
     </Grid>
 </Window>
