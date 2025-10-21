@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
+        x:Class="BusLab.RibbonButton"
+        mc:Ignorable="d"
+        Background="Transparent"
+        Width="50" Height="66">
+
+    
+    <Button CornerRadius="5" Padding="-2">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" 
+            VerticalAlignment="Top" 
+            Text="Connect" FontSize="11" 
+            Height="30"
+            HorizontalAlignment="Center" 
+            TextAlignment="Center"
+            TextWrapping="Wrap"/>
+
+            <Image Height="64" Width="40" Source="/Assets/Icons/icons8-sorting-arrows-horizontal-48.png" Stretch="Uniform"/>
+        </DockPanel>
+    </Button>
+
+</UserControl>

@@ -45,7 +45,7 @@ public partial class MainWindow : Window
         {
             Id = "TxWindow",
             Title = "Transmit Window",
-            Content = new TextBox { Text = "Document 2", AcceptsReturn = true },
+            Content = null, //new TextBox { Text = "Document 2", AcceptsReturn = true },
             CanClose = false,
             CanFloat = false
         };
@@ -54,7 +54,7 @@ public partial class MainWindow : Window
         {
             Id = "TxWindow2",
             Title = "Transmit Window 2",
-            Content = new TextBox { Text = "Document 3", AcceptsReturn = true },
+            Content = null, //new TextBox { Text = "Document 3", AcceptsReturn = true },
             CanClose = false,
             CanFloat = false
         };

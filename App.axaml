@@ -4,8 +4,23 @@
              RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+    <Application.Resources>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#303030</SolidColorBrush>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#303030</SolidColorBrush>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#303030</SolidColorBrush>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#303030</SolidColorBrush>
+        <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#303030" />
+        <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#303030" />
+        <SolidColorBrush x:Key="DockToolChromeIconBrush" Color="#303030" />
+
+    </Application.Resources>
+
     <Application.Styles>
         <SimpleTheme/>
         <DockSimpleTheme/>
     </Application.Styles>
+
+
+
+
 </Application>

@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="BusLab.MainWindow"
         Title="BusLab">
@@ -14,7 +15,7 @@
                     <SolidColorBrush x:Key='BorderBrush'>#C0C0C0</SolidColorBrush>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key='Dark'>
-                    <SolidColorBrush x:Key='BackgroundBrush'>#151515</SolidColorBrush>
+                    <SolidColorBrush x:Key='BackgroundBrush'>#303030</SolidColorBrush>
                     <SolidColorBrush x:Key='BorderBrush'>#404040</SolidColorBrush>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
@@ -60,15 +61,14 @@
             </DockPanel>
 
             <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="5" Margin="2.5 0">
-
+                <local:CanRibbonControl/>
             </Border>
 
         </Grid>
 
-        <Grid Grid.Row="1">
-
-            <ContentControl Name="MainContent" Margin="2.5"/>
-        </Grid>
+        <Border Grid.Row="1" CornerRadius="5" ClipToBounds="True" Margin="0">
+            <ContentControl Name="MainContent" Margin="2.5 2.5 2.5 0"/>
+        </Border>
 
         <Border Grid.Row="2" Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" CornerRadius="5" Margin="2.5 2.5">
             <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5 0">BusLab</TextBlock>
