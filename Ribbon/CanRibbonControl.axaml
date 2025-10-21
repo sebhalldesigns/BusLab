@@ -7,7 +7,92 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600">
 
     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5" Margin="5">
-        <local:RibbonButton/>
-        <local:RibbonButton/>
+        <local:RibbonButton Caption="Connect" 
+            Icon="/Assets/Icons/icons8-sorting-arrows-horizontal-48.png" 
+            ToolTip="Connect to interface"
+        />
+
+        <local:RibbonButton Caption="Driver Selection" 
+            Icon="/Assets/Icons/icons8-electronics-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Channel Config" 
+            Icon="/Assets/Icons/icons8-tools-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Database" 
+            Icon="/Assets/Icons/icons8-database-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Network Statistics" 
+            Icon="/Assets/Icons/icons8-pie-chart-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        
+        <local:RibbonButton Caption="Signal Graph" 
+            Icon="/Assets/Icons/icons8-stocks-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        
+        <local:RibbonButton Caption="Filters" 
+            Icon="/Assets/Icons/icons8-filter-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        
+        <local:RibbonButton Caption="Message Window" 
+            Icon="/Assets/Icons/icons8-property-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        
+        <local:RibbonButton Caption="Signal Watch" 
+            Icon="/Assets/Icons/icons8-bar-chart-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Logging" 
+            Icon="/Assets/Icons/icons8-drag-list-down-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Transmit Window" 
+            Icon="/Assets/Icons/icons8-send-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Node Simulation" 
+            Icon="/Assets/Icons/icons8-node-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Replay" 
+            Icon="/Assets/Icons/icons8-replay-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Logging" 
+            Icon="/Assets/Icons/icons8-sample-rate-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Test Automation" 
+            Icon="/Assets/Icons/icons8-script-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+        <local:RibbonButton Caption="Diagnostics" 
+            Icon="/Assets/Icons/icons8-hammer-48.png" 
+            ToolTip="Select CAN interface"
+        />
+
+
+
+        
     </StackPanel>
 </UserControl>
