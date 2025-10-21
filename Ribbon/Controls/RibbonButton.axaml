@@ -7,7 +7,7 @@
         x:DataType="local:RibbonButton"
         mc:Ignorable="d"
         Background="Transparent"
-        Width="50" Height="66">
+        Width="55" Height="66">
 
     
     <Button CornerRadius="5" Padding="-2" ToolTip.Tip="{Binding ToolTip}">
