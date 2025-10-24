@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="BusLab.MainWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="Full"
+        Title="BusLab">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/> 
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#FF2D2D30">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Menu Grid.Column="0" DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+            </Menu>
+
+            <Rectangle Grid.Column="1" IsHitTestVisible="False" Fill="Green"/>
+        </Grid>
+
+        <DockPanel Grid.Row="2" Background="#FF1E1E1E">
+        </DockPanel>
+    </Grid>
+</Window>
