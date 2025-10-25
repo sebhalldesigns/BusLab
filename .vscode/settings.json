@@ -7,5 +7,18 @@
         "titleBar.inactiveForeground": "#ffffff",
         "activityBar.inactiveForeground": "#bbbbbb",
         "titleBar.inactiveBackground": "#982903"
-    }
+    },
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false,
+    "[csharp]": {
+        "editor.formatOnType": false,
+        "editor.defaultFormatter": null
+    },
+    "omnisharp.enableEditorConfigSupport": false,
+    "omnisharp.enableRoslynAnalyzers": false,
+    "omnisharp.useModernNet": false,
+    "omnisharp.formatOnType": false,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": false,
+    "dotnet.formatting.organizeImportsOnFormat": false,
+    
 }

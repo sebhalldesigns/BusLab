@@ -13,7 +13,7 @@ class Program
     {
         Console.WriteLine("STARTING");
 
-        CanDatabase? dbc = DatabaseReader.Read("sample.dbc", out string error, out string detailedError);
+        CanDatabase? dbc = DatabaseReader.Read("sample4.dbc", out string error, out string detailedError);
 
         if (dbc == null)
         {

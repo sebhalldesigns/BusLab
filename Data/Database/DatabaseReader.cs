@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BusLab;
 
@@ -11,11 +12,12 @@ public static class DatabaseReader
     {
         NONE,
         NAMESPACES,
-        NODES
+        NODES,
+        MESSAGE
     }
 
+    /* parsing states */
     private static ParseState parseState = ParseState.NONE;
-
     private static string parseError = "";
 
     public static CanDatabase? Read(string filePath, out string error, out string detailedError)
@@ -50,6 +52,7 @@ public static class DatabaseReader
             {
                 error = $"Error parsing file {filePath} at line {lineIndex}";
                 detailedError = parseError;
+                return null;
             }
 
         }
@@ -94,6 +97,12 @@ public static class DatabaseReader
                     parsed = true;
                 } break;
 
+                case "BO_":
+                {
+                    ParseMessageSignal(line, tokens, database);
+                    parsed = true;
+                } break;
+
                 default:
                 {
                     parsed = false;
@@ -118,15 +127,17 @@ public static class DatabaseReader
                     ParseNodes(tokens, database);
                 } break;
 
+                case ParseState.MESSAGE:
+                {
+                    ParseMessageSignal(line, tokens, database);
+                } break;
+
                 default:
                 {
                     /* empty line */
                 } break;
             }
         }
-
-        Console.WriteLine(line);
-        Console.WriteLine(parseState);
     }
 
     private static void ParseVersion(string[] tokens, CanDatabase database)
@@ -303,5 +314,183 @@ public static class DatabaseReader
 
     }
 
+    private static void ParseMessageSignal(string line, string[] tokens, CanDatabase database)
+    {
+        if (tokens.Length > 0 && tokens[0] == "BO_")
+        {
+            ParseMessage(line, database);
+            parseState = ParseState.MESSAGE;
+        }
+        else if (tokens.Length > 0 && tokens[0] == "SG_" && parseState == ParseState.MESSAGE)
+        {
+            ParseSignal(line, database);
+        }
+        else
+        {
+            /* reached end of message */
+            parseState = ParseState.NONE;
+        }
+    }
 
+    private static void ParseMessage(string line, CanDatabase database)
+    {
+
+        CanDatabaseMessage message = new CanDatabaseMessage();
+
+        Match match = Regex.Match(line, @"^\s*BO_\s+(\d+)\s+(.+?):\s+(\d+)\s+(\S+)\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse message line: {line}";
+        }
+        else
+        {
+            /* ID field */
+            string idStr = match.Groups[1].Value;
+
+            if (!uint.TryParse(idStr, out uint id))
+            {
+                parseError = $"Invalid message ID '{idStr}' in line: {line}";
+            }
+            else
+            {
+                message.ID = id;
+            }
+
+            /* message name */
+            message.Name = match.Groups[2].Value.Trim();
+
+            /* DLC */
+            string dlcStr = match.Groups[3].Value;
+            if (!byte.TryParse(dlcStr, out byte dlc))
+            {
+                parseError = $"Invalid DLC '{dlcStr}' in line: {line}";
+            }
+            else
+            {
+                message.Length = dlc;
+            }
+
+            /* sender node */
+            message.SenderNode = match.Groups[4].Value;
+
+            /* Handle Vector__XXX as no sender */
+            if (message.SenderNode == "Vector__XXX")
+            {
+                message.SenderNode = ""; 
+            }
+        }
+
+        database.Messages.Add(message);
+    }
+    
+    private static void ParseSignal(string line, CanDatabase database)
+    {
+        CanDatabaseSignal signal = new CanDatabaseSignal();
+
+        Match match = Regex.Match(line, @"^\s*SG_\s+(\w+)\s*:\s*(\d+)\|(\d+)@(\d)([+-])\s+\(([^,]+),([^)]+)\)\s+\[([^\|]+)\|([^\]]+)\]\s+""([^""]*)""\s+(\S+)\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse signal line: {line}";
+        }
+        else
+        {
+            /* signal name */
+            signal.Name = match.Groups[1].Value.Trim();
+
+            /* start bit */
+            string startBitStr = match.Groups[2].Value;
+            if (!uint.TryParse(startBitStr, out uint startBit))
+            {
+                parseError = $"Invalid start bit '{startBitStr}' in line: {line}";
+            }
+            else
+            {
+                signal.StartBit = startBit;
+            }
+
+            /* signal length */
+            string lengthStr = match.Groups[3].Value;
+            if (!uint.TryParse(lengthStr, out uint length))
+            {
+                parseError = $"Invalid signal length '{lengthStr}' in line: {line}";
+            }
+            else
+            {
+                signal.BitLength = length;
+            }
+
+            /* byte order */
+            string byteOrderStr = match.Groups[4].Value;
+            if (byteOrderStr == "0")
+            {
+                signal.ByteOrder = CanDatabaseSignalByteOrder.BIG_ENDIAN;
+            }
+            else if (byteOrderStr == "1")
+            {
+                signal.ByteOrder = CanDatabaseSignalByteOrder.LITTLE_ENDIAN;
+            }
+            else
+            {
+                parseError = $"Invalid byte order '{byteOrderStr}' in line: {line}";
+            }
+
+            /* signal type */
+            string typeStr = match.Groups[5].Value;
+            if (typeStr == "+")
+            {
+                signal.SignalType = CanDatabaseSignalType.UNSIGNED;
+            }
+            else if (typeStr == "-")
+            {
+                signal.SignalType = CanDatabaseSignalType.SIGNED;
+            }
+            else
+            {
+                parseError = $"Invalid signal type '{typeStr}' in line: {line}";
+            }
+
+            /* scale */
+            string scaleStr = match.Groups[6].Value;
+            signal.Scale = scaleStr;
+
+            /* offset */
+            string offsetStr = match.Groups[7].Value;
+            signal.Offset = offsetStr;
+
+            /* min */
+            string minStr = match.Groups[8].Value;
+            signal.Minimum = minStr;
+
+            /* max */
+            string maxStr = match.Groups[9].Value;
+            signal.Maximum = maxStr;
+
+            /* unit */
+            string unitStr = match.Groups[10].Value;
+            signal.Unit = unitStr;
+
+            /* receiver node */
+            string receiverStr = match.Groups[11].Value;
+            signal.ReceiverNode = receiverStr;
+
+            /* again, handle Vector__XXX as no receiver */
+            if (signal.ReceiverNode == "Vector__XXX")
+            {
+                signal.ReceiverNode = "";
+            }
+        }
+
+        /* add signal to last message */
+        if (database.Messages.Count > 0)
+        {
+            CanDatabaseMessage lastMessage = database.Messages[database.Messages.Count - 1];
+            lastMessage.Signals.Add(signal);
+        }
+        else
+        {
+            parseError = $"Signal defined before any message in line: {line}";
+        }
+    }
 }

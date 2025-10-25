@@ -19,6 +19,7 @@ public static class DatabaseWriter
         WriteNamespaceSymbols(lines, database);
         WriteBusSpeed(lines, database);
         WriteNodes(lines, database);
+        WriteMessages(lines, database);
 
         try
         {
@@ -65,7 +66,7 @@ public static class DatabaseWriter
         lines.Add($"BS_: {database.BusSpeed}");
         lines.Add("");
     }
-    
+
     private static void WriteNodes(List<string> lines, CanDatabase database)
     {
         string line = "BU_:";
@@ -76,10 +77,46 @@ public static class DatabaseWriter
         }
 
         lines.Add(line);
-         
+
         /* For some reason we add two lines here */
         lines.Add("");
         lines.Add("");
+    }
+    
+    private static void WriteMessages(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+
+            /* default sender is Vector__XXX if none specified */
+            string sender = message.SenderNode;
+
+            if (string.IsNullOrEmpty(sender))
+            {
+                sender = "Vector__XXX";
+            }
+
+            string messageLine = $"BO_ {message.ID} {message.Name}: {message.Length} {sender}";
+            lines.Add(messageLine);
+
+            foreach (CanDatabaseSignal signal in message.Signals)
+            {
+                string byteOrder = signal.ByteOrder == CanDatabaseSignalByteOrder.LITTLE_ENDIAN ? "1" : "0";
+                string signalType = signal.SignalType == CanDatabaseSignalType.SIGNED ? "-" : "+";
+                
+                string receiver = signal.ReceiverNode;
+                if (string.IsNullOrEmpty(receiver))
+                {
+                    receiver = "Vector__XXX";
+                }
+
+                string signalLine = $" SG_ {signal.Name} : {signal.StartBit}|{signal.BitLength}@{byteOrder}{signalType} ({signal.Scale},{signal.Offset}) [{signal.Minimum}|{signal.Maximum}] \"{signal.Unit}\" {receiver}";
+
+                lines.Add(signalLine);
+            }
+
+            lines.Add("");
+        }
     }
 
 
