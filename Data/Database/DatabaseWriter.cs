@@ -20,6 +20,7 @@ public static class DatabaseWriter
         WriteBusSpeed(lines, database);
         WriteNodes(lines, database);
         WriteMessages(lines, database);
+        WriteComments(lines, database);
 
         WriteSignalValueTypes(lines, database);
 
@@ -122,6 +123,41 @@ public static class DatabaseWriter
             }
 
             lines.Add("");
+        }
+    }
+
+    private static void WriteComments(List<string> lines, CanDatabase database)
+    {
+        foreach (string comment in database.GlobalComments)
+        {
+            lines.Add($"CM_ \"{comment}\";");
+        }
+
+        foreach (CanDatabaseNode node in database.Nodes)
+        {
+            if (!string.IsNullOrEmpty(node.Comment))
+            {
+                lines.Add($"CM_ BU_ {node.Name} \"{node.Comment}\";");
+            }
+        }  
+
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+            if (!string.IsNullOrEmpty(message.Comment))
+            {
+                lines.Add($"CM_ BO_ {message.ID} \"{message.Comment}\";");
+            }
+        }
+
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+            foreach (CanDatabaseSignal signal in message.Signals)
+            {
+                if (!string.IsNullOrEmpty(signal.Comment))
+                {
+                    lines.Add($"CM_ SG_ {message.ID} {signal.Name} \"{signal.Comment}\";");
+                }
+            }
         }
     }
 

@@ -13,12 +13,21 @@ public static class DatabaseReader
         NONE,
         NAMESPACES,
         NODES,
-        MESSAGE
+        MESSAGE,
+        GLOBAL_COMMENT,
+        NODE_COMMENT,
+        MESSAGE_COMMENT,
+        SIGNAL_COMMENT
     }
 
     /* parsing states */
     private static ParseState parseState = ParseState.NONE;
     private static string parseError = "";
+
+    /* track for comments */
+    private static CanDatabaseNode? currentNode = null;
+    private static CanDatabaseMessage? currentMessage = null;
+    private static CanDatabaseSignal? currentSignal = null;
 
     public static CanDatabase? Read(string filePath, out string error, out string detailedError)
     {
@@ -28,6 +37,9 @@ public static class DatabaseReader
 
         parseState = ParseState.NONE;
         parseError = "";
+        currentNode = null;
+        currentMessage = null;
+        currentSignal = null;
 
         string[] fileContents = { };
 
@@ -103,6 +115,12 @@ public static class DatabaseReader
                     parsed = true;
                 } break;
 
+                case "CM_":
+                {
+                    ParseComment(line, tokens, database);
+                    parsed = true;
+                } break;
+
                 case "SIG_VALTYPE_":
                 {
                     ParseSignalValueType(line, database);
@@ -136,6 +154,14 @@ public static class DatabaseReader
                 case ParseState.MESSAGE:
                 {
                     ParseMessageSignal(line, tokens, database);
+                } break;
+
+                case ParseState.GLOBAL_COMMENT:
+                case ParseState.NODE_COMMENT:
+                case ParseState.MESSAGE_COMMENT:
+                case ParseState.SIGNAL_COMMENT:
+                {
+                    ParseComment(line, tokens, database);
                 } break;
 
                 default:
@@ -499,6 +525,170 @@ public static class DatabaseReader
             parseError = $"Signal defined before any message in line: {line}";
         }
     }
+
+    private static void ParseComment(string line, string[] tokens, CanDatabase database)
+    {
+        if (parseState == ParseState.NONE)
+        {
+            bool isEndOfComment = line.Trim().EndsWith(";");
+            Match match = Regex.Match(line, @"^\s*CM_\s+(?:(BU_|BO_|SG_)\s+(?:(\d+)\s+)?(\w+)?)?\s*""(.*?)""?\s*;?\s*$");
+            
+
+            if (!match.Success)
+            {
+                parseError = $"Unable to parse CM_ line: {line}";
+
+                return;
+            }
+            else
+            {
+                string comment = match.Groups[4].Value;
+
+                if (!match.Groups[1].Success)
+                {
+                    /* global comment */
+                    database.GlobalComments.Add(comment);
+
+                    if (!isEndOfComment)
+                    {
+                        parseState = ParseState.GLOBAL_COMMENT;
+                    }
+                    return;
+                }
+                else if (match.Groups[1].Value == "BU_")
+                {
+                    /* Node comment */
+                    string nodeName = match.Groups[3].Value;
+
+                    foreach (CanDatabaseNode node in database.Nodes)
+                    {
+                        if (node.Name == nodeName)
+                        {
+                            node.Comment = comment;
+
+                            if (!isEndOfComment)
+                            {
+                                currentNode = node;
+                                parseState = ParseState.NODE_COMMENT;
+                            }
+
+                            return;
+                        }
+                    }
+
+                    parseError = $"Could not find node '{nodeName}' for CM_ line: {line}";
+                }
+                else if (match.Groups[1].Value == "BO_")
+                {
+                    /* Message comment */
+                    string messageIdStr = match.Groups[2].Value;
+                    
+                    if (!uint.TryParse(messageIdStr, out uint messageId))
+                    {
+                        parseError = $"Invalid message ID '{messageIdStr}' in line: {line}";
+                        return;
+                    }
+
+                    foreach (CanDatabaseMessage message in database.Messages)
+                    {
+                        if (message.ID == messageId)
+                        {
+                            message.Comment = comment;
+
+                            if (!isEndOfComment)
+                            {
+                                currentMessage = message;
+                                parseState = ParseState.MESSAGE_COMMENT;
+                            }
+
+                            return;
+                        }
+                    }
+
+                    parseError = $"Could not find message ID {messageId} for CM_ line: {line}";
+                    
+                }
+                else if (match.Groups[1].Value == "SG_")
+                {
+                    /* Signal comment */
+
+                    string messageIdStr = match.Groups[2].Value;
+                    
+                    string signalName = match.Groups[3].Value;
+                    if (!uint.TryParse(messageIdStr, out uint messageId))
+                    {
+                        parseError = $"Invalid message ID '{messageIdStr}' in line: {line}";
+                        return;
+                    }
+
+                    foreach (CanDatabaseMessage message in database.Messages)
+                    {
+                        if (message.ID == messageId)
+                        {
+                            foreach (CanDatabaseSignal signal in message.Signals)
+                            {
+                                if (signal.Name == signalName)
+                                {
+                                    signal.Comment = comment;
+
+                                    if (!isEndOfComment)
+                                    {
+                                        currentSignal = signal;
+                                        parseState = ParseState.SIGNAL_COMMENT;
+                                    }
+
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    parseError = $"Could not find signal '{signalName}' in message ID {messageId} for CM_ line: {line}";
+                }
+                else 
+                {
+                    parseError = $"Unable to parse CM_ line: {line}";
+                }
+            }
+        }
+        else
+        {
+            bool isEndOfComment = line.Trim().EndsWith(";");
+
+            Match match = Regex.Match(line, @"^\s*([^""]*)");
+            if (match.Success)
+            {
+                string commentPart = "\n" + match.Groups[1].Value;
+
+                if (parseState == ParseState.NODE_COMMENT && currentNode != null)
+                {
+                    currentNode.Comment += commentPart;
+                }
+                else if (parseState == ParseState.MESSAGE_COMMENT && currentMessage != null)
+                {
+                    currentMessage.Comment += commentPart;
+                }
+                else if (parseState == ParseState.SIGNAL_COMMENT && currentSignal != null)
+                {
+                    currentSignal.Comment += commentPart;
+                }
+                else if (parseState == ParseState.GLOBAL_COMMENT && database.GlobalComments.Count > 0)
+                {
+                    database.GlobalComments[database.GlobalComments.Count - 1] += commentPart;
+                }
+            }
+
+            if (isEndOfComment)
+            {
+                parseState = ParseState.NONE;
+                currentNode = null;
+                currentMessage = null;
+                currentSignal = null;
+            }
+        }
+        
+    }
+
 
     private static void ParseSignalValueType(string line, CanDatabase database)
     {

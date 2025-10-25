@@ -37,6 +37,7 @@ BU_: NODE_1
 
 
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ New_Signal_3 : 0|64@1- (1,0) [0|0] "" Vector__XXX
  SG_ New_Signal_2 : 0|32@1- (1,0) [0|0] "" Vector__XXX
 
 BO_ 16 Message_1: 1 NODE_1
@@ -49,5 +50,6 @@ BA_DEF_  "MultiplexExtEnabled" ENUM  "No","Yes";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "MultiplexExtEnabled" "No";
 BA_DEF_DEF_  "BusType" "CAN";
+SIG_VALTYPE_ 3221225472 New_Signal_3 : 2;
 SIG_VALTYPE_ 3221225472 New_Signal_2 : 1;
 

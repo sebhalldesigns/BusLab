@@ -34,6 +34,7 @@ public enum CanDatabaseSignalType
 public class CanDatabaseNode
 {
     public string Name { get; set; } = "";
+    public string Comment { get; set; } = "";
 }
 
 public class CanDatabaseAttribute
@@ -136,4 +137,5 @@ public class CanDatabase
     public List<CanDatabaseMessage> Messages { get; set; } = new List<CanDatabaseMessage>();
     public List<CanDatabaseAttribute> Attributes { get; set; } = new List<CanDatabaseAttribute>();
     public List<CanDatabaseEnvironmentVariable> EnvironmentVariables = new List<CanDatabaseEnvironmentVariable>();
+    public List<string> GlobalComments { get; set; } = new List<string>();
 }
