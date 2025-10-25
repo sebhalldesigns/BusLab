@@ -21,6 +21,10 @@ public static class DatabaseWriter
         WriteNodes(lines, database);
         WriteMessages(lines, database);
 
+        WriteSignalValueTypes(lines, database);
+
+        lines.Add("");
+
         try
         {
             File.WriteAllLines(filePath, lines);
@@ -102,7 +106,9 @@ public static class DatabaseWriter
             foreach (CanDatabaseSignal signal in message.Signals)
             {
                 string byteOrder = signal.ByteOrder == CanDatabaseSignalByteOrder.LITTLE_ENDIAN ? "1" : "0";
-                string signalType = signal.SignalType == CanDatabaseSignalType.SIGNED ? "-" : "+";
+
+                /* N.B. Signals that aren't UNSIGNED are signed - including floats and doubles */
+                string signalType = signal.SignalType == CanDatabaseSignalType.UNSIGNED ? "+" : "-";
                 
                 string receiver = signal.ReceiverNode;
                 if (string.IsNullOrEmpty(receiver))
@@ -119,5 +125,21 @@ public static class DatabaseWriter
         }
     }
 
+    private static void WriteSignalValueTypes(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+            foreach (CanDatabaseSignal signal in message.Signals)
+            {
+                if (signal.SignalType == CanDatabaseSignalType.FLOAT || signal.SignalType == CanDatabaseSignalType.DOUBLE)
+                {
+                    string valueType = signal.SignalType == CanDatabaseSignalType.FLOAT ? "1" : "2";
+                    string signalValueTypeLine = $"SIG_VALTYPE_ {message.ID} {signal.Name} : {valueType};";
+                    lines.Add(signalValueTypeLine);
+                }
+            }
+        }
+
+    }
 
 }

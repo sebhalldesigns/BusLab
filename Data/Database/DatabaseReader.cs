@@ -66,7 +66,7 @@ public static class DatabaseReader
 
         bool parsed = false;
 
-        if (tokens.Length > 0)
+        if (tokens.Length > 0 && parseState == ParseState.NONE)
         {
             switch (tokens[0])
             {
@@ -100,6 +100,12 @@ public static class DatabaseReader
                 case "BO_":
                 {
                     ParseMessageSignal(line, tokens, database);
+                    parsed = true;
+                } break;
+
+                case "SIG_VALTYPE_":
+                {
+                    ParseSignalValueType(line, database);
                     parsed = true;
                 } break;
 
@@ -491,6 +497,82 @@ public static class DatabaseReader
         else
         {
             parseError = $"Signal defined before any message in line: {line}";
+        }
+    }
+
+    private static void ParseSignalValueType(string line, CanDatabase database)
+    {
+        Match match = Regex.Match(line, @"^\s*SIG_VALTYPE_\s+(\d+)\s+(\w+)\s+:\s+(\d+)\s*;\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse SIG_VALTYPE_ line: {line}";
+        }
+        else
+        {
+            /* message ID */
+            string messageIdStr = match.Groups[1].Value;
+            if (!uint.TryParse(messageIdStr, out uint messageId))
+            {
+                parseError = $"Invalid message ID '{messageIdStr}' in line: {line}";
+                return;
+            }
+
+            /* signal name */
+            string signalName = match.Groups[2].Value.Trim();
+
+            /* value type */
+            string valueTypeStr = match.Groups[3].Value;
+            CanDatabaseSignalType signalType = CanDatabaseSignalType.UNSIGNED;
+            bool overrideFound = false;
+
+            switch (valueTypeStr)
+            {
+                case "0":
+                {
+                    /* ignore, default signal type */
+                } break;
+
+                case "1":
+                {
+                    signalType = CanDatabaseSignalType.FLOAT;
+                    overrideFound = true;
+                } break;
+
+                case "2":
+                {
+                    signalType = CanDatabaseSignalType.DOUBLE;
+                    overrideFound = true;
+                } break;
+
+                default:
+                {
+                    parseError = $"Invalid value type '{valueTypeStr}' in line: {line}";
+                } break;
+            }
+
+            if (!overrideFound)
+            {
+                return;
+            }
+
+            /* find the message and signal to apply this to */
+            foreach (CanDatabaseMessage message in database.Messages)
+            {
+                if (message.ID == messageId)
+                {
+                    foreach (CanDatabaseSignal signal in message.Signals)
+                    {
+                        if (signal.Name == signalName)
+                        {
+                            signal.SignalType = signalType;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            parseError = $"Could not find signal '{signalName}' in message ID {messageId} for SIG_VALTYPE_ line: {line}";
         }
     }
 }

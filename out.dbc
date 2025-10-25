@@ -42,3 +42,5 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
 BO_ 16 Message_1: 1 NODE_1
  SG_ New_Signal_1 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
+SIG_VALTYPE_ 3221225472 New_Signal_2 : 1;
+
