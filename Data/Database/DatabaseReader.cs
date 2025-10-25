@@ -810,7 +810,6 @@ public static class DatabaseReader
                         {
                             string value = m.Groups[1].Value;
                             attribute.EnumValues.Add(value);
-                            Console.WriteLine("Added enum value: " + value);
                         }
                     } break;
 
@@ -829,7 +828,29 @@ public static class DatabaseReader
 
     private static void ParseAttributeDefault(string line, CanDatabase database)
     {
-        
+        Match match = Regex.Match(line, @"^\s*BA_DEF_DEF_\s*""([^""]+)""\s+(?:""([^""]*)""|([-+]?\d*\.?\d+))\s*;?\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse BA_DEF_DEF_ line: {line}";
+        }
+        else
+        {
+            string attributeName = match.Groups[1].Value;
+
+            string defaultValue = match.Groups[2].Value + match.Groups[3].Value;
+
+            foreach (CanDatabaseAttribute attribute in database.Attributes)
+            {
+                if (attribute.Name == attributeName)
+                {
+                    attribute.DefaultValue = defaultValue;
+                    return;
+                }
+            }
+
+            parseError = $"Could not find attribute '{attributeName}' for BA_DEF_DEF_ line: {line}";
+        }
     }
 
     private static void ParseAttributeAssignment(string line, CanDatabase database)

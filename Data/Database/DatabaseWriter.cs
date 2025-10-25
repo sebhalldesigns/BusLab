@@ -23,9 +23,10 @@ public static class DatabaseWriter
 
         lines.Add("");
         lines.Add("");
-        
+
         WriteComments(lines, database);
-        WriteAttributes(lines, database);
+        WriteAttributeDefinitions(lines, database);
+        WriteAttributeDefaults(lines, database);
         WriteSignalValueTypes(lines, database);
         
 
@@ -166,7 +167,7 @@ public static class DatabaseWriter
         }
     }
 
-    private static void WriteAttributes(List<string> lines, CanDatabase database)
+    private static void WriteAttributeDefinitions(List<string> lines, CanDatabase database)
     {
         foreach (CanDatabaseAttribute attribute in database.Attributes)
         {
@@ -262,6 +263,40 @@ public static class DatabaseWriter
         }
 
     }
+
+    private static void WriteAttributeDefaults(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseAttribute attribute in database.Attributes)
+        {
+
+            string output = $"BA_DEF_DEF_  \"{attribute.Name}\" ";
+
+            switch (attribute.Type)
+            {
+                case CanDatabaseAttributeType.INT:
+                case CanDatabaseAttributeType.FLOAT:
+                case CanDatabaseAttributeType.HEX:
+                {
+                    output += $"{attribute.DefaultValue};";
+                } break;
+
+                case CanDatabaseAttributeType.STRING:
+                case CanDatabaseAttributeType.ENUM:
+                {
+                    output += $"\"{attribute.DefaultValue}\";";
+                } break;
+
+                default:
+                {
+                    output += ";";
+                } break;
+            }
+
+            lines.Add(output);
+        
+        }
+    }
+
 
 
     private static void WriteSignalValueTypes(List<string> lines, CanDatabase database)
