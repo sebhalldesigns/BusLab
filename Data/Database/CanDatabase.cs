@@ -6,6 +6,7 @@ public enum CanDatabaseAttributeType
 {
     INT,
     FLOAT,
+    HEX,
     STRING,
     ENUM
 }
@@ -13,6 +14,7 @@ public enum CanDatabaseAttributeType
 public enum CanDatabaseAttributeTarget
 {
     NONE,
+    NODE,
     SIGNAL,
     MESSAGE
 }
@@ -46,22 +48,16 @@ public class CanDatabaseAttribute
     public string Min { get; set; } = "";
     public string Max { get; set; } = "";
 
-    public string StringValue { get; set; } = "";
-
     public List<string> EnumValues { get; set; } = new List<string>();
+
+    public string DefaultValue { get; set; } = "";
 }
 
 public class CanDatabaseAttributeValue
 {
     public string Attribute { get; set; } = "";
     
-    public double FloatValue { get; set; }
-    
-    public int IntValue { get; set; }
-    
-    public string StringValue { get; set; } = "";
-    
-    public string EnumValue { get; set; } = "";
+    public string Value { get; set; } = "";
 }
 
 public class CanDatabaseValueTable

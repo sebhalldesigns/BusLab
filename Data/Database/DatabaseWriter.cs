@@ -20,9 +20,14 @@ public static class DatabaseWriter
         WriteBusSpeed(lines, database);
         WriteNodes(lines, database);
         WriteMessages(lines, database);
-        WriteComments(lines, database);
 
+        lines.Add("");
+        lines.Add("");
+        
+        WriteComments(lines, database);
+        WriteAttributes(lines, database);
         WriteSignalValueTypes(lines, database);
+        
 
         lines.Add("");
 
@@ -160,6 +165,104 @@ public static class DatabaseWriter
             }
         }
     }
+
+    private static void WriteAttributes(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseAttribute attribute in database.Attributes)
+        {
+            
+            string output = "BA_DEF_ ";
+
+            switch (attribute.Target)
+            {
+                case CanDatabaseAttributeTarget.NODE:
+                {
+                    output += "BU_  ";    
+                } break;
+                    
+                case CanDatabaseAttributeTarget.SIGNAL:
+                {
+                    output += "SG_  ";    
+                } break;
+
+                case CanDatabaseAttributeTarget.MESSAGE:
+                {
+                    output += "BO_  ";    
+                } break;
+
+                default:
+                {
+                    output += " ";
+                } break;
+            }  
+
+            output += $"\"{attribute.Name}\" ";
+
+            switch (attribute.Type)
+            {
+                case CanDatabaseAttributeType.INT:
+                {
+                    output += "INT";
+                    
+                    if (!string.IsNullOrEmpty(attribute.Min) && !string.IsNullOrEmpty(attribute.Max))
+                    {
+                        output += $" {attribute.Min} {attribute.Max};";
+                    }
+                } break;
+
+                case CanDatabaseAttributeType.FLOAT:
+                {
+                    output += "FLOAT";
+                    
+                    if (!string.IsNullOrEmpty(attribute.Min) && !string.IsNullOrEmpty(attribute.Max))
+                    {
+                        output += $" {attribute.Min} {attribute.Max};";
+                    }
+                } break;
+
+                case CanDatabaseAttributeType.HEX:
+                {
+                    output += "HEX";
+                    
+                    if (!string.IsNullOrEmpty(attribute.Min) && !string.IsNullOrEmpty(attribute.Max))
+                    {
+                        output += $" {attribute.Min} {attribute.Max};";
+                    }
+                } break;
+
+                case CanDatabaseAttributeType.STRING:
+                {
+                    output += "STRING ;";
+                } break;
+
+                case CanDatabaseAttributeType.ENUM:
+                {
+                    output += "ENUM  ";
+
+                    for (int i = 0; i < attribute.EnumValues.Count; i++)
+                    {
+                        output += $"\"{attribute.EnumValues[i]}\"";
+
+                        if (i < attribute.EnumValues.Count - 1)
+                        {
+                            output += ",";
+                        }
+                    }
+
+                    output += ";";
+                } break;
+
+                default:
+                {
+                    output += ";";
+                } break;
+            }
+
+            lines.Add(output);
+        }
+
+    }
+
 
     private static void WriteSignalValueTypes(List<string> lines, CanDatabase database)
     {

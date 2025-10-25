@@ -167,6 +167,8 @@ BO_ 258 BMS_Feedback_3: 6 BMS
  SG_ N_AccyLowestThermistorID : 32|8@1+ (1,0) [0|255] "" ECU,AIM,BMS
  SG_ T_MCUHeatsink : 40|8@1+ (1,0) [0|255] "degC" ECU,AIM,BMS
 
+
+
 CM_ "This is the TBReCAR DBC File.
 
 This DBC lays out the arrangement of CAN networking on the car.
@@ -186,4 +188,37 @@ History:
 hello
 ghello
 keoo";
+BA_DEF_ BO_  "CSMcycleTime" INT 0 0;
+BA_DEF_ BU_  "CSMdeviceChannels" INT 0 16;
+BA_DEF_ BU_  "CSMdeviceHash" HEX 0 0;
+BA_DEF_ BU_  "CSMdeviceSerialNo" HEX 0 -1;
+BA_DEF_ BU_  "CSMdeviceDeviceType" INT -1 3020;
+BA_DEF_ BU_  "CSMdeviceType" INT -1 3020;
+BA_DEF_  "CSMdata0017" STRING ;
+BA_DEF_  "CSMdata0016" STRING ;
+BA_DEF_  "CSMdata0015" STRING ;
+BA_DEF_  "CSMdata0014" STRING ;
+BA_DEF_  "CSMdata0013" STRING ;
+BA_DEF_  "CSMdata0012" STRING ;
+BA_DEF_  "CSMdata0011" STRING ;
+BA_DEF_  "CSMdata0010" STRING ;
+BA_DEF_  "CSMdata0009" STRING ;
+BA_DEF_  "CSMdata0008" STRING ;
+BA_DEF_  "CSMdata0007" STRING ;
+BA_DEF_  "CSMdata0006" STRING ;
+BA_DEF_  "CSMdata0005" STRING ;
+BA_DEF_  "CSMdata0004" STRING ;
+BA_DEF_  "CSMdata0003" STRING ;
+BA_DEF_  "CSMdata0002" STRING ;
+BA_DEF_  "CSMdata0001" STRING ;
+BA_DEF_  "CSMdata0000" STRING ;
+BA_DEF_  "CSMformatVersion" INT 0 255;
+BA_DEF_  "CSMconfigVersion" STRING ;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
 

@@ -121,6 +121,24 @@ public static class DatabaseReader
                     parsed = true;
                 } break;
 
+                case "BA_DEF_":
+                {
+                    ParseAttributeDefinition(line, database);
+                    parsed = true;
+                } break;
+
+                case "BA_DEF_DEF_":
+                {
+                    ParseAttributeDefault(line, database);
+                    parsed = true;
+                } break;
+
+                case "BA_":
+                {
+                    ParseAttributeAssignment(line, database);
+                    parsed = true;
+                } break;
+
                 case "SIG_VALTYPE_":
                 {
                     ParseSignalValueType(line, database);
@@ -686,6 +704,136 @@ public static class DatabaseReader
                 currentSignal = null;
             }
         }
+        
+    }
+
+    private static void ParseAttributeDefinition(string line, CanDatabase database)
+    {
+        CanDatabaseAttribute attribute = new CanDatabaseAttribute();
+
+        Match match = Regex.Match(line, @"^\s*BA_DEF_\s*(?:(BU_|BO_|SG_|EV_)\s+)?""([^""]+)""\s+(INT\s+[-+]?\d+\s+[-+]?\d+|FLOAT\s+[-+]?\d*\.?\d*\s+[-+]?\d*\.?\d*|HEX\s+[-+]?\d+\s+[-+]?\d+|STRING|ENUM\s+.+?)\s*;?\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse BA_DEF_ line: {line}";
+        }
+        else
+        {
+            /* manage target */
+            if (!match.Groups[1].Success)
+            {
+                attribute.Target = CanDatabaseAttributeTarget.NONE;
+            }
+            else
+            {
+                string targetStr = match.Groups[1].Value;
+
+                switch (targetStr)
+                {
+                    case "BU_":
+                    {
+                        attribute.Target = CanDatabaseAttributeTarget.NODE;
+                    } break;
+
+                    case "BO_":
+                    {
+                        attribute.Target = CanDatabaseAttributeTarget.MESSAGE;
+                    } break;
+                    
+                    case "SG_":
+                    {
+                        attribute.Target = CanDatabaseAttributeTarget.SIGNAL;
+                    } break;
+
+                    default:
+                    {
+                        attribute.Target = CanDatabaseAttributeTarget.NONE;
+                    } break;
+                }
+            }
+
+            /* attribute name */
+            attribute.Name = match.Groups[2].Value;
+
+            /* attribute type and parameters */
+            string typeParamsStr = match.Groups[3].Value;
+            string[] typeParamsTokens = typeParamsStr.Trim().Split(' ');
+            if (typeParamsTokens.Length > 0)
+            {
+                string typeStr = typeParamsTokens[0];
+
+                switch (typeStr)
+                {
+                    case "INT":
+                    {
+                        attribute.Type = CanDatabaseAttributeType.INT;
+
+                        if (typeParamsTokens.Length >= 3)
+                        {
+                            attribute.Min = typeParamsTokens[1];
+                            attribute.Max = typeParamsTokens[2];
+                        }
+                    } break;
+
+                    case "FLOAT":
+                    {
+                        attribute.Type = CanDatabaseAttributeType.FLOAT;
+
+                        if (typeParamsTokens.Length >= 3)
+                        {
+                            attribute.Min = typeParamsTokens[1];
+                            attribute.Max = typeParamsTokens[2];
+                        }
+                    } break;
+
+                    case "HEX":
+                    {
+                        attribute.Type = CanDatabaseAttributeType.HEX;
+
+                        if (typeParamsTokens.Length >= 3)
+                        {
+                            attribute.Min = typeParamsTokens[1];
+                            attribute.Max = typeParamsTokens[2];
+                        }
+                    } break;
+
+                    case "STRING":
+                    {
+                        attribute.Type = CanDatabaseAttributeType.STRING;
+                    } break;
+
+                    case "ENUM":
+                    {
+                        attribute.Type = CanDatabaseAttributeType.ENUM;
+
+                        foreach (Match m in Regex.Matches(typeParamsStr, "\"([^\"]+)\""))
+                        {
+                            string value = m.Groups[1].Value;
+                            attribute.EnumValues.Add(value);
+                            Console.WriteLine("Added enum value: " + value);
+                        }
+                    } break;
+
+                    default:
+                    {
+                        parseError = $"Invalid attribute type '{typeStr}' in line: {line}";
+                    } break;
+                }
+            }
+        }
+
+        database.Attributes.Add(attribute);
+
+    }
+
+
+    private static void ParseAttributeDefault(string line, CanDatabase database)
+    {
+        
+    }
+
+    private static void ParseAttributeAssignment(string line, CanDatabase database)
+    {
         
     }
 
