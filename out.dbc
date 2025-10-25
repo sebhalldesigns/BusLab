@@ -1,4 +1,4 @@
-VERSION ""
+VERSION "HIPBNYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY/4/%%%/4/'%**4YYY///"
 
 
 NS_ :
@@ -22,236 +22,257 @@ NS_ :
 	SIG_GROUP_
 	SIG_VALTYPE_
 	SIGTYPE_VALTYPE_
-	BO_TX_BU_
-	BA_DEF_REL_
-	BA_REL_
-	BA_DEF_DEF_REL_
-	BU_SG_REL_
-	BU_EV_REL_
-	BU_BO_REL_
-	SG_MUL_VAL_
 
 BS_: 
 
-BU_: AIM BMS MCU ECU
+BU_: AI UMB VCU DIS RES BMS PC PCAN
 
 
-BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
- SG_ N_MCUStatusword : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
- SG_ D_SteeringAngle_Filt : 0|16@1- (0.110223184,-1802.86551) [-1800|1800] "Deg" Vector__XXX
+BO_ 1312 VCU2AI_Status: 8 VCU
+ SG_ AS_SWITCH_STATUS : 9|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TS_SWITCH_STATUS : 10|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ AS_STATE : 16|4@1+ (1,0) [0|7] "" Vector__XXX
+ SG_ STEERING_STATUS : 12|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ SHUTDOWN_REQUEST : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ FAULT_STATUS : 24|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARNING_STATUS : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ HANDSHAKE : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ AMI_STATE : 20|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ GO_SIGNAL : 11|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ AI_ESTOP_REQUEST : 40|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ HVIL_OPEN_FAULT : 41|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ HVIL_SHORT_FAULT : 42|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ EBS_FAULT : 43|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ OFFBOARD_CHARGER_FAULT : 44|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ AI_COMMS_LOST : 45|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ WARN_BATT_TEMP_HIGH : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARN_BATT_SOC_LOW : 33|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ CHARGE_PROCEDURE_FAULT : 48|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ AUTONOMOUS_BRAKING_FAULT : 46|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ MISSION_STATUS_FAULT : 47|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ SHUTDOWN_CAUSE : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ BMS_FAULT : 49|1@1+ (1,0) [0|1] "__F__" Vector__XXX
+ SG_ BRAKE_PLAUSIBILITY_FAULT : 50|1@1+ (1,0) [0|1] "__F__" Vector__XXX
 
-BO_ 770 TDAQ_Rear_Status: 7 Vector__XXX
- SG_ P_Brake_Rear : 40|11@1+ (1,0) [0|2047] "Bar" Vector__XXX
- SG_ S_BackRightDamper_Position : 28|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ S_BackLeftDamper_Position : 16|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ RPS_BackRight_Speed : 8|8@1+ (10,0) [0|2550] "" Vector__XXX
- SG_ RPS_BackLeft_Speed : 0|8@1+ (10,0) [0|2550] "" Vector__XXX
+BO_ 1315 VCU2AI_Steer: 6 VCU
+ SG_ ANGLE : 0|16@1- (0.1,0) [-21|21] "deg" Vector__XXX
+ SG_ ANGLE_MAX : 16|16@1+ (0.1,0) [0|21] "deg" Vector__XXX
+ SG_ ANGLE_REQUEST : 32|16@1- (0.1,0) [-21|21] "deg" Vector__XXX
 
-BO_ 769 TDAQ_Front_Status: 7 Vector__XXX
- SG_ P_Brake_Front : 40|11@1+ (1,0) [0|2047] "Bar" Vector__XXX
- SG_ S_FrontRightDamper_Position : 28|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ S_FrontLeftDamper_Position : 16|12@1+ (1,0) [0|4095] "" Vector__XXX
- SG_ RPS_FrontRight_Speed : 8|8@1+ (10,0) [0|2550] "" Vector__XXX
- SG_ RPS_FrontLeft_Speed : 0|8@1+ (10,0) [0|2550] "" Vector__XXX
+BO_ 1313 VCU2AI_Drive_F: 6 VCU
+ SG_ FRONT_AXLE_TRQ : 0|16@1- (0.1,0) [-195|195] "Nm" Vector__XXX
+ SG_ FRONT_AXLE_TRQ_MAX : 32|16@1+ (0.1,0) [0|195] "Nm" Vector__XXX
+ SG_ FRONT_AXLE_TRQ_REQUEST : 16|16@1+ (0.1,0) [0|195] "Nm" Vector__XXX
 
-BO_ 768 PTMB_Status: 6 Vector__XXX
- SG_ B_CoolingLoopPump2_Active : 47|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ B_CoolingLoopPump1_Active : 46|1@1+ (1,0) [0|1] "" Vector__XXX
- SG_ F_CoolingLoopPump_Flowrate : 40|6@1+ (1,0) [0|63] "" Vector__XXX
- SG_ T_CoolingLoop4 : 30|10@1+ (1,0) [0|1023] "" Vector__XXX
- SG_ T_CoolingLoop3 : 20|10@1+ (1,0) [0|1023] "" Vector__XXX
- SG_ T_CoolingLoop2 : 10|10@1+ (1,0) [0|1023] "" Vector__XXX
- SG_ T_CoolingLoop1 : 0|10@1+ (1,0) [0|1023] "" Vector__XXX
+BO_ 1297 AI2VCU_Drive_F: 4 AI
+ SG_ FRONT_AXLE_TRQ_REQUEST : 0|16@1+ (0.1,0) [0|195] "Nm" Vector__XXX
+ SG_ FRONT_MOTOR_SPEED_MAX : 16|16@1+ (1,0) [0|4000] "rpm" Vector__XXX
 
-BO_ 344 ECU_ADAS: 8 ECU
+BO_ 1317 VCU2AI_Speeds: 8 VCU
+ SG_ FL_WHEEL_SPEED : 0|16@1+ (1,0) [0|1250] "rpm" Vector__XXX
+ SG_ FR_WHEEL_SPEED : 16|16@1+ (1,0) [0|1250] "rpm" Vector__XXX
+ SG_ RL_WHEEL_SPEED : 32|16@1+ (1,0) [0|1250] "rpm" Vector__XXX
+ SG_ RR_WHEEL_SPEED : 48|16@1+ (1,0) [0|1250] "rpm" Vector__XXX
 
-BO_ 641 MCU_TPDO2: 6 Vector__XXX
- SG_ N_MCUTorqueActual : 32|16@1- (1,0) [-1000|1000] "quant" Vector__XXX
- SG_ N_MCUError : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
- SG_ N_MCUWarning : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+BO_ 1296 AI2VCU_Status: 8 AI
+ SG_ DIRECTION_REQUEST : 14|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ ESTOP_REQUEST : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ MISSION_STATUS : 12|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ HANDSHAKE : 0|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ LAP_COUNTER : 16|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ CONES_COUNT_ACTUAL : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ CONES_COUNT_ALL : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ VEH_SPEED_ACTUAL : 48|8@1+ (1,0) [0|255] "km/h" Vector__XXX
+ SG_ VEH_SPEED_DEMAND : 56|8@1+ (1,0) [0|255] "km/h" Vector__XXX
 
-BO_ 339 ECU_DriveFunctionDiagnostic: 5 ECU
- SG_ M_MotorRequest : 16|16@1- (1,0) [-128|127] "Nm" Vector__XXX
- SG_ M_DriverRequest : 0|16@1- (1,0) [-128|127] "Nm" Vector__XXX
- SG_ N_RTDStateMachine : 32|8@1+ (1,0) [0|255] "" AIM
+BO_ 1280 VCU2LOG_Dynamics1: 8 VCU
+ SG_ Speed_actual : 0|8@1+ (1,0) [0|255] "km/h" Vector__XXX
+ SG_ Speed_target : 8|8@1+ (1,0) [0|255] "km/h" Vector__XXX
+ SG_ Steer_actual : 16|8@1- (0.5,0) [-64|63.5] "deg" Vector__XXX
+ SG_ Steer_target : 24|8@1- (0.5,0) [-64|63.5] "deg" Vector__XXX
+ SG_ Brake_actual_pct : 32|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ Brake_target_pct : 40|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ Drive_trq_actual_pct : 48|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ Drive_trq_target_pct : 56|8@1+ (1,0) [0|100] "%" Vector__XXX
 
-BO_ 340 ECU_Battery_Levels: 7 ECU
- SG_ V_LV : 32|16@1+ (1,0) [0|65535] "mV" AIM
- SG_ V_AUX : 16|16@1+ (1,0) [0|65535] "mV" AIM
- SG_ I_LVBat : 0|16@1+ (1,0) [0|0] "" AIM
- SG_ B_PumpControl_On : 48|1@1+ (1,0) [0|1] "" AIM
- SG_ B_BatLVVoltage_Warning : 49|1@1+ (1,0) [0|1] "" AIM
- SG_ B_AUXVoltage_Warning : 50|1@1+ (1,0) [0|1] "" AIM
+BO_ 1281 AI2LOG_Dynamics2: 6 PCAN
+ SG_ Accel_longitudinal_mps2 : 0|16@1- (0.00195313,0) [-64|63.998] "m/s^2" Vector__XXX
+ SG_ Accel_lateral_mps2 : 16|16@1- (0.00195313,0) [-64|63.998] "m/s^2" Vector__XXX
+ SG_ Yaw_rate_degps : 32|16@1- (0.0078125,0) [-256|255.992] "deg/s" Vector__XXX
 
-BO_ 343 ECU_TSDiagnostic: 3 ECU
- SG_ N_TSEnableStateMachine : 16|8@1+ (1,0) [0|255] "" AIM
- SG_ B_ECUShutdownSignal_Present : 0|1@1+ (1,0) [0|1] "" AIM
+BO_ 1282 VCU2LOG_Status: 5 VCU
+ SG_ State_ASSI : 0|3@1+ (1,0) [0|7] "" Vector__XXX
+ SG_ State_EBS : 3|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ AMI_STATE : 5|3@1+ (1,0) [0|7] "" Vector__XXX
+ SG_ State_steering : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ State_service_brake : 9|2@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ Lap_counter : 11|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ Cones_count_actual : 15|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Cones_count_all : 23|17@1+ (1,0) [0|131071] "" Vector__XXX
 
-BO_ 342 ECU_PedalboxProcessing: 6 ECU
- SG_ R_Brake : 40|8@1+ (1,0) [0|255] "%" AIM
- SG_ R_ThrottleCombined : 32|8@1+ (1,0) [0|255] "%" AIM
- SG_ R_Throttle2 : 24|8@1+ (1,0) [0|255] "%" AIM
- SG_ R_Throttle1 : 16|8@1+ (1,0) [0|255] "%" AIM
- SG_ B_PedalboxFailure_Occured : 4|1@1+ (1,0) [0|1] "" AIM
- SG_ B_APPS_Latched : 3|1@1+ (1,0) [0|1] "" AIM
- SG_ B_APPS_Implaubibility : 2|1@1+ (1,0) [0|1] "" AIM
- SG_ B_APPSBP_Latched : 1|1@1+ (1,0) [0|1] "" AIM
- SG_ B_APPSBP_Implaubibility : 0|1@1+ (1,0) [0|1] "" AIM
+BO_ 1299 AI2VCU_Steer: 2 AI
+ SG_ STEER_REQUEST : 0|16@1- (0.1,0) [-21|21] "deg" Vector__XXX
 
-BO_ 341 ECU_PedalBoxInputsDiagnostic: 7 ECU
- SG_ V_Throttle2 : 32|16@1+ (1,0) [0|65535] "mV" AIM
- SG_ V_Throttle1 : 16|16@1+ (1,0) [0|65535] "mV" AIM
- SG_ V_BPSFront : 0|16@1+ (1,0) [0|65535] "mV" AIM
- SG_ B_Throttle_Pressed : 48|1@1+ (1,0) [0|1] "" AIM
- SG_ B_Brake_Pressed : 50|1@1+ (1,0) [0|1] "" AIM
+BO_ 1300 AI2VCU_Brake: 2 AI
+ SG_ HYD_PRESS_F_REQ_pct : 0|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ HYD_PRESS_R_REQ_pct : 8|8@1+ (0.5,0) [0|100] "%" Vector__XXX
 
-BO_ 338 ECU_DashInputsDiagnostic: 2 ECU
- SG_ B_MarkButton_Pressed : 3|1@1+ (1,0) [0|1] "" AIM
- SG_ N_DriveMode : 8|8@1+ (1,0) [0|255] "" AIM
- SG_ B_TSSButton_Pressed : 1|1@1+ (1,0) [0|1] "" AIM
- SG_ B_RTDButton_Pressed : 0|1@1+ (1,0) [0|1] "" AIM
+BO_ 1316 VCU2AI_Brake: 5 VCU
+ SG_ HYD_PRESS_F_pct : 0|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ HYD_PRESS_F_REQ_pct : 8|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ HYD_PRESS_R_pct : 16|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ HYD_PRESS_R_REQ_pct : 24|8@1+ (0.5,0) [0|100] "%" Vector__XXX
+ SG_ STATUS_BRK : 32|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ STATUS_EBS : 36|4@1+ (1,0) [0|15] "" Vector__XXX
 
-BO_ 337 ECU_Accy_Diagnostic: 6 ECU
- SG_ B_AIRPrecharge_RequestedStatus : 9|1@1+ (1,0) [0|1] "" AIM
- SG_ R_IMDDuty : 32|16@1+ (1,0) [0|65535] "" AIM
- SG_ F_IMD_Freq : 16|16@1+ (1,0) [0|65535] "Hz" AIM
- SG_ B_BMSDischarged_Enabled : 8|1@1+ (1,0) [0|1] "" AIM
- SG_ B_BMSCharge_Enabled : 7|1@1+ (1,0) [0|1] "" AIM
- SG_ B_BMSMulti2_Triggered : 6|1@1+ (1,0) [0|1] "" AIM
- SG_ B_BMSMulti1_Triggered : 5|1@1+ (1,0) [0|1] "" AIM
- SG_ B_AIRLow_ActualStatus : 4|1@1+ (1,0) [0|1] "" AIM
- SG_ B_AIRHigh_ActualStatus : 3|1@1+ (1,0) [0|1] "" AIM
- SG_ B_AIRHigh_RequestedStatus : 2|1@1+ (1,0) [0|1] "" AIM
- SG_ B_AccyFanExt_On : 1|1@1+ (1,0) [0|1] "" AIM
- SG_ B_AccyFanInt_On : 0|1@1+ (1,0) [0|1] "" AIM
+BO_ 1298 AI2VCU_Drive_R: 4 AI
+ SG_ REAR_AXLE_TRQ_REQUEST : 0|16@1+ (0.1,0) [0|195] "Nm" Vector__XXX
+ SG_ REAR_MOTOR_SPEED_MAX : 16|16@1+ (1,0) [0|4000] "rpm" Vector__XXX
 
-BO_ 1153 MCU_DC_Current: 8 MCU
- SG_ I_MCU_DC_Current : 0|8@1- (1,0) [-128|127] "A" ECU,AIM
+BO_ 1314 VCU2AI_Drive_R: 6 VCU
+ SG_ REAR_AXLE_TRQ : 0|16@1- (0.1,0) [-195|195] "Nm" Vector__XXX
+ SG_ REAR_AXLE_TRQ_REQUEST : 16|16@1+ (0.1,0) [0|195] "Nm" Vector__XXX
+ SG_ REAR_AXLE_TRQ_MAX : 32|16@1+ (0.1,0) [0|195] "Nm" Vector__XXX
 
-BO_ 1537 ECU_CO_MCU_SDO_Req: 8 ECU
- SG_ N_MCUSDOSpecifier : 0|32@1+ (1,0) [0|4294967295] "" ECU,MCU,AIM
- SG_ N_MCUOperationCode : 32|16@1+ (1,0) [0|65535] "" ECU,MCU,AIM
+BO_ 1318 VCU2AI_Wheel_counts: 8 VCU
+ SG_ FL_PULSE_COUNT : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ FR_PULSE_COUNT : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ RL_PULSE_COUNT : 32|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ RR_PULSE_COUNT : 48|16@1+ (1,0) [0|65535] "" Vector__XXX
 
-BO_ 0 ECU_CO_NMT: 2 ECU
- SG_ N_MCUOperationState : 0|16@1- (1,0) [0|0] "" ECU,MCU,AIM
-
-BO_ 385 MCU_CO_TPDO1: 8 MCU
- SG_ RPM_Motor : 32|16@1- (1,0) [-32768|32767] "rpm" ECU,AIM
- SG_ T_MCUCapacitor : 8|8@1- (1,0) [-128|127] "degC" ECU,AIM
- SG_ T_Motor : 0|8@1+ (1,0) [0|255] "degC" ECU,AIM
- SG_ V_MCUCapacitor : 16|16@1+ (0.1,0) [0|6553.5] "V" ECU,AIM
-
-BO_ 513 ECU_CO_MCU_RPDO1: 8 ECU
- SG_ N_MCUTorqueRequestQuants : 0|16@1- (1,0) [-1000|1000] "Nm" ECU,MCU,AIM
-
-BO_ 257 BMS_Feedback_2: 8 BMS
- SG_ V_AccyCellAverage : 32|16@1+ (0.1,0) [0|6553.5] "mV" ECU,AIM
- SG_ V_AccyHighestCell : 16|16@1+ (0.1,0) [0|6553.5] "mV" ECU,AIM
- SG_ N_AccyHighestCellID : 56|8@1+ (1,0) [0|255] "" ECU,AIM
- SG_ V_AccyLowestCell : 0|16@1+ (0.1,0) [0|6553.5] "mV" ECU,AIM
- SG_ N_AccyLowestCellID : 48|8@1+ (1,0) [0|255] "" ECU,AIM
-
-BO_ 256 BMS_Feedback_1: 6 BMS
- SG_ V_AccyInstantaneous : 0|16@1+ (0.1,0) [0|6553.5] "V" ECU,AIM
- SG_ R_AccySOC : 16|16@1+ (1,0) [0|100] "%" ECU,AIM
- SG_ I_Accy : 32|16@1+ (1,0) [0|255] "A" ECU,AIM
-
-BO_ 128 ECU_CO_Sync: 1 ECU
- SG_ N_MCUSyncCommand : 0|8@1+ (1,0) [0|255] "" ECU,MCU,AIM
-
-BO_ 258 BMS_Feedback_3: 6 BMS
- SG_ T_AccyThermistorAverage : 0|8@1+ (1,0) [0|255] "degC" ECU,AIM,BMS
- SG_ T_AccyHighestThermistor : 8|8@1+ (1,0) [0|255] "degC" ECU,AIM,BMS
- SG_ T_AccyLowestThermistor : 16|8@1+ (1,0) [0|255] "degC" ECU,AIM,BMS
- SG_ ID_AccyHighestThermistor : 24|8@1+ (1,0) [0|255] "" ECU,AIM,BMS
- SG_ N_AccyLowestThermistorID : 32|8@1+ (1,0) [0|255] "" ECU,AIM,BMS
- SG_ T_MCUHeatsink : 40|8@1+ (1,0) [0|255] "degC" ECU,AIM,BMS
+BO_ 288 VCU_STATUS: 8 VCU
+ SG_ SM_SYS : 0|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ SM_AS : 12|4@1+ (1,0) [0|15] "" Vector__XXX
+ SG_ R1_AI2VCU_STATUS_TIMEOUT_ERROR : 32|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ SYS_ACTION_STATE : 48|4@1+ (1,0) [0|3] "" Vector__XXX
+ SG_ WARN_AI_ESTOP_REQ : 60|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARN_AUTO_BRAKING : 62|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARN_MISSION_STATUS : 63|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ R1_AI2VCU_DRIVE_F_TIMEOUT_ERROR : 38|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ R1_AI2VCU_DRIVE_R_TIMEOUT_ERROR : 39|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ R1_AI2VCU_STEER_TIMEOUT_ERROR : 46|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ R1_AI2VCU_BRAKE_TIMEOUT_ERROR : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ R1_AI2VCU_STATUS_HANDSHAKE_TIMEOUT_ERROR : 45|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARN_KL15_UNDER_V : 59|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARN_BRAKE_PLAUSIBILITY : 58|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ WARN_AI_COMMS_LOST : 61|1@1+ (1,0) [0|1] "" Vector__XXX
 
 
 
-CM_ "This is the TBReCAR DBC File.
-
-This DBC lays out the arrangement of CAN networking on the car.
-
-It contains both CAN1 (Main Car Diagnostics + Telemetry) and also CAN2 (CanOpen torque requests to the MCU).";
-CM_ BU_ AIM "AIM Dash and Datalogger";
-CM_ BU_ BMS "Battery Management System";
-CM_ BU_ MCU "Motor Controller Unit";
-CM_ BU_ ECU "Central vehicle control unit, responsible for generating torque demands for the inverter";
-CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
-CM_ BO_ 344 "Longitudional traction control message";
-CM_ SG_ 337 B_AIRHigh_RequestedStatus "Control (requested) signal bit for High AIR - This used to be called <BAIRHighControl>";
-CM_ SG_ 337 B_AccyFanExt_On "ECU Control bit for enabling the External Accy Fans. This used to be called <BAccyFanExtControl>";
-CM_ SG_ 337 B_AccyFanInt_On "ECU Control bit for enabling the internal Accy fans.
-
-History:
-hello
-ghello
-keoo";
-BA_DEF_ BO_  "CSMcycleTime" INT 0 0;
-BA_DEF_ BU_  "CSMdeviceChannels" INT 0 16;
-BA_DEF_ BU_  "CSMdeviceHash" HEX 0 0;
-BA_DEF_ BU_  "CSMdeviceSerialNo" HEX 0 -1;
-BA_DEF_ BU_  "CSMdeviceDeviceType" INT -1 3020;
-BA_DEF_ BU_  "CSMdeviceType" INT -1 3020;
-BA_DEF_  "CSMdata0017" STRING ;
-BA_DEF_  "CSMdata0016" STRING ;
-BA_DEF_  "CSMdata0015" STRING ;
-BA_DEF_  "CSMdata0014" STRING ;
-BA_DEF_  "CSMdata0013" STRING ;
-BA_DEF_  "CSMdata0012" STRING ;
-BA_DEF_  "CSMdata0011" STRING ;
-BA_DEF_  "CSMdata0010" STRING ;
-BA_DEF_  "CSMdata0009" STRING ;
-BA_DEF_  "CSMdata0008" STRING ;
-BA_DEF_  "CSMdata0007" STRING ;
-BA_DEF_  "CSMdata0006" STRING ;
-BA_DEF_  "CSMdata0005" STRING ;
-BA_DEF_  "CSMdata0004" STRING ;
-BA_DEF_  "CSMdata0003" STRING ;
-BA_DEF_  "CSMdata0002" STRING ;
-BA_DEF_  "CSMdata0001" STRING ;
-BA_DEF_  "CSMdata0000" STRING ;
-BA_DEF_  "CSMformatVersion" INT 0 255;
-BA_DEF_  "CSMconfigVersion" STRING ;
-BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
-BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
-BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
-BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
-BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
-BA_DEF_  "DBName" STRING ;
+CM_ BU_ AI "AI Computer (NVIDIA Drive PX2)";
+CM_ BU_ UMB "Umbilical controller";
+CM_ BU_ VCU "Vehicle Control Unit";
+CM_ BU_ DIS "Display screen";
+CM_ BU_ RES "Remote Emergency Stop";
+CM_ BU_ PCAN "PCAN-GPS IMU";
+CM_ BO_ 288 "VCU diagnostic data";
+CM_ SG_ 1312 AS_SWITCH_STATUS "Autonomous System switch status";
+CM_ SG_ 1312 TS_SWITCH_STATUS "Tractive System switch status";
+CM_ SG_ 1312 AS_STATE "State of the Autonomous System";
+CM_ SG_ 1312 STEERING_STATUS "State of the steering system";
+CM_ SG_ 1312 SHUTDOWN_REQUEST "Shutdown request to AI";
+CM_ SG_ 1312 FAULT_STATUS "System fault status";
+CM_ SG_ 1312 WARNING_STATUS "System warning status";
+CM_ SG_ 1312 HANDSHAKE "Handshake";
+CM_ SG_ 1312 AMI_STATE "State of the Mission Indicator";
+CM_ SG_ 1312 GO_SIGNAL "Autonomous System \"Go\" signal";
+CM_ SG_ 1312 AI_ESTOP_REQUEST "AI system E-stop request";
+CM_ SG_ 1312 HVIL_OPEN_FAULT "HVIL open-circuit fault";
+CM_ SG_ 1312 HVIL_SHORT_FAULT "HVIL short-circuit fault";
+CM_ SG_ 1312 EBS_FAULT "EBS fault";
+CM_ SG_ 1312 OFFBOARD_CHARGER_FAULT "Offboard charger fault";
+CM_ SG_ 1312 AI_COMMS_LOST "AI CAN communications fault";
+CM_ SG_ 1312 WARN_BATT_TEMP_HIGH "High traction battery temperature warning";
+CM_ SG_ 1312 WARN_BATT_SOC_LOW "Low traction battery SOC warning";
+CM_ SG_ 1312 CHARGE_PROCEDURE_FAULT "Battery charging procedure fault";
+CM_ SG_ 1312 AUTONOMOUS_BRAKING_FAULT "Braking in Autonomous Driving mode fault";
+CM_ SG_ 1312 MISSION_STATUS_FAULT "Autonomous mission status fault";
+CM_ SG_ 1312 SHUTDOWN_CAUSE "Enumerated list of shutdown faults";
+CM_ SG_ 1312 BMS_FAULT "BMS fault detected";
+CM_ SG_ 1312 BRAKE_PLAUSIBILITY_FAULT "Brake plausibility fault";
+CM_ SG_ 1315 ANGLE "Steer Angle";
+CM_ SG_ 1315 ANGLE_MAX "Steer Angle Max";
+CM_ SG_ 1315 ANGLE_REQUEST "Steer Angle Request";
+CM_ SG_ 1313 FRONT_AXLE_TRQ "Current front axle torque";
+CM_ SG_ 1313 FRONT_AXLE_TRQ_MAX "Maximum front axle drive torque";
+CM_ SG_ 1313 FRONT_AXLE_TRQ_REQUEST "Requested front axle torque";
+CM_ SG_ 1297 FRONT_AXLE_TRQ_REQUEST "Requested front axle torque";
+CM_ SG_ 1296 DIRECTION_REQUEST "Requested vehicle direction";
+CM_ SG_ 1296 ESTOP_REQUEST "Shutdown request to VCU";
+CM_ SG_ 1296 MISSION_STATUS "Autonomous mission status";
+CM_ SG_ 1296 HANDSHAKE "Handshake";
+CM_ SG_ 1296 LAP_COUNTER "Lap counter";
+CM_ SG_ 1296 CONES_COUNT_ACTUAL "Number of cones detected";
+CM_ SG_ 1296 CONES_COUNT_ALL "Total number of cones detected";
+CM_ SG_ 1300 HYD_PRESS_F_REQ_pct "Requested front axle hydraulic brake pressure";
+CM_ SG_ 1300 HYD_PRESS_R_REQ_pct "Requested rear axle hydraulic brake pressure";
+CM_ SG_ 1316 HYD_PRESS_F_pct "Front axle hydraulic brake pressure";
+CM_ SG_ 1316 HYD_PRESS_F_REQ_pct "Requested front axle hydraulic brake pressure";
+CM_ SG_ 1316 HYD_PRESS_R_pct "Rear axle hydraulic brake pressure";
+CM_ SG_ 1316 HYD_PRESS_R_REQ_pct "Requested rear axle hydraulic brake pressure";
+CM_ SG_ 1316 STATUS_BRK "Braking system status";
+CM_ SG_ 1316 STATUS_EBS "Emergency brake status";
+CM_ SG_ 1298 REAR_AXLE_TRQ_REQUEST "Requested rear axle torque";
+CM_ SG_ 1314 REAR_AXLE_TRQ "Current rear axle torque";
+CM_ SG_ 1314 REAR_AXLE_TRQ_REQUEST "Requested rear axle torque";
+CM_ SG_ 1314 REAR_AXLE_TRQ_MAX "Maximum rear axle drive torque";
+CM_ SG_ 1318 FL_PULSE_COUNT "Front left wheel speed pulse count";
+CM_ SG_ 1318 FR_PULSE_COUNT "Front right wheel speed pulse count";
+CM_ SG_ 1318 RL_PULSE_COUNT "Rear left wheel speed pulse count";
+CM_ SG_ 1318 RR_PULSE_COUNT "Rear right wheel speed pulse count";
+CM_ SG_ 288 SM_SYS "VCU state machine state";
+CM_ SG_ 288 SM_AS "Drive Auto State Machine";
+CM_ SG_ 288 R1_AI2VCU_STATUS_TIMEOUT_ERROR "AI CAN messge lost flag";
+CM_ SG_ 288 SYS_ACTION_STATE "Vehicle operating state";
+CM_ SG_ 288 WARN_AI_ESTOP_REQ "Warning Estop Request";
+CM_ SG_ 288 WARN_AUTO_BRAKING "Warning Auto Breaking";
+CM_ SG_ 288 WARN_MISSION_STATUS "Warning Mission Status";
+CM_ SG_ 288 R1_AI2VCU_DRIVE_F_TIMEOUT_ERROR "AI CAN message lost flag";
+CM_ SG_ 288 R1_AI2VCU_DRIVE_R_TIMEOUT_ERROR "AI CAN message lost";
+CM_ SG_ 288 R1_AI2VCU_STEER_TIMEOUT_ERROR "AI CAN message lost flag";
+CM_ SG_ 288 R1_AI2VCU_BRAKE_TIMEOUT_ERROR "AI CAN message lost flag";
+CM_ SG_ 288 R1_AI2VCU_STATUS_HANDSHAKE_TIMEOUT_ERROR "AI handshake fault flag";
+CM_ SG_ 288 WARN_KL15_UNDER_V "Warning KL15 under voltage";
+CM_ SG_ 288 WARN_BRAKE_PLAUSIBILITY "Warning brake plausibility";
+CM_ SG_ 288 WARN_AI_COMMS_LOST "Warning: AI comms lost";
 BA_DEF_  "BusType" STRING ;
-BA_DEF_DEF_  "CSMcycleTime" 0;
-BA_DEF_DEF_  "CSMdeviceChannels" 0;
-BA_DEF_DEF_  "CSMdeviceHash" 0;
-BA_DEF_DEF_  "CSMdeviceSerialNo" 0;
-BA_DEF_DEF_  "CSMdeviceDeviceType" -1;
-BA_DEF_DEF_  "CSMdeviceType" -1;
-BA_DEF_DEF_  "CSMdata0017" "";
-BA_DEF_DEF_  "CSMdata0016" "";
-BA_DEF_DEF_  "CSMdata0015" "";
-BA_DEF_DEF_  "CSMdata0014" "";
-BA_DEF_DEF_  "CSMdata0013" "";
-BA_DEF_DEF_  "CSMdata0012" "";
-BA_DEF_DEF_  "CSMdata0011" "";
-BA_DEF_DEF_  "CSMdata0010" "";
-BA_DEF_DEF_  "CSMdata0009" "";
-BA_DEF_DEF_  "CSMdata0008" "";
-BA_DEF_DEF_  "CSMdata0007" "";
-BA_DEF_DEF_  "CSMdata0006" "";
-BA_DEF_DEF_  "CSMdata0005" "";
-BA_DEF_DEF_  "CSMdata0004" "";
-BA_DEF_DEF_  "CSMdata0003" "";
-BA_DEF_DEF_  "CSMdata0002" "";
-BA_DEF_DEF_  "CSMdata0001" "";
-BA_DEF_DEF_  "CSMdata0000" "";
-BA_DEF_DEF_  "CSMformatVersion" 0;
-BA_DEF_DEF_  "CSMconfigVersion" "";
-BA_DEF_DEF_  "GenSigSendType" "Cyclic";
-BA_DEF_DEF_  "GenSigInactiveValue" 0;
-BA_DEF_DEF_  "GenMsgCycleTime" 0;
-BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
-BA_DEF_DEF_  "NmStationAddress" 0;
-BA_DEF_DEF_  "DBName" "";
+BA_DEF_ SG_  "GenSigStartValue" FLOAT -3.4e+038 3.4e+038;
+BA_DEF_ SG_  "GenSigAutoGenSnd" ENUM  "No","Yes";
+BA_DEF_ SG_  "GenSigAutoGenDsp" ENUM  "No","Yes";
+BA_DEF_ SG_  "GenSigEnvVarType" ENUM  "int","float","undef";
+BA_DEF_ SG_  "GenSigEVName" STRING ;
+BA_DEF_ BU_  "GenNodAutoGenSnd" ENUM  "No","Yes";
+BA_DEF_ BU_  "GenNodAutoGenDsp" ENUM  "No","Yes";
+BA_DEF_  "GenEnvVarEndingDsp" STRING ;
+BA_DEF_  "GenEnvVarEndingSnd" STRING ;
+BA_DEF_  "GenEnvVarPrefix" STRING ;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 5;
 BA_DEF_DEF_  "BusType" "CAN";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigAutoGenSnd" "";
+BA_DEF_DEF_  "GenSigAutoGenDsp" "";
+BA_DEF_DEF_  "GenSigEnvVarType" "undef";
+BA_DEF_DEF_  "GenSigEVName" "";
+BA_DEF_DEF_  "GenNodAutoGenSnd" "Yes";
+BA_DEF_DEF_  "GenNodAutoGenDsp" "Yes";
+BA_DEF_DEF_  "GenEnvVarEndingDsp" "Dsp";
+BA_DEF_DEF_  "GenEnvVarEndingSnd" "Snd";
+BA_DEF_DEF_  "GenEnvVarPrefix" "Env";
+BA_DEF_DEF_  "GenMsgCycleTime" 5;
+BA_ "GenMsgCycleTime" BO_ 1312 10;
+BA_ "GenMsgCycleTime" BO_ 1315 10;
+BA_ "GenMsgCycleTime" BO_ 1313 10;
+BA_ "GenMsgCycleTime" BO_ 1297 10;
+BA_ "GenMsgCycleTime" BO_ 1317 10;
+BA_ "GenMsgCycleTime" BO_ 1296 10;
+BA_ "GenMsgCycleTime" BO_ 1280 10;
+BA_ "GenMsgCycleTime" BO_ 1281 10;
+BA_ "GenMsgCycleTime" BO_ 1282 100;
+BA_ "GenMsgCycleTime" BO_ 1299 10;
+BA_ "GenMsgCycleTime" BO_ 1300 10;
+BA_ "GenMsgCycleTime" BO_ 1316 10;
+BA_ "GenMsgCycleTime" BO_ 1298 10;
+BA_ "GenMsgCycleTime" BO_ 1314 10;
+BA_ "GenMsgCycleTime" BO_ 1318 10;
+BA_ "GenMsgCycleTime" BO_ 288 10;
 

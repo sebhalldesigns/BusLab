@@ -62,7 +62,7 @@ public static class DatabaseReader
 
             if (parseError != "")
             {
-                error = $"Error parsing file {filePath} at line {lineIndex}";
+                error = $"Error parsing file {filePath} at line {lineIndex + 1}";
                 detailedError = parseError;
                 return null;
             }
@@ -711,7 +711,7 @@ public static class DatabaseReader
     {
         CanDatabaseAttribute attribute = new CanDatabaseAttribute();
 
-        Match match = Regex.Match(line, @"^\s*BA_DEF_\s*(?:(BU_|BO_|SG_|EV_)\s+)?""([^""]+)""\s+(INT\s+[-+]?\d+\s+[-+]?\d+|FLOAT\s+[-+]?\d*\.?\d*\s+[-+]?\d*\.?\d*|HEX\s+[-+]?\d+\s+[-+]?\d+|STRING|ENUM\s+.+?)\s*;?\s*$");
+        Match match = Regex.Match(line, @"^\s*BA_DEF_\s*(?:(BU_|BO_|SG_|EV_)\s+)?""([^""]+)""\s+(INT\s+[-+]?\d+\s+[-+]?\d+|FLOAT\s+[-+]?\d*\.?\d*(?:[eE][+-]?\d+)?\s+[-+]?\d*\.?\d*(?:[eE][+-]?\d+)?|HEX\s+[-+]?\d+\s+[-+]?\d+|STRING|ENUM\s+.+?)\s*;?\s*$");
 
         if (!match.Success)
         {
@@ -855,7 +855,105 @@ public static class DatabaseReader
 
     private static void ParseAttributeAssignment(string line, CanDatabase database)
     {
+        Match match = Regex.Match(line, @"^\s*BA_\s*""([^""]+)""(?:\s+(BU_|BO_|SG_)\s+(\S+)(?:\s+(\S+))?)?\s+(?:""([^""]*)""|([-+]?\d+))\s*;?\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse BA_ line: {line}";
+        }
+        else
+        {
+            string attributeName = match.Groups[1].Value;
+            string attributeValue = match.Groups[5].Value + match.Groups[6].Value;
+
+            CanDatabaseAttributeValue value = new CanDatabaseAttributeValue()
+            {
+                Attribute = attributeName,
+                Value = attributeValue
+            };
+
+            if (!match.Groups[2].Success)
+            {
+                /* global attribute */
+                database.GlobalAttributeValues.Add(value);
+            }
+            else if (match.Groups[2].Value == "BU_")
+            {
+                /* Node attribute */
+                
+                foreach (CanDatabaseNode node in database.Nodes)
+                {
+                    if (node.Name == match.Groups[3].Value)
+                    {
+                        node.AttributeValues.Add(value);
+                        return;
+                    }
+                }
+
+                parseError = $"Could not find node '{match.Groups[3].Value}' for BA_ line: {line}";
+                
+            }
+            else if (match.Groups[2].Value == "BO_")
+            {
+                /* Message attribute  */
+            
+                string messageIdStr = match.Groups[3].Value;
+                
+                if (!uint.TryParse(messageIdStr, out uint messageId))
+                {
+                    parseError = $"Invalid message ID '{messageIdStr}' in line: {line}";
+                    return;
+                }
+
+                foreach (CanDatabaseMessage message in database.Messages)
+                {
+                    if (message.ID == messageId)
+                    {
+                        message.AttributeValues.Add(value);
+                        return;
+                    }
+                }
+
+                parseError = $"Could not find message ID {messageId} for BA_ line: {line}";
+                
+            }
+            else if (match.Groups[2].Value == "SG_")
+            {
+                /* Signal attribute */
+
+                string messageIdStr = match.Groups[3].Value;
+                string signalName = match.Groups[4].Value;
+                if (!uint.TryParse(messageIdStr, out uint messageId))
+                {
+                    parseError = $"Invalid message ID '{messageIdStr}' in line: {line}";
+                    return;
+                }
+
+                foreach (CanDatabaseMessage message in database.Messages)
+                {
+                    if (message.ID == messageId)
+                    {
+                        foreach (CanDatabaseSignal signal in message.Signals)
+                        {
+                            if (signal.Name == signalName)
+                            {
+                                signal.AttributeValues.Add(value);
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                parseError = $"Could not find signal '{signalName}' in message ID {messageId} for BA_ line: {line}";
+
+            }
+            else 
+            {
+                parseError = $"Unable to parse BA_ line: {line}";
+            }
         
+        }
+
     }
 
 

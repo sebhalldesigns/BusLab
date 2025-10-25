@@ -37,6 +37,7 @@ public class CanDatabaseNode
 {
     public string Name { get; set; } = "";
     public string Comment { get; set; } = "";
+    public List<CanDatabaseAttributeValue> AttributeValues { get; set; } = new List<CanDatabaseAttributeValue>();
 }
 
 public class CanDatabaseAttribute
@@ -129,9 +130,17 @@ public class CanDatabase
     public string Version { get; set; } = "";
     public List<string> NamespaceSymbols { get; set; } = new List<string>();
     public string BusSpeed { get; set; } = "";
+
     public List<CanDatabaseNode> Nodes { get; set; } = new List<CanDatabaseNode>();
+    
     public List<CanDatabaseMessage> Messages { get; set; } = new List<CanDatabaseMessage>();
-    public List<CanDatabaseAttribute> Attributes { get; set; } = new List<CanDatabaseAttribute>();
-    public List<CanDatabaseEnvironmentVariable> EnvironmentVariables = new List<CanDatabaseEnvironmentVariable>();
+    
     public List<string> GlobalComments { get; set; } = new List<string>();
+    
+    public List<CanDatabaseAttribute> Attributes { get; set; } = new List<CanDatabaseAttribute>();
+    public List<CanDatabaseAttributeValue> GlobalAttributeValues { get; set; } = new List<CanDatabaseAttributeValue>();
+    
+    public List<CanDatabaseEnvironmentVariable> EnvironmentVariables = new List<CanDatabaseEnvironmentVariable>();
+
+    
 }

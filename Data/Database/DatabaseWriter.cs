@@ -27,6 +27,7 @@ public static class DatabaseWriter
         WriteComments(lines, database);
         WriteAttributeDefinitions(lines, database);
         WriteAttributeDefaults(lines, database);
+        WriteAttributeValues(lines, database);
         WriteSignalValueTypes(lines, database);
         
 
@@ -297,6 +298,76 @@ public static class DatabaseWriter
         }
     }
 
+    private static void WriteAttributeValues(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseAttributeValue attributeValue in database.GlobalAttributeValues)
+        {
+            string value = GetStringForAttributeValue(attributeValue, database) ?? attributeValue.Value;
+            string output = $"BA_ \"{attributeValue.Attribute}\" {value};";
+            lines.Add(output);
+        }
+
+        foreach (CanDatabaseNode node in database.Nodes)
+        {
+            foreach (CanDatabaseAttributeValue attributeValue in node.AttributeValues)
+            {
+                string value = GetStringForAttributeValue(attributeValue, database) ?? attributeValue.Value;
+                string output = $"BA_ \"{attributeValue.Attribute}\" BU_ {node.Name} {value};";
+                lines.Add(output);
+            }
+        }
+
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+            foreach (CanDatabaseAttributeValue attributeValue in message.AttributeValues)
+            {
+                string value = GetStringForAttributeValue(attributeValue, database) ?? attributeValue.Value;
+                string output = $"BA_ \"{attributeValue.Attribute}\" BO_ {message.ID} {value};";
+                lines.Add(output);
+            }
+
+            foreach (CanDatabaseSignal signal in message.Signals)
+            {
+                foreach (CanDatabaseAttributeValue attributeValue in signal.AttributeValues)
+                {
+                    string value = GetStringForAttributeValue(attributeValue, database) ?? attributeValue.Value;
+                    string output = $"BA_ \"{attributeValue.Attribute}\" SG_ {message.ID} {signal.Name} {value};";
+                    lines.Add(output);
+                }
+            }
+        }   
+    }
+
+    private static string? GetStringForAttributeValue(CanDatabaseAttributeValue attributeValue, CanDatabase database)
+    {
+        CanDatabaseAttribute? attributeDef = database.Attributes.FirstOrDefault(a => a.Name == attributeValue.Attribute);
+
+        if (attributeDef == null)
+        {
+            return null;
+        }
+
+        switch (attributeDef.Type)
+        {
+            case CanDatabaseAttributeType.INT:
+            case CanDatabaseAttributeType.FLOAT:
+            case CanDatabaseAttributeType.HEX:
+            {
+                return attributeValue.Value;
+            }
+
+            case CanDatabaseAttributeType.STRING:
+            case CanDatabaseAttributeType.ENUM:
+            {
+                return $"\"{attributeValue.Value}\"";
+            }
+
+            default:
+            {
+                return null;
+            }
+        }
+    }
 
 
     private static void WriteSignalValueTypes(List<string> lines, CanDatabase database)
