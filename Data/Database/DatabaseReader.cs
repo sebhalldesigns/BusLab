@@ -139,6 +139,18 @@ public static class DatabaseReader
                     parsed = true;
                 } break;
 
+                case "VAL_TABLE_":
+                {
+                    ParseValueTable(line, database);
+                    parsed = true;
+                } break;
+
+                case "VAL_":
+                {
+                    ParseValueTableAssignment(line, database);
+                    parsed = true;
+                } break;
+
                 case "SIG_VALTYPE_":
                 {
                     ParseSignalValueType(line, database);
@@ -956,6 +968,113 @@ public static class DatabaseReader
 
     }
 
+    private static void ParseValueTable(string line, CanDatabase database)
+    {
+        Match match = Regex.Match(line, @"^\s*VAL_TABLE_\s+(\w+)\s+((?:[-+]?\d+\s+""[^""]*""\s*)+)\s*;?\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse VAL_TABLE_ line: {line}";
+        }
+        else
+        {
+            /* table name */
+            string tableName = match.Groups[1].Value.Trim();
+
+            CanDatabaseValueTable valueTable = new CanDatabaseValueTable();
+
+            /* values */
+            string valuesStr = match.Groups[2].Value;
+            MatchCollection valueMatches = Regex.Matches(valuesStr, @"([-+]?\d+)\s+""([^""]*)""");
+
+            foreach (Match m in valueMatches)
+            {
+                string keyStr = m.Groups[1].Value;
+                string valueStr = m.Groups[2].Value;
+
+                if (long.TryParse(keyStr, out long key))
+                {
+                    valueTable.Values[key] = valueStr;
+                }
+            }
+
+            valueTable.Name = tableName;
+            database.GlobalValueTables.Add(valueTable);
+        }
+    }
+
+
+    private static void ParseValueTableAssignment(string line, CanDatabase database)
+    {
+        Match match = Regex.Match(line, @"^\s*VAL_\s+(\d+)\s+(\w+)\s+(?:(?:([-+]?\d+\s+""[^""]*""\s*)+)|(\w+))\s*;?\s*$");
+
+        if (!match.Success)
+        {
+            parseError = $"Unable to parse VAL_ line: {line}";
+        }
+        else
+        {
+            /* message ID */
+            string messageIdStr = match.Groups[1].Value;
+            if (!uint.TryParse(messageIdStr, out uint messageId))
+            {
+                parseError = $"Invalid message ID '{messageIdStr}' in line: {line}";
+                return;
+            }
+
+            /* signal name */
+            string signalName = match.Groups[2].Value.Trim();
+
+            /* find the message and signal to apply this to */
+            foreach (CanDatabaseMessage message in database.Messages)
+            {
+                if (message.ID == messageId)
+                {
+                    foreach (CanDatabaseSignal signal in message.Signals)
+                    {
+                        if (signal.Name == signalName)
+                        {
+                            if (match.Groups[3].Success)
+                            {
+                                CanDatabaseValueTable valueTable = new CanDatabaseValueTable();
+
+                                /* local value table */
+                                string valuesStr = match.Groups[3].Value;
+                                Console.WriteLine($"Parsing local VAL_ for signal {signalName} in message ID {messageId}: {valuesStr}");
+
+                                MatchCollection valueMatches = Regex.Matches(valuesStr, @"([-+]?\d+)\s+""([^""]*)""");
+
+                                foreach (Match m in valueMatches)
+                                {
+                                    string keyStr = m.Groups[1].Value;
+                                    string valueStr = m.Groups[2].Value;
+
+                                    if (long.TryParse(keyStr, out long key))
+                                    {
+                                        valueTable.Values[key] = valueStr;
+                                        Console.WriteLine($"Parsed local VAL_ entry: {key} -> {valueStr}");
+                                    }
+                                }
+
+                                signal.LocalValueTables.Add(valueTable);
+                            }
+                            else if (match.Groups[4].Success)
+                            {
+                                /* global value table */
+                                string tableName = match.Groups[4].Value;
+                                signal.GlobalValueTables.Add(tableName);
+                            }
+
+                            return;
+                        }
+                    }
+                }
+            }
+
+            parseError = $"Could not find signal '{signalName}' in message ID {messageId} for VAL_ line: {line}";
+        }
+    
+    }
 
     private static void ParseSignalValueType(string line, CanDatabase database)
     {

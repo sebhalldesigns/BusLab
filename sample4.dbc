@@ -34,14 +34,16 @@ NS_ :
 BS_:
 
 BU_: NODE_1
+VAL_TABLE_ New_Value_Table_1 3 "Description for the value '0x3'" 2 "Description for the value '0x2'" 1 "Description for the value '0x1'" 0 "Description for the value '0x0'" ;
 
 
 BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ New_Signal_3 : 0|64@1- (1,0) [0|0] "" Vector__XXX
- SG_ New_Signal_2 : 0|32@1- (1,0) [0|0] "" Vector__XXX
 
-BO_ 16 Message_1: 1 NODE_1
- SG_ New_Signal_1 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+BO_ 16 Message_1: 6 NODE_1
+ SG_ New_Signal_4 : 8|8@1- (1,0) [0|0] "" Vector__XXX
+ SG_ New_Signal_2 m1 : 16|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ New_Signal_1 M : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
 
 
@@ -50,6 +52,8 @@ BA_DEF_  "MultiplexExtEnabled" ENUM  "No","Yes";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "MultiplexExtEnabled" "No";
 BA_DEF_DEF_  "BusType" "CAN";
+VAL_ 16 New_Signal_4 3 "Description for the value '0x3'" 2 "Description for the value '0x2'" 1 "Description for the value '0x1'" 0 "Description for the value '0x0'" ;
+VAL_ 16 New_Signal_1 3 "Description for the value '0x3'" 2 "Description for the value '0x2'" 1 "Description for the value '0x1'" 0 "Description for the value '0x0'" ;
 SIG_VALTYPE_ 3221225472 New_Signal_3 : 2;
-SIG_VALTYPE_ 3221225472 New_Signal_2 : 1;
+SIG_VALTYPE_ 16 New_Signal_2 : 1;
 

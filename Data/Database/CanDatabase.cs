@@ -63,7 +63,8 @@ public class CanDatabaseAttributeValue
 
 public class CanDatabaseValueTable
 {
-    public Dictionary<double, string> Values { get; set; } = new Dictionary<double, string>();
+    public string Name { get; set; } = "";
+    public Dictionary<long, string> Values { get; set; } = new Dictionary<long, string>();
 }
 
 public class CanDatabaseSignal
@@ -92,7 +93,9 @@ public class CanDatabaseSignal
     public string Comment { get; set; } = "";
 
     public List<CanDatabaseAttributeValue> AttributeValues { get; set; } = new List<CanDatabaseAttributeValue>();
-    public List<CanDatabaseValueTable> ValueTable { get; set; } = new List<CanDatabaseValueTable>();
+    
+    public List<CanDatabaseValueTable> LocalValueTables { get; set; } = new List<CanDatabaseValueTable>();
+    public List<string> GlobalValueTables { get; set; } = new List<string>();
 }
 
 public class CanDatabaseMessage
@@ -139,6 +142,8 @@ public class CanDatabase
     
     public List<CanDatabaseAttribute> Attributes { get; set; } = new List<CanDatabaseAttribute>();
     public List<CanDatabaseAttributeValue> GlobalAttributeValues { get; set; } = new List<CanDatabaseAttributeValue>();
+
+    public List<CanDatabaseValueTable> GlobalValueTables { get; set; } = new List<CanDatabaseValueTable>(); 
     
     public List<CanDatabaseEnvironmentVariable> EnvironmentVariables = new List<CanDatabaseEnvironmentVariable>();
 

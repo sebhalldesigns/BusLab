@@ -28,6 +28,9 @@ public static class DatabaseWriter
         WriteAttributeDefinitions(lines, database);
         WriteAttributeDefaults(lines, database);
         WriteAttributeValues(lines, database);
+        WriteValueTables(lines, database);
+        WriteValueTableInstances(lines, database);
+        WriteLocalValueTables(lines, database);
         WriteSignalValueTypes(lines, database);
         
 
@@ -368,7 +371,61 @@ public static class DatabaseWriter
             }
         }
     }
+    
+    private static void WriteValueTables(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseValueTable valueTable in database.GlobalValueTables)
+        {
+            string line = $"VAL_TABLE_ \"{valueTable.Name}\"";
 
+            foreach (var kvp in valueTable.Values)
+            {
+                line += $"{kvp.Key} \"{kvp.Value}\"";
+            }
+
+            line += ";";
+
+            lines.Add(line);
+        }
+    }
+
+    private static void WriteValueTableInstances(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+            foreach (CanDatabaseSignal signal in message.Signals)
+            {
+                foreach (string valueTable in signal.GlobalValueTables)
+                {
+                    lines.Add($"VAL_ {message.ID} {signal.Name} {valueTable};");
+                }
+            }
+        }
+        
+    }
+
+    private static void WriteLocalValueTables(List<string> lines, CanDatabase database)
+    {
+        foreach (CanDatabaseMessage message in database.Messages)
+        {
+            foreach (CanDatabaseSignal signal in message.Signals)
+            {
+                foreach (CanDatabaseValueTable valueTable in signal.LocalValueTables)
+                {
+                    string line = $"VAL_ {message.ID} {signal.Name} ";
+
+                    foreach (var kvp in valueTable.Values)
+                    {
+                        line += $"{kvp.Key} \"{kvp.Value}\"";
+                    }
+
+                    line += ";";
+
+                    lines.Add(line);
+                }
+            }
+        }
+    }
 
     private static void WriteSignalValueTypes(List<string> lines, CanDatabase database)
     {
