@@ -4,7 +4,19 @@
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+    <Application.Resources>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#30808080</SolidColorBrush>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#30808080</SolidColorBrush>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#30808080</SolidColorBrush>
+        <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#30808080</SolidColorBrush>
+        <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#30808080" />
+        <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#30808080" />
+        <SolidColorBrush x:Key="DockToolChromeIconBrush" Color="#30808080" />
+    </Application.Resources>
+
     <Application.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
         <SimpleTheme/>
+        <DockSimpleTheme/>
     </Application.Styles>
 </Application>

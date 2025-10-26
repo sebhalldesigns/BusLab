@@ -1,0 +1,55 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="500" Height="350"
+        x:Class="BusLab.OpenWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="Full"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
+        Title="Open...">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/> 
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#30808080" IsHitTestVisible="False">
+            <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Open
+            </TextBlock>
+        </Grid>
+
+        <DockPanel Grid.Row="2" Background="#30808080">
+            <Button DockPanel.Dock="Right" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="10 3.5">Cancel</Button>
+            <Rectangle/>
+        </DockPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Background="#15808080">
+                <ScrollViewer>
+                    <ListBox BorderBrush="Transparent" Padding="0">
+                        <ListBox.Items>
+                            <ListBoxItem Padding="5">Recent</ListBoxItem>
+                            <ListBoxItem Padding="5">File</ListBoxItem>
+                            <ListBoxItem Padding="5">Network</ListBoxItem>
+                            <ListBoxItem Padding="5">XCP Device</ListBoxItem>
+                            <ListBoxItem Padding="5">CANOpen Device</ListBoxItem>
+                        </ListBox.Items>
+                    </ListBox>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+        
+
+    </Grid>
+
+</Window>

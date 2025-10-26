@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.NetworkPanel"
+        x:DataType="local:NetworkPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Background="#15808080">
+            <Button DockPanel.Dock="Left" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="10 3.5">Connect</Button>
+            <Button DockPanel.Dock="Left" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="10 3.5">Edit...</Button>
+            <Rectangle/>
+        </DockPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GridSplitter Grid.Column="1" Background="Red"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0">
+                    <Grid DockPanel.Dock="Top" Height="35" Background="#15808080">
+                        <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                            Receive
+                        </TextBlock>
+                    </Grid>
+
+                    <DataGrid Margin="0" BorderBrush="Transparent" ItemsSource="{Binding NetworkList}" 
+                        IsReadOnly="True"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        CanUserSortColumns="False"
+                        GridLinesVisibility="All"
+                        BorderThickness="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" />
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </DockPanel>
+
+                <GridSplitter Grid.Row="1" Background="Red"/>
+
+                <DockPanel Grid.Row="2">
+                    <Grid DockPanel.Dock="Top" Height="35" Background="#15808080">
+                        <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                            Transmit
+                        </TextBlock>
+                    </Grid>
+
+                    <DataGrid Margin="0" BorderBrush="Transparent" ItemsSource="{Binding NetworkList}" 
+                        IsReadOnly="True"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        CanUserSortColumns="False"
+                        GridLinesVisibility="All"
+                        BorderThickness="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="DLC" Binding="{Binding DLC}" />
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </DockPanel>
+            </Grid>
+
+            
+
+            <DockPanel Grid.Column="3">
+                <Grid DockPanel.Dock="Top" Height="35" Background="#15808080">
+                    <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                        Message: None
+                    </TextBlock>
+                </Grid>
+
+                <ContentControl/>
+            </DockPanel>
+        </Grid>
+    </Grid>
+
+</UserControl>

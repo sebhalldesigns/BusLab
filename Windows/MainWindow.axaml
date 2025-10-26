@@ -5,8 +5,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="BusLab.MainWindow"
         ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaTitleBarHeightHint="-1"
         SystemDecorations="Full"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
         Title="BusLab">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,24 +15,60 @@
             <RowDefinition Height="25"/> 
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="#FF2D2D30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="325"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="225"/>
+        </Grid.ColumnDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Fill="#30808080" IsHitTestVisible="False"/>
+        <TextBox Grid.Row="0" Grid.Column="1" CornerRadius="5" VerticalAlignment="Center"></TextBox>
 
-            <Menu Grid.Column="0" DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True">
-                <MenuItem Header="_File">
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5">
+            <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" VerticalAlignment="Center" Margin="10 0 -5 0">
+                BusLab
+            </TextBlock>
+            <Menu  DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" Padding="5" CornerRadius="5">
+                <MenuItem Header="_File" Padding="5 2.5" CornerRadius="5">
+                    <MenuItem Header="New Window"/>
+                    <MenuItem Header="New File"/>
+                    <MenuItem Header="Open..." Click="OpenPressed"/>
                     <MenuItem Header="_Exit"/>
                 </MenuItem>
+                <MenuItem Header="_Edit" Padding="5 2.5" CornerRadius="5">
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+                <MenuItem Header="_View" Padding="5 2.5" CornerRadius="5">
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+                <MenuItem Header="_Tools" Padding="5 2.5" CornerRadius="5">
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+                <MenuItem Header="_Help" Padding="5 2.5" CornerRadius="5">
+                    <MenuItem Header="_Documentation"/>
+                    <MenuItem Header="_About"/>
+                </MenuItem>
             </Menu>
+        </StackPanel>
 
-            <Rectangle Grid.Column="1" IsHitTestVisible="False" Fill="Green"/>
-        </Grid>
+        <StackPanel  Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0 0 140 0" Orientation="Horizontal" Spacing="2.5">
+            <Button VerticalAlignment="Center" CornerRadius="5">⚙️</Button>
+            <Button VerticalAlignment="Center" CornerRadius="5">ℹ️</Button>
+            <Button VerticalAlignment="Center" CornerRadius="5" Click="ToggleTheme">💡</Button>
+        </StackPanel>
 
-        <DockPanel Grid.Row="2" Background="#FF1E1E1E">
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="3">
+            <DockPanel DockPanel.Dock="Top" Height="35" Background="#15808080">
+                <Button CornerRadius="5" DockPanel.Dock="Left" Margin="5 5">Connections</Button>
+                <Rectangle/>
+            </DockPanel>
+            <ContentControl Name="MainContent" Margin="2.5 2.5 2.5 0"/>
+
+        </DockPanel>
+        
+
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="3" Background="#30808080">
         </DockPanel>
     </Grid>
 </Window>

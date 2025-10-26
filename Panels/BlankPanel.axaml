@@ -1,0 +1,104 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.BlankPanel"
+        x:DataType="local:BlankPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+   
+    <Grid>
+        <DockPanel HorizontalAlignment="Center" Margin="25">
+            <TextBlock DockPanel.Dock="Top" FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Select Panel Type
+            </TextBlock>
+            <ScrollViewer>
+                 <WrapPanel>
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Network Messages
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Network Trace
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Network Analysis
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                CAN Database File
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Log File
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Signal Plot
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+                
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Dashboard
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                CANOpen Device
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                XCP/CAN Device
+                            </TextBlock>
+                            <Image Height="50"/>
+                        </DockPanel>
+                    </Button>
+                </WrapPanel>
+            </ScrollViewer>
+        </DockPanel>        
+    </Grid>
+
+</UserControl>
