@@ -5,8 +5,8 @@
         xmlns:local="clr-namespace:BusLab"
         mc:Ignorable="d"
         d:DesignWidth="500" d:DesignHeight="350"
-        x:Class="BusLab.NetworkPanel"
-        x:DataType="local:NetworkPanel"
+        x:Class="BusLab.NetworkMessagesPanel"
+        x:DataType="local:NetworkMessagesPanel"
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
     <Grid>
         <Grid.RowDefinitions>

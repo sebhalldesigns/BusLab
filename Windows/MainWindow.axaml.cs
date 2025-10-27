@@ -31,33 +31,30 @@ public partial class MainWindow : Window
 
         var document = new Document
         {
-            Id = "MsgWindow",
-            Title = "Network - CAN0",
-            Content = new NetworkPanel(),
-            CanClose = false,
-            CanFloat = false
-        };
-
-        var document2 = new Document
-        {
-            Id = "TxWindow",
             Title = "Empty Panel",
             Content = new BlankPanel(),
             CanClose = false,
             CanFloat = false
         };
 
+        var document2 = new Document
+        {
+            Title = "Network Messages",
+            Content = new NetworkMessagesPanel(),
+            CanClose = false,
+            CanFloat = false
+        };
+
         var document3 = new Document
         {
-            Id = "TxWindow2",
-            Title = "Transmit Window 2",
-            Content = null, //new TextBox { Text = "Document 3", AcceptsReturn = true },
+            Title = "Signal Plot",
+            Content = new SignalPlotPanel(), 
             CanClose = false,
             CanFloat = false
         };
 
         documentDock.VisibleDockables = factory.CreateList<IDockable>(document, document2, document3);
-        documentDock.ActiveDockable = document2;
+        documentDock.ActiveDockable = document;
 
         var mainLayout = new ProportionalDock
         {

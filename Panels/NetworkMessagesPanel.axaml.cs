@@ -16,12 +16,12 @@ public class NetworkListEntry
 
 }
 
-public partial class NetworkPanel: UserControl
+public partial class NetworkMessagesPanel: UserControl
 {
 
     public ObservableCollection<NetworkListEntry> NetworkList { get; }
 
-    public NetworkPanel()
+    public NetworkMessagesPanel()
     {
         InitializeComponent();
 
