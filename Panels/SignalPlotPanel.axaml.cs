@@ -15,8 +15,12 @@ public partial class SignalPlotPanel: UserControl
 {
     private ScottPlot.Plottables.AxisLine? PlottableBeingDragged = null;
     private ScottPlot.Plottables.AxisLine vline;
+    private ScottPlot.Plottables.Scatter scatter;
+    
+    CircularDataBuffer buffer = new CircularDataBuffer(1000);
 
-    private ScottPlot.Plottables.DataStreamer Streamer1;
+    ulong counter = 0;
+
     private ScottPlot.DataGenerators.RandomWalker Walker1 = new(0);
 
     private readonly DispatcherTimer timer = new DispatcherTimer
@@ -28,10 +32,9 @@ public partial class SignalPlotPanel: UserControl
     {
         InitializeComponent();
 
-        Streamer1 = SignalPlot.Plot.Add.DataStreamer(1000, 0.1);
-        SignalPlot.Plot.Axes.ContinuouslyAutoscale = false;
-        Streamer1.ManageAxisLimits = true;
-        Streamer1.ViewScrollLeft();
+        scatter = SignalPlot.Plot.Add.Scatter(buffer.XOrdered, buffer.YOrdered);
+        
+
 
         timer.Tick += OnTimerTick;
         timer.Start();
@@ -149,10 +152,68 @@ public partial class SignalPlotPanel: UserControl
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        Streamer1.AddRange(Walker1.Next(1));
+        double next = Walker1.Next();
+        buffer.Add(counter, next);
 
+        buffer.OrderData();
+        
         SignalPlot.Refresh();
 
+        counter++;
     }
 
+}
+
+public class CircularDataBuffer
+{
+    public double[] X;
+    public double[] Y;
+    private int NextIndex = 0;
+    private bool Filled = false;
+
+    public int Capacity => X.Length;
+    public int Count => Filled ? Capacity : NextIndex;
+
+    public double[] XOrdered;
+    public double[] YOrdered;
+
+    public CircularDataBuffer(int capacity)
+    {
+        X = new double[capacity];
+        Y = new double[capacity];
+
+        XOrdered = new double[capacity];
+        YOrdered = new double[capacity];
+    }
+
+    public void Add(double x, double y)
+    {
+        X[NextIndex] = x;
+        Y[NextIndex] = y;
+
+        NextIndex++;
+        if (NextIndex >= Capacity)
+        {
+            NextIndex = 0;
+            Filled = true;
+        }
+    }
+
+    public void OrderData()
+    {
+        if (Filled)
+        {
+            Array.Copy(X, NextIndex, XOrdered, 0, Capacity - NextIndex);
+            Array.Copy(X, 0, XOrdered, Capacity - NextIndex, NextIndex);
+
+            Array.Copy(Y, NextIndex, YOrdered, 0, Capacity - NextIndex);
+            Array.Copy(Y, 0, YOrdered, Capacity - NextIndex, NextIndex);
+        }
+        else
+        {
+            Array.Copy(X, 0, XOrdered, 0, NextIndex);
+            Array.Copy(Y, 0, YOrdered, 0, NextIndex);
+        }
+
+    }
 }
