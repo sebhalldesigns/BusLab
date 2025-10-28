@@ -1,6 +1,8 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using Avalonia.Interactivity;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,16 +13,32 @@ namespace BusLab;
 
 public partial class SignalPlotPanel: UserControl
 {
+    private ScottPlot.Plottables.AxisLine? PlottableBeingDragged = null;
+    private ScottPlot.Plottables.AxisLine vline;
+
+    private ScottPlot.Plottables.DataStreamer Streamer1;
+    private ScottPlot.DataGenerators.RandomWalker Walker1 = new(0);
+
+    private readonly DispatcherTimer timer = new DispatcherTimer
+    {
+        Interval = TimeSpan.FromMilliseconds(10)
+    };
+
     public SignalPlotPanel()
     {
         InitializeComponent();
 
-        double[] dataX = { 1, 2, 3, 4, 5 };
-        double[] dataY = { 1, 4, 9, 16, 25 };
+        Streamer1 = SignalPlot.Plot.Add.DataStreamer(1000, 0.1);
+        SignalPlot.Plot.Axes.ContinuouslyAutoscale = false;
+        Streamer1.ManageAxisLimits = true;
+        Streamer1.ViewScrollLeft();
 
-        ScottPlot.Plottables.Scatter scatter = SignalPlot.Plot.Add.Scatter(dataX, dataY);
+        timer.Tick += OnTimerTick;
+        timer.Start();
 
-        ScottPlot.Plottables.Crosshair crosshair = SignalPlot.Plot.Add.Crosshair(0, 0);
+        vline = SignalPlot.Plot.Add.VerticalLine(23);
+        vline.IsDraggable = true;
+
 
         SignalPlot.PointerMoved  += (s, e) =>
         {   
@@ -29,17 +47,44 @@ public partial class SignalPlotPanel: UserControl
             Pixel mousePixel = new Pixel((float)point.Position.X, (float)point.Position.Y);
             Coordinates mouseCoordinates = SignalPlot.Plot.GetCoordinates(mousePixel);
 
-            DataPoint nearest = scatter.Data.GetNearestX(mouseCoordinates, SignalPlot.Plot.LastRender);
+            if (PlottableBeingDragged == null)
+            {
+                ScottPlot.Plottables.AxisLine? line = GetLineUnderMouse((float)e.GetPosition(SignalPlot).X, (float)e.GetPosition(SignalPlot).Y);
+                if (line != null)
+                {
+                    SignalPlot.Cursor = new Avalonia.Input.Cursor(Avalonia.Input.StandardCursorType.SizeWestEast);
+                }
+                else
+                {
+                    SignalPlot.Cursor = new Avalonia.Input.Cursor(Avalonia.Input.StandardCursorType.Arrow);
+                }
+            }
+            else
+            {
+                PlottableBeingDragged.Position = mouseCoordinates.X;
+                //DataPoint nearest = scatter.Data.GetNearestX(mouseCoordinates, SignalPlot.Plot.LastRender);
+            }
 
-            crosshair.Position = nearest.Coordinates;
-            crosshair.VerticalLine.Text = $"{mouseCoordinates.X:N3}";
-            crosshair.HorizontalLine.Text = $"{mouseCoordinates.Y:N3}";
 
             SignalPlot.Refresh();
         };
 
+        SignalPlot.PointerPressed += (s, e) =>
+        {
+            ScottPlot.Plottables.AxisLine? line = GetLineUnderMouse((float)e.GetPosition(SignalPlot).X, (float)e.GetPosition(SignalPlot).Y);
+            if (line != null)
+            {
+                PlottableBeingDragged = line;
+                SignalPlot.UserInputProcessor.Disable();
+            }
+        };
 
-
+        SignalPlot.PointerReleased += (s, e) =>
+        {
+            PlottableBeingDragged = null;
+            SignalPlot.UserInputProcessor.Enable();
+            SignalPlot.Refresh();
+        };
 
         UpdateColors(Application.Current.RequestedThemeVariant ?? ThemeVariant.Light);
 
@@ -90,6 +135,24 @@ public partial class SignalPlotPanel: UserControl
 
             SignalPlot.Refresh();
         }
+    }
+
+    private ScottPlot.Plottables.AxisLine? GetLineUnderMouse(float x, float y)
+    {
+        CoordinateRect rect = SignalPlot.Plot.GetCoordinateRect(x, y, radius: 10);
+
+        if (vline.IsUnderMouse(rect))
+            return vline;
+
+        return null;
+    }
+
+    private void OnTimerTick(object? sender, EventArgs e)
+    {
+        Streamer1.AddRange(Walker1.Next(1));
+
+        SignalPlot.Refresh();
+
     }
 
 }
