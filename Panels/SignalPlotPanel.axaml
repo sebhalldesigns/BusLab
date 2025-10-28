@@ -11,7 +11,18 @@
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
    
     <Grid>
-        <ScottPlot:AvaPlot Name="SignalPlot"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Button CornerRadius="5" DockPanel.Dock="Left" Margin="2.5 5">Start</Button>   
+            <Button CornerRadius="5" DockPanel.Dock="Left" Margin="2.5 5">Stop</Button>
+            <Rectangle/>
+        </DockPanel>
+        <local:TimeRangeControl Grid.Row="1" Margin="30 0 10 0"/>
+        <ScottPlot:AvaPlot Grid.Row="2" Name="SignalPlot"/>
     </Grid>
 
 </UserControl>

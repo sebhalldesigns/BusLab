@@ -33,7 +33,7 @@ public partial class SignalPlotPanel: UserControl
         InitializeComponent();
 
         scatter = SignalPlot.Plot.Add.Scatter(buffer.XOrdered, buffer.YOrdered);
-        
+        scatter.MarkerSize = 0;
 
 
         timer.Tick += OnTimerTick;
@@ -184,6 +184,15 @@ public class CircularDataBuffer
 
         XOrdered = new double[capacity];
         YOrdered = new double[capacity];
+
+        for (int i = 0; i < capacity; i++)
+        {
+            X[i] = double.NaN;
+            Y[i] = double.NaN;
+
+            XOrdered[i] = double.NaN;
+            YOrdered[i] = double.NaN;
+        }
     }
 
     public void Add(double x, double y)
