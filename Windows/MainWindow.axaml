@@ -46,7 +46,7 @@
                     <MenuItem Header="New Window"/>
                     <Separator/>
                     <MenuItem Header="Open Recent..."/>
-                    <MenuItem Header="Open Database"/>
+                    <MenuItem Header="Open Database" Click="OpenDatabasePressed"/>
                     <MenuItem Header="Open Interface" Click="OpenPressed"/>
                     <MenuItem Header="Open Workspace"/>
                     <Separator/>

@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Styling;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Dock.Avalonia.Themes.Simple;
 using Dock.Avalonia.Controls;
 using Dock.Model.Avalonia;
@@ -54,6 +55,43 @@ public partial class MainWindow : Window
         openWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         openWindow.ShowDialog(this);
     }
+
+    public async void OpenDatabasePressed(object? sender, RoutedEventArgs e)
+    {
+
+        if (tabFactory.activePanel != null && tabFactory.activePanel is BlankPanel blankPanel)
+        {
+            switch (tabFactory.activePanel.ActivePanel)
+            {
+                case DatabaseEditPanel dbPanel:
+                    IReadOnlyList<IStorageFile> files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+                    {
+                        Title = "Open CAN Database File",
+                        AllowMultiple = false,
+                        FileTypeFilter = new List<FilePickerFileType>
+                        {
+                            new FilePickerFileType("CAN Database Files")
+                            {
+                                Patterns = new[] { "*.dbc" }
+                            }
+                        }
+                    });
+
+                    if (files.Count == 1)
+                    {
+                        string filePath = files[0].Path.LocalPath;
+                        dbPanel.LoadDatabase(filePath);
+                    }
+
+                    break;
+            }
+        }
+
+        
+
+        
+    }
+
 
     public void AboutPressed(object? sender, RoutedEventArgs e)
     {

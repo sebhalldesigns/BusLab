@@ -6,13 +6,13 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#30808080</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#30808080</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#30808080</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#30808080</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#6025ccf5</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#6025ccf5</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#6025ccf5</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#6025ccf5</SolidColorBrush>
 
             <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#30808080" />
-            <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#30808080" />
+            <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#d08880" />
             <SolidColorBrush x:Key="DockToolChromeIconBrush" Color="#30808080" />
 
             <ResourceDictionary.ThemeDictionaries>
@@ -22,7 +22,7 @@
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#505050</SolidColorBrush>
+                    <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#101010</SolidColorBrush>
                     <!-- light-specific overrides -->
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>

@@ -20,6 +20,8 @@ public class TabFactory: Factory
 {
     IRootDock? root = null;
 
+    public BlankPanel? activePanel = null;
+
     public TabFactory()
     {
         DockableAdded += (_, args) =>
@@ -34,6 +36,14 @@ public class TabFactory: Factory
                 dock.CanFloat = false;
                 dock.MinHeight = 100;
                 dock.MinWidth = 100;
+            }
+        };
+
+        DockableActivated += (_, args) =>
+        {
+            if (args.Dockable is Document doc && doc.Content is BlankPanel panel)
+            {
+                activePanel = panel;
             }
         };
     }
@@ -78,7 +88,9 @@ public class TabFactory: Factory
             CanFloat = false
         };
 
-        doc.Content = new BlankPanel(doc);
+        BlankPanel panel = new BlankPanel(doc);
+        doc.Content = panel;
+        activePanel = panel;
 
         return doc;
     }

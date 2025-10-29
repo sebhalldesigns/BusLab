@@ -6,6 +6,8 @@ using System;
 
 namespace BusLab;
 
+public delegate void TitleUpdate(string title);
+
 public enum PanelType
 {
     Blank,
@@ -18,6 +20,8 @@ public enum PanelType
 public partial class BlankPanel: UserControl
 {
     Dock.Model.Avalonia.Controls.Document parent;
+
+    public object? ActivePanel = null;
      
     public BlankPanel(Dock.Model.Avalonia.Controls.Document parent)
     {
@@ -52,19 +56,22 @@ public partial class BlankPanel: UserControl
         {
             case PanelType.NetworkMessages:
                 PanelContent.Content = new NetworkMessagesPanel();
+                ActivePanel = PanelContent.Content;
                 SelectPanelContent.IsVisible = false;
                 break;
 
             case PanelType.SignalPlot:
                 PanelContent.Content = new SignalPlotPanel();
+                ActivePanel = PanelContent.Content;
                 SelectPanelContent.IsVisible = false;
                 break;
 
             case PanelType.DatabaseFile:
-                PanelContent.Content = new DatabaseEditPanel();
+                DatabaseEditPanel dbPanel = new DatabaseEditPanel(SetTabTitle);
+                PanelContent.Content = dbPanel;
+                ActivePanel = dbPanel;
                 SelectPanelContent.IsVisible = false;
                 break;  
-
             default:
                 break;
         }
@@ -72,5 +79,10 @@ public partial class BlankPanel: UserControl
         parent.Title = panel.ToString();
 
         Console.WriteLine("Loading panel: " + panel.ToString());
+    }
+
+    public void SetTabTitle(string title)
+    {
+        parent.Title = title;
     }
 }

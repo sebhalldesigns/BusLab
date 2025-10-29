@@ -74,7 +74,7 @@ BO_ 1317 VCU2AI_Speeds: 8 VCU
  SG_ RL_WHEEL_SPEED : 32|16@1+ (1,0) [0|1250] "rpm" Vector__XXX
  SG_ RR_WHEEL_SPEED : 48|16@1+ (1,0) [0|1250] "rpm" Vector__XXX
 
-BO_ 1296 AI2VCU_Status: 8 AI
+BO_ 12z96 AI2VCU_Status: 8 AI
  SG_ DIRECTION_REQUEST : 14|2@1+ (1,0) [0|3] "" Vector__XXX
  SG_ ESTOP_REQUEST : 8|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ MISSION_STATUS : 12|2@1+ (1,0) [0|3] "" Vector__XXX

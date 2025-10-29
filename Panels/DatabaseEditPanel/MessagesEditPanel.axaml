@@ -21,8 +21,28 @@
                 <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
                     Messages
                 </TextBlock>
-            </Grid>        
-            <ScrollViewer/>
+            </Grid>
+
+            <DataGrid Margin="0" BorderBrush="Transparent" ItemsSource="{Binding Database.Messages}" 
+                    IsReadOnly="True"
+                    Name="MessagesDataGrid"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="False"
+                    GridLinesVisibility="All"
+                    SelectionChanged="MessageSelectionChanged"
+                    RowBackground="Transparent"
+                    BorderThickness="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"  Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                        <DataGridTextColumn Header="DLC" Binding="{Binding Length}" />
+                        <DataGridTextColumn Header="Sender" Binding="{Binding SenderNode}" />
+                        <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
+                        <DataGridTextColumn Header="Attributes"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
         </DockPanel>
 
         <GridSplitter Grid.Row="1" Background="#30808080"/>
@@ -33,7 +53,32 @@
                     Signals
                 </TextBlock>
             </Grid>        
-            <ScrollViewer/>
+
+            <DataGrid Margin="0" BorderBrush="Transparent" ItemsSource="{Binding SelectedMessage.Signals}" 
+                    IsReadOnly="True"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="False"
+                    GridLinesVisibility="All"
+                    RowBackground="Transparent"
+                    BorderThickness="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"  Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Type"  Binding="{Binding SignalType}"/>
+                        <DataGridTextColumn Header="Byte Order" Binding="{Binding ByteOrder}" />
+                        <DataGridTextColumn Header="Start Bit" Binding="{Binding StartBit}" />
+                        <DataGridTextColumn Header="Length" Binding="{Binding BitLength}" />
+                        <DataGridTextColumn Header="Scale" Binding="{Binding Scale}" />
+                        <DataGridTextColumn Header="Offset" Binding="{Binding Offset}" />
+                        <DataGridTextColumn Header="Minimum" Binding="{Binding Minimum}" />
+                        <DataGridTextColumn Header="Maximum" Binding="{Binding Maximum}" />
+                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" />
+                        <DataGridTextColumn Header="Receiver" Binding="{Binding ReceiverNode}" />
+                        <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                
         </DockPanel>
         
     </Grid>

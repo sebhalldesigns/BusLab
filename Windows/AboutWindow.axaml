@@ -25,7 +25,7 @@
         </Grid>
 
         <DockPanel Grid.Row="2" Background="#30808080">
-            <Button DockPanel.Dock="Right" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="20 3.5" IsCancel="True">Close</Button>
+            <Button DockPanel.Dock="Right" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="20 3.5" IsCancel="True" IsDefault="True" Click="ClosePressed">Close</Button>
             <Rectangle/>
         </DockPanel>
 

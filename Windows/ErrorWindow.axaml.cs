@@ -3,11 +3,14 @@ using Avalonia.Interactivity;
 
 namespace BusLab;
 
-public partial class AboutWindow : Window
+public partial class ErrorWindow : Window
 {
-    public AboutWindow()
+    public ErrorWindow(string message, string details)
     {
         InitializeComponent();
+
+        ErrorMessageTextBlock.Text = message;
+        ErrorDescriptionTextBlock.Text = details;
 
     }
 

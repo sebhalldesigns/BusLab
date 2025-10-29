@@ -1040,7 +1040,6 @@ public static class DatabaseReader
 
                                 /* local value table */
                                 string valuesStr = match.Groups[3].Value;
-                                Console.WriteLine($"Parsing local VAL_ for signal {signalName} in message ID {messageId}: {valuesStr}");
 
                                 MatchCollection valueMatches = Regex.Matches(valuesStr, @"([-+]?\d+)\s+""([^""]*)""");
 
@@ -1052,7 +1051,6 @@ public static class DatabaseReader
                                     if (long.TryParse(keyStr, out long key))
                                     {
                                         valueTable.Values[key] = valueStr;
-                                        Console.WriteLine($"Parsed local VAL_ entry: {key} -> {valueStr}");
                                     }
                                 }
 
