@@ -31,7 +31,17 @@ public partial class MainWindow : Window
         tabFactory = new TabFactory();
 
         IRootDock root = tabFactory.CreateLayout();
+        
+        if (File.Exists("layout.json") && false)
+        {
+            string json = File.ReadAllText("layout.json");
+            root = tabFactory.LoadRootFromJson(json);
+
+            Console.WriteLine("Layout loaded from file.");
+        }
+
         tabFactory.InitLayout(root);
+
         dockControl.Factory = tabFactory;
         dockControl.Layout = root;
         
@@ -61,6 +71,7 @@ public partial class MainWindow : Window
     {
         string workspaceContent = tabFactory.GetJsonLayout();
         Console.WriteLine(workspaceContent);
+        //File.WriteAllText("layout.json", workspaceContent);
     }
 
 }

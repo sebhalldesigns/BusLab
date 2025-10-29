@@ -7,7 +7,7 @@ namespace BusLab;
 public partial class BlankPanel: UserControl
 {
 
-    public BlankPanel()
+    public BlankPanel(Dock.Model.Avalonia.Controls.Document parent)
     {
         InitializeComponent();
     }
