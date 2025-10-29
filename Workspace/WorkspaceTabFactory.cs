@@ -84,6 +84,29 @@ public class TabFactory: Factory
     {
         if (root == null) return string.Empty;
 
+        foreach (IDockable dockable in root.VisibleDockables ?? Array.Empty<IDockable>())
+        {
+            if (dockable is ProportionalDock)
+            {
+                ProportionalDock propDock = (ProportionalDock)dockable;
+                foreach (IDockable childDockable in propDock.VisibleDockables ?? Array.Empty<IDockable>())
+                {
+                    if (childDockable is DocumentDock)
+                    {
+                        DocumentDock docDock = (DocumentDock)childDockable;
+                        foreach (IDockable document in docDock.VisibleDockables ?? Array.Empty<IDockable>())
+                        {
+                            if (document is Document)
+                            {
+                                Document doc = (Document)document;
+                                Console.WriteLine($"Document Title: {doc.Title}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         var layout = new LayoutData
         {
             Id = root.Id,
@@ -97,9 +120,11 @@ public class TabFactory: Factory
         return json;
     }
 
-    private List<IDockableData> BuildDockables(IList<IDockable>? dockables)
+    private List<DockableDataBase> BuildDockables(IList<IDockable>? dockables)
     {
-        var result = new List<IDockableData>();
+        Console.WriteLine("Building dockables...");
+
+        var result = new List<DockableDataBase>();
         if (dockables == null) return result;
 
         foreach (var dockable in dockables)
@@ -111,7 +136,8 @@ public class TabFactory: Factory
                     Id = docDock.Id,
                     Type = "DocumentDock",
                     Title = docDock.Title,
-                    CanCreateDocument = docDock.CanCreateDocument
+                    CanCreateDocument = docDock.CanCreateDocument,
+                    Documents = BuildDocuments(docDock.VisibleDockables)
                 };
                 result.Add(dockData);
             }
@@ -138,6 +164,30 @@ public class TabFactory: Factory
                 result.Add(splitterData);
             }
         }
+
+        return result;
+    }
+
+    private List<DocumentData> BuildDocuments(IList<IDockable>? documents)
+    {
+        var result = new List<DocumentData>();
+        if (documents == null) return result;
+
+        foreach (var doc in documents)
+        {
+            if (doc is Document document)
+            {
+                result.Add(new DocumentData
+                {
+                    Id = document.Id,
+                    Title = document.Title,
+                    IsActive = false,
+                    Content = document.Content?.GetType().Name
+                });
+            }
+        }
+
+        Console.WriteLine("Built documents. " + JsonSerializer.Serialize(result));
 
         return result;
     }
