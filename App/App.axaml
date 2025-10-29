@@ -5,13 +5,28 @@
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Resources>
-        <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#30808080</SolidColorBrush>
-        <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#30808080</SolidColorBrush>
-        <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#30808080</SolidColorBrush>
-        <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#30808080</SolidColorBrush>
-        <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#30808080" />
-        <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#30808080" />
-        <SolidColorBrush x:Key="DockToolChromeIconBrush" Color="#30808080" />
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#30808080</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#30808080</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#30808080</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#30808080</SolidColorBrush>
+
+            <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#30808080" />
+            <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#30808080" />
+            <SolidColorBrush x:Key="DockToolChromeIconBrush" Color="#30808080" />
+
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#E0E0E0</SolidColorBrush>
+                    <!-- dark-specific overrides -->
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#505050</SolidColorBrush>
+                    <!-- light-specific overrides -->
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.Styles>

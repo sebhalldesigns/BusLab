@@ -21,7 +21,7 @@
             <Button CornerRadius="5" DockPanel.Dock="Left" Margin="2.5 5">Stop</Button>
             <Rectangle/>
         </DockPanel>
-        <local:TimeRangeControl Grid.Row="1" Margin="30 0 10 0"/>
+        <local:TimeRangeControl Name="TimeRange" Grid.Row="1" Margin="30 0 10 0"/>
         <ScottPlot:AvaPlot Grid.Row="2" Name="SignalPlot"/>
     </Grid>
 

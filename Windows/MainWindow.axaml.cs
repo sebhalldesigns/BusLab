@@ -20,37 +20,24 @@ public partial class MainWindow : Window
         DockControl dockControl = new DockControl();
         Factory factory = new Factory();
 
-        var documentDock = new DocumentDock
-        {
-            Id = "Documents",
-            IsCollapsable = false,
-            CanCreateDocument = false,
-            CanClose = false,
-            CanFloat = false
-        };
+        var documentDock = new DocumentDock();
 
         var document = new Document
         {
             Title = "Empty Panel",
-            Content = new BlankPanel(),
-            CanClose = false,
-            CanFloat = false
+            Content = new BlankPanel()
         };
 
         var document2 = new Document
         {
             Title = "Network Messages",
-            Content = new NetworkMessagesPanel(),
-            CanClose = false,
-            CanFloat = false
+            Content = new NetworkMessagesPanel()
         };
 
         var document3 = new Document
         {
             Title = "Signal Plot",
-            Content = new SignalPlotPanel(), 
-            CanClose = false,
-            CanFloat = false
+            Content = new SignalPlotPanel(),
         };
 
         documentDock.VisibleDockables = factory.CreateList<IDockable>(document, document2, document3);

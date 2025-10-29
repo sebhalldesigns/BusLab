@@ -22,6 +22,9 @@ public partial class TimeRangeControl: UserControl
     Avalonia.Controls.ColumnDefinition MiddleColumn;
     Avalonia.Controls.ColumnDefinition RightColumn;
 
+    public double SizeRatio = 0.5;
+    public double OffsetRatio = 0.0;
+
     private double minWidth = 20.0; /* 5% minimum width for middle */
     
     public TimeRangeControl()
@@ -33,7 +36,7 @@ public partial class TimeRangeControl: UserControl
         MiddleColumn = new Avalonia.Controls.ColumnDefinition();
         MiddleColumn.Width = new GridLength(1, GridUnitType.Star);
         RightColumn = new Avalonia.Controls.ColumnDefinition();
-        RightColumn.Width = new GridLength(1, GridUnitType.Star);
+        RightColumn.Width = new GridLength(0, GridUnitType.Star);
 
         ColumnsGrid.ColumnDefinitions.Add(LeftColumn);
         ColumnsGrid.ColumnDefinitions.Add(MiddleColumn);
@@ -107,6 +110,9 @@ public partial class TimeRangeControl: UserControl
         LeftColumn.Width = new GridLength(newLeft / total, GridUnitType.Star);
         MiddleColumn.Width = new GridLength(newMiddle / total, GridUnitType.Star);
         RightColumn.Width = new GridLength(newRight / total, GridUnitType.Star);
+
+        SizeRatio = newMiddle / total;
+        OffsetRatio = newRight / total;
     }
 
     private void OnPointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)

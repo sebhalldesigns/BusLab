@@ -32,6 +32,19 @@ public partial class SignalPlotPanel: UserControl
     {
         InitializeComponent();
 
+        //SignalPlot.UserInputProcessor.LeftClickDragPan(true, false, true);
+        //SignalPlot.UserInputProcessor.RightClickDragZoom(false);
+
+        for (int i = 0; i < SignalPlot.UserInputProcessor.UserActionResponses.Count; i++)
+        {
+            if (SignalPlot.UserInputProcessor.UserActionResponses[i] is ScottPlot.Interactivity.UserActionResponses.MouseDragZoom)
+            {
+                SignalPlot.UserInputProcessor.UserActionResponses.RemoveAt(i);
+                break;    
+            }
+            
+        }
+
         scatter = SignalPlot.Plot.Add.Scatter(buffer.XOrdered, buffer.YOrdered);
         scatter.MarkerSize = 0;
 
@@ -107,7 +120,7 @@ public partial class SignalPlotPanel: UserControl
             SignalPlot.Plot.Add.Palette = new ScottPlot.Palettes.Penumbra();
 
             // change figure colors
-            SignalPlot.Plot.FigureBackground.Color = Color.FromHex("#181818");
+            SignalPlot.Plot.FigureBackground.Color = Color.FromHex("#282828");
             SignalPlot.Plot.DataBackground.Color = Color.FromHex("#1f1f1f");
 
             // change axis and grid colors
@@ -156,6 +169,14 @@ public partial class SignalPlotPanel: UserControl
         buffer.Add(counter, next);
 
         buffer.OrderData();
+
+        double scale = TimeRange.SizeRatio;
+        double offset = TimeRange.OffsetRatio;
+        double range = scale * Math.Min(1000.0, counter);
+        double min = counter - range - (offset * range);
+        double max = min + range;
+
+        SignalPlot.Plot.Axes.SetLimitsX(min, max);
         
         SignalPlot.Refresh();
 

@@ -11,30 +11,6 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        Console.WriteLine("STARTING");
-
-        CanDatabase? dbc = DatabaseReader.Read("sample2.dbc", out string error, out string detailedError);
-
-        if (dbc == null)
-        {
-            Console.WriteLine(error);
-            Console.WriteLine(detailedError);
-        }
-        else
-        {
-            Console.WriteLine("Opened DBC successfully");
-
-            string? outPath = DatabaseWriter.Write("out.dbc", dbc, out string error2, out string detailedError2);
-
-            if (outPath == null)
-            {
-                Console.WriteLine(error2);
-                Console.WriteLine(detailedError2);
-            }
-        }
-
-
-
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
     // Avalonia configuration, don't remove; also used by visual designer.
