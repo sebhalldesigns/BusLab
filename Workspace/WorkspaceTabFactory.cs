@@ -114,7 +114,13 @@ public class TabFactory: Factory
             VisibleDockables = BuildDockables(root.VisibleDockables)
         };
 
-        string json = JsonSerializer.Serialize(layout);
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        };
+
+        string json = JsonSerializer.Serialize(layout, options);
         File.WriteAllText("layout.json", json);
         Console.WriteLine("Manual layout saved");
         return json;
@@ -181,7 +187,7 @@ public class TabFactory: Factory
                 {
                     Id = document.Id,
                     Title = document.Title,
-                    IsActive = false,
+                    IsActive = ReferenceEquals(document, (document.Parent as DocumentDock)?.ActiveDockable),
                     Content = document.Content?.GetType().Name
                 });
             }
