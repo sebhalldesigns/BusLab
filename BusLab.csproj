@@ -24,7 +24,6 @@
     <PackageReference Include="Dock.Avalonia.Themes.Simple" Version="11.3.6.1" />
     <PackageReference Include="Dock.Model" Version="11.3.6.1" />
     <PackageReference Include="Dock.Model.Avalonia" Version="11.3.6.1" />
-    <PackageReference Include="Dock.Serializer.Newtonsoft" Version="11.3.6.1" />
 
     <AvaloniaResource Include="Assets\Fonts\Iosevka-Regular.ttf" />
     <AvaloniaResource Include="Assets\Fonts\Iosevka-SemiBold.ttf" />

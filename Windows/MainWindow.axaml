@@ -42,9 +42,17 @@
             </TextBlock>
             <Menu  DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" Padding="5" CornerRadius="5">
                 <MenuItem Header="_File" Padding="5 2.5" CornerRadius="5">
+                    <MenuItem Header="New Database"/>
                     <MenuItem Header="New Window"/>
-                    <MenuItem Header="New File"/>
-                    <MenuItem Header="Open..." Click="OpenPressed"/>
+                    <Separator/>
+                    <MenuItem Header="Open Recent..."/>
+                    <MenuItem Header="Open Database"/>
+                    <MenuItem Header="Open Interface" Click="OpenPressed"/>
+                    <MenuItem Header="Open Workspace"/>
+                    <Separator/>
+                    <MenuItem Header="Save File"/>
+                    <MenuItem Header="Save Workspace" Click="SaveWorkspacePressed"/>
+                    <Separator/>
                     <MenuItem Header="_Exit"/>
                 </MenuItem>
                 <MenuItem Header="_Edit" Padding="5 2.5" CornerRadius="5">

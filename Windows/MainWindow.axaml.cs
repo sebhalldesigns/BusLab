@@ -9,61 +9,32 @@ using Dock.Model.Avalonia.Controls;
 using Dock.Model.Core;
 using Dock.Model.Controls;
 using Dock.Settings;
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text;
+
 
 namespace BusLab;
 
 public partial class MainWindow : Window
-{
-    private DocumentDock documentDock;
+{   
     private DockControl dockControl;
-    private Factory factory;
+    private TabFactory tabFactory;
 
     public MainWindow()
     {
-        InitializeComponent();
+        InitializeComponent();        
 
-        documentDock = new DocumentDock();
-        documentDock.CanCreateDocument = true;
-        documentDock.IsCollapsable = false;
-
-        factory = new Factory();
         dockControl = new DockControl();
+        tabFactory = new TabFactory();
 
-        documentDock.DocumentFactory = () =>
-        {
-            int index = documentDock.VisibleDockables?.Count ?? 0;
-            
-            return new Document
-            {
-                Id = $"Doc{index + 1}",
-                Title = $"Select Panel Type",
-                Content = new BlankPanel()
-            };
-        };
-
-        Document? startDocument = documentDock.DocumentFactory() as Document;
-        
-        if (startDocument != null)
-        {
-            documentDock.VisibleDockables = factory.CreateList<IDockable>(startDocument);
-            documentDock.ActiveDockable = startDocument;
-        }
-        
-        ProportionalDock mainLayout = new ProportionalDock
-        {
-            Orientation = Orientation.Horizontal,
-            VisibleDockables = factory.CreateList<IDockable>(documentDock)
-            ,
-        };
-
-        IRootDock root = factory.CreateRootDock();
-        root.VisibleDockables = factory.CreateList<IDockable>(mainLayout);
-        root.DefaultDockable = mainLayout;
-
-        factory.InitLayout(root);
-        dockControl.Factory = factory;
+        IRootDock root = tabFactory.CreateLayout();
+        tabFactory.InitLayout(root);
+        dockControl.Factory = tabFactory;
         dockControl.Layout = root;
-
+        
         MainContent.Content = dockControl;
     }
 
@@ -85,5 +56,14 @@ public partial class MainWindow : Window
             Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
         }
     }
+
+    public void SaveWorkspacePressed(object? sender, RoutedEventArgs e)
+    {
+        string workspaceContent = tabFactory.GetJsonLayout();
+        Console.WriteLine(workspaceContent);
+    }
+
 }
+
+
 
