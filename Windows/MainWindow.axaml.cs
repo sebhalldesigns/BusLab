@@ -7,51 +7,56 @@ using Dock.Avalonia.Controls;
 using Dock.Model.Avalonia;
 using Dock.Model.Avalonia.Controls;
 using Dock.Model.Core;
+using Dock.Model.Controls;
 using Dock.Settings;
 
 namespace BusLab;
 
 public partial class MainWindow : Window
 {
+    private DocumentDock documentDock;
+    private DockControl dockControl;
+    private Factory factory;
+
     public MainWindow()
     {
         InitializeComponent();
 
-        DockControl dockControl = new DockControl();
-        Factory factory = new Factory();
+        documentDock = new DocumentDock();
+        documentDock.CanCreateDocument = true;
+        documentDock.IsCollapsable = false;
 
-        var documentDock = new DocumentDock();
+        factory = new Factory();
+        dockControl = new DockControl();
 
-        var document = new Document
+        documentDock.DocumentFactory = () =>
         {
-            Title = "Empty Panel",
-            Content = new BlankPanel()
+            int index = documentDock.VisibleDockables?.Count ?? 0;
+            
+            return new Document
+            {
+                Id = $"Doc{index + 1}",
+                Title = $"Select Panel Type",
+                Content = new BlankPanel()
+            };
         };
 
-        var document2 = new Document
+        Document? startDocument = documentDock.DocumentFactory() as Document;
+        
+        if (startDocument != null)
         {
-            Title = "Network Messages",
-            Content = new NetworkMessagesPanel()
-        };
-
-        var document3 = new Document
-        {
-            Title = "Signal Plot",
-            Content = new SignalPlotPanel(),
-        };
-
-        documentDock.VisibleDockables = factory.CreateList<IDockable>(document, document2, document3);
-        documentDock.ActiveDockable = document;
-
-        var mainLayout = new ProportionalDock
+            documentDock.VisibleDockables = factory.CreateList<IDockable>(startDocument);
+            documentDock.ActiveDockable = startDocument;
+        }
+        
+        ProportionalDock mainLayout = new ProportionalDock
         {
             Orientation = Orientation.Horizontal,
-            VisibleDockables = factory.CreateList<IDockable>(
-                documentDock
-            )
+            VisibleDockables = factory.CreateList<IDockable>(documentDock)
+            ,
         };
 
-        var root = factory.CreateRootDock();
+        IRootDock root = factory.CreateRootDock();
         root.VisibleDockables = factory.CreateList<IDockable>(mainLayout);
         root.DefaultDockable = mainLayout;
 
@@ -80,7 +85,5 @@ public partial class MainWindow : Window
             Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
         }
     }
-
-
-
 }
+
