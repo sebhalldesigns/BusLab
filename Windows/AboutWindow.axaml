@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="325" Height="450"
+        CanResize="False"
+        x:Class="BusLab.AboutWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="Full"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
+        Title="About">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/> 
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#30808080" IsHitTestVisible="False">
+            <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                About
+            </TextBlock>
+        </Grid>
+
+        <DockPanel Grid.Row="2" Background="#30808080">
+            <Button DockPanel.Dock="Right" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="20 3.5" IsCancel="True">Close</Button>
+            <Rectangle/>
+        </DockPanel>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="36" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 5 0 0">
+                    BusLab
+                </TextBlock>
+                <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5 0 0 5">
+                    0.1.0
+                </TextBlock>
+                
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 5" TextWrapping="Wrap">
+                A project by Seb Hall - sebhalldesigns.com  
+                <LineBreak/>
+                <LineBreak/>
+                BusLab is distributed under the MIT License, with source code available on GitHub.
+                <LineBreak/>
+                <LineBreak/>
+                This program is provided with absolutely no warranty, and the author(s) accept no responsibility for any damages caused by its use.
+                <LineBreak/>
+                <LineBreak/>
+                BusLab uses the following open source libraries:
+                <LineBreak/>
+                - Avalonia
+                <LineBreak/>
+                - Dock.Avalonia
+                <LineBreak/>
+                - ScottPlot
+                <LineBreak/>
+
+            </TextBlock>
+        
+        </StackPanel>
+        
+
+    </Grid>
+
+</Window>

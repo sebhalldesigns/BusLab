@@ -55,6 +55,13 @@ public partial class MainWindow : Window
         openWindow.ShowDialog(this);
     }
 
+    public void AboutPressed(object? sender, RoutedEventArgs e)
+    {
+        AboutWindow aboutWindow = new AboutWindow();
+        aboutWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        aboutWindow.ShowDialog(this);
+    }
+
     public void ToggleTheme(object? sender, RoutedEventArgs e)
     {
         if (Application.Current!.ActualThemeVariant == ThemeVariant.Light)
