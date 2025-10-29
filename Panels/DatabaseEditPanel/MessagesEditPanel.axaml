@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.MessagesEditPanel"
+        x:DataType="local:MessagesEditPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="100"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="*" MinHeight="100"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Grid DockPanel.Dock="Top" Height="25" Background="#30808080" IsHitTestVisible="False">
+                <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                    Messages
+                </TextBlock>
+            </Grid>        
+            <ScrollViewer/>
+        </DockPanel>
+
+        <GridSplitter Grid.Row="1" Background="#30808080"/>
+
+        <DockPanel Grid.Row="2">
+            <Grid DockPanel.Dock="Top" Height="25" Background="#30808080" IsHitTestVisible="False">
+                <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                    Signals
+                </TextBlock>
+            </Grid>        
+            <ScrollViewer/>
+        </DockPanel>
+        
+    </Grid>
+</UserControl>

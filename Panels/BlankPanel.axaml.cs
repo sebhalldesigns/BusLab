@@ -60,6 +60,11 @@ public partial class BlankPanel: UserControl
                 SelectPanelContent.IsVisible = false;
                 break;
 
+            case PanelType.DatabaseFile:
+                PanelContent.Content = new DatabaseEditPanel();
+                SelectPanelContent.IsVisible = false;
+                break;  
+
             default:
                 break;
         }

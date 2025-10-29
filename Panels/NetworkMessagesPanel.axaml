@@ -37,7 +37,7 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel Grid.Row="0">
-                    <Grid DockPanel.Dock="Top" Height="35" Background="#30808080">
+                    <Grid DockPanel.Dock="Top" Height="25" Background="#30808080">
                         <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
                             Receive
                         </TextBlock>
@@ -61,7 +61,7 @@
                 <GridSplitter Grid.Row="1" Background="#30808080"/>
 
                 <DockPanel Grid.Row="2">
-                    <Grid DockPanel.Dock="Top" Height="35" Background="#15808080">
+                    <Grid DockPanel.Dock="Top" Height="25" Background="#15808080">
                         <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
                             Transmit
                         </TextBlock>
@@ -86,7 +86,7 @@
             
 
             <DockPanel Grid.Column="3">
-                <Grid DockPanel.Dock="Top" Height="35" Background="#15808080">
+                <Grid DockPanel.Dock="Top" Height="25" Background="#15808080">
                     <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
                         Message: None
                     </TextBlock>
