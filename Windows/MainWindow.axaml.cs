@@ -56,6 +56,13 @@ public partial class MainWindow : Window
         openWindow.ShowDialog(this);
     }
 
+    public void SettingsPressed(object? sender, RoutedEventArgs e)
+    {
+        SettingsWindow settingsWindow = new SettingsWindow();
+        settingsWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        settingsWindow.ShowDialog(this);
+    }
+
     public async void OpenDatabasePressed(object? sender, RoutedEventArgs e)
     {
 

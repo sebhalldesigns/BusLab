@@ -6,10 +6,10 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#6025ccf5</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#6025ccf5</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#6025ccf5</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#6025ccf5</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#C04787d1</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#C04787d1</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#C04787d1</SolidColorBrush>
+            <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#C04787d1</SolidColorBrush>
 
             <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#30808080" />
             <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#d08880" />
@@ -18,11 +18,15 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#E0E0E0</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuBackground">#404040</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuHighlight">#505050</SolidColorBrush>
                     <!-- dark-specific overrides -->
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#101010</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuBackground">#E7E7E7</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuHighlight">#D7D7D7</SolidColorBrush>
                     <!-- light-specific overrides -->
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
@@ -31,6 +35,7 @@
 
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
+        <StyleInclude Source="avares://BusLab/App/GlobalStyles.axaml"/>
         <SimpleTheme/>
         <DockSimpleTheme/>
     </Application.Styles>
