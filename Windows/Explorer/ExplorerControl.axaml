@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.ExplorerControl"
+        x:DataType="local:ExplorerControl"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+    
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" Background="#30808080" Height="27">
+            <TextBlock FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Workspace1
+            </TextBlock>
+            <StackPanel HorizontalAlignment="Right" Margin="0" Orientation="Horizontal" Spacing="2.5">
+                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                    <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#60808080" />
+                        </Style>
+                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#30808080" />
+                        </Style>
+                    </Button.Styles>
+                    <materialIcons:MaterialIcon Kind="Plus" Width="18" Height="18" />
+                </Button>
+                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                    <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#60808080" />
+                        </Style>
+                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#30808080" />
+                        </Style>
+                    </Button.Styles>
+                    <materialIcons:MaterialIcon Kind="FolderPlusOutline" Width="18" Height="18" />
+                </Button>
+                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                    <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#60808080" />
+                        </Style>
+                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#30808080" />
+                        </Style>
+                    </Button.Styles>
+                    <materialIcons:MaterialIcon Kind="FolderOpenOutline" Width="18" Height="18" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer>
+            <StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+    
+</UserControl>

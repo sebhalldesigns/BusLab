@@ -27,7 +27,6 @@
         <Setter Property="BorderThickness" Value="1"/>
     </Style>
 
-
     <Style Selector="MenuItem">
         <Setter Property="Padding" Value="5 2.5"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -49,6 +48,14 @@
         <Setter Property="Background" Value="{DynamicResource MenuHighlight}"/>
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Margin" Value="2.5"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
     </Style>
 
     <Style Selector="ComboBox">

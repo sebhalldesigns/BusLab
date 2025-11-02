@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         MinWidth="750" MinHeight="500"
         Width="1600" Height="1000"
@@ -45,7 +46,7 @@
             </TextBlock>
             <Menu  DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" Padding="5" CornerRadius="5">
                 <MenuItem Header="_File">
-                    <MenuItem Header="New..."/>
+                    <MenuItem Header="New..." Click="NewPressed" HotKey="Ctrl+N"/>
                     <Separator/>
                     <MenuItem Header="Open..." Click="OpenPressed" HotKey="Ctrl+O"/>
                     <Separator/>    
@@ -93,7 +94,7 @@
                         <Setter Property="Background" Value="#30808080" />
                     </Style>
                 </Button.Styles>
-                <Image Source="avares://BusLab/Assets/Icons/icons8-sidebar-left-48.png"/>
+                <materialIcons:MaterialIcon Kind="DockLeft" Width="18" Height="18" />
             </Button>
             <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="ToggleRightSidebarPressed">
                 <Button.Styles>
@@ -104,7 +105,7 @@
                         <Setter Property="Background" Value="#30808080" />
                     </Style>
                 </Button.Styles>
-                <Image Source="avares://BusLab/Assets/Icons/icons8-sidebar-right-48.png"/>
+                <materialIcons:MaterialIcon Kind="DockRight" Width="18" Height="18" />
             </Button>
 
             <Rectangle Width="10"/>
@@ -118,7 +119,7 @@
                         <Setter Property="Background" Value="#30808080" />
                     </Style>
                 </Button.Styles>
-                <Image Source="avares://BusLab/Assets/Icons/icons8-wrench-48.png"/>
+                <materialIcons:MaterialIcon Kind="Cog" Width="18" Height="18" />
             </Button>
             <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
                 <Button.Styles>
@@ -129,7 +130,7 @@
                         <Setter Property="Background" Value="#30808080" />
                     </Style>
                 </Button.Styles>
-                <Image Source="avares://BusLab/Assets/Icons/icons8-question-48.png"/>
+                <materialIcons:MaterialIcon Kind="HelpCircle" Width="18" Height="18" />
             </Button>
         </StackPanel>
 
@@ -142,14 +143,7 @@
                 <ColumnDefinition Width="300" MinWidth="200"/> 
             </Grid.ColumnDefinitions>
 
-            <DockPanel Grid.Column="0">
-                <Grid DockPanel.Dock="Top" Background="#30808080" Height="27">
-                    <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
-                        Explorer
-                    </TextBlock>
-                </Grid> 
-                <Rectangle/>
-            </DockPanel>
+           <UserControl Grid.Column="0" Name="LeftSidebarContent"/>
 
             <GridSplitter Grid.Column="1" Background="#30808080" Width="2"/>
             
@@ -165,8 +159,6 @@
                 </Grid> 
                 <Rectangle/>
             </DockPanel>
-
-            
         </Grid>
         
 

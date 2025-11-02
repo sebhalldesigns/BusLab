@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.NewNetControl"
+        x:DataType="local:NewNetControl"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+   
+    <ScrollViewer>
+        <StackPanel Spacing="10" Margin="10" Width="350" HorizontalAlignment="Center">
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Name:
+                </TextBlock>
+                <TextBox Margin="10 0">New Net</TextBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Interface:
+                </TextBlock>
+                <ComboBox Margin="10 0" SelectedIndex="0">
+                    <ComboBoxItem>None</ComboBoxItem>
+                    <ComboBoxItem>Log File</ComboBoxItem>
+                    <ComboBoxItem>PEAK</ComboBoxItem>
+                    <ComboBoxItem>Kvaser</ComboBoxItem>
+                    <ComboBoxItem>Vector</ComboBoxItem>
+                    <ComboBoxItem>SocketCAN</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+
+            <Rectangle Height="10"/>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Channel:
+                </TextBlock>
+                <ComboBox Margin="10 0" SelectedIndex="0">
+                    <ComboBoxItem>None</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Bitrate (kbps):
+                </TextBlock>
+                <TextBox Margin="10 0">500</TextBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Filter:
+                </TextBlock>
+                <ComboBox Margin="10 0" SelectedIndex="0">
+                    <ComboBoxItem>None</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

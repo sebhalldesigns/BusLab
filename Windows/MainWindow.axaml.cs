@@ -50,6 +50,7 @@ public partial class MainWindow : Window
         dockControl.Layout = root;
         
         MainContent.Content = dockControl;
+        LeftSidebarContent.Content = new ExplorerControl();
     }
 
     public void OpenPressed(object? sender, RoutedEventArgs e)
@@ -57,6 +58,13 @@ public partial class MainWindow : Window
         OpenWindow openWindow = new OpenWindow();
         openWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         openWindow.ShowDialog(this);
+    }
+
+    public void NewPressed(object? sender, RoutedEventArgs e)
+    {
+        NewWindow newWindow = new NewWindow();
+        newWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        newWindow.ShowDialog(this);
     }
 
     public void SettingsPressed(object? sender, RoutedEventArgs e)

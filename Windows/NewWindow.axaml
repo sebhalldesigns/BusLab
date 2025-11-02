@@ -3,13 +3,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Width="500" Height="350"
-        x:Class="BusLab.OpenWindow"
+        Width="640" Height="480"
+        x:Class="BusLab.NewWindow"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="-1"
         SystemDecorations="Full"
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
-        Title="Open...">
+        Title="New...">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
@@ -19,12 +19,13 @@
 
         <Grid Grid.Row="0" Background="#30808080" IsHitTestVisible="False">
             <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
-                Open
+                New
             </TextBlock>
         </Grid>
 
         <DockPanel Grid.Row="2" Background="#30808080">
             <Button DockPanel.Dock="Right" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="10 3.5">Cancel</Button>
+            <Button DockPanel.Dock="Right" CornerRadius="5" Margin="0 5" VerticalAlignment="Center" Padding="10 3.5">Create</Button>
             <Rectangle/>
         </DockPanel>
 
@@ -36,18 +37,18 @@
 
             <Grid Background="#15808080">
                 <ScrollViewer>
-                    <ListBox BorderBrush="Transparent" Padding="0" SelectedIndex="0" SelectionChanged="ListBoxSelectionChanged" Name="TabListBox">
+                    <ListBox BorderBrush="Transparent" Padding="0" SelectedIndex="0" SelectionChanged="TabSelectionChanged" Name="TabListBox">
                         <ListBox.Items>
-                            <ListBoxItem>Recent</ListBoxItem>
-                            <ListBoxItem>File</ListBoxItem>
-                            <ListBoxItem>Folder</ListBoxItem>
+                            <ListBoxItem>Net</ListBoxItem>
+                            <ListBoxItem>Message Filter</ListBoxItem>
+                            <ListBoxItem>CAN Database</ListBoxItem>
                         </ListBox.Items>
                     </ListBox>
                 </ScrollViewer>
             </Grid>
-        </Grid>
-        
 
+            <ContentControl Name="TabContent" Grid.Column="1"/>
+        </Grid>
     </Grid>
 
 </Window>

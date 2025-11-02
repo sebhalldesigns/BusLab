@@ -25,6 +25,7 @@
     <PackageReference Include="Dock.Avalonia.Themes.Simple" Version="11.3.6.1" />
     <PackageReference Include="Dock.Model" Version="11.3.6.1" />
     <PackageReference Include="Dock.Model.Avalonia" Version="11.3.6.1" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="2.4.1" />
     <PackageReference Include="ScottPlot.Avalonia" Version="5.1.57" />
 
     <PackageReference Include="Peak.PCANBasic.NET" Version="4.10.1.968" />
