@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using System;
 
 
@@ -31,5 +32,10 @@ public partial class SettingsWindow : Window
                 TabContent.Content = new GeneralSettingsControl();
                 break;
         }
+    }
+
+    public void ClosePressed(object? sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }
