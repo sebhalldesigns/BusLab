@@ -30,7 +30,11 @@
                     <!-- light-specific overrides -->
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+
+            <SolidColorBrush x:Key="ThemeControlHighBrush" Color="Transparent"/>
+            
         </ResourceDictionary>
+
     </Application.Resources>
 
     <Application.Styles>

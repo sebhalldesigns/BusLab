@@ -51,6 +51,41 @@
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
 
+    <Style Selector="ComboBox">
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Margin" Value="2.5"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    
+    <Style Selector="ComboBox /template/ Border">
+        <Setter Property="BorderBrush" Value="#C04787d1"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Padding" Value="2.5 1.25"/>
+    </Style>
+
+    <Style Selector="ComboBox /template/ ToggleButton">
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Margin" Value="-1.25 0"/>
+    </Style>
+
+    <Style Selector="ComboBox /template/ DropDownButton">
+        <Setter Property="Margin" Value="-1.25 0"/>
+    </Style>
+    
+    <Style Selector="ComboBoxItem">
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Margin" Value="0 1.25"/>
+    </Style>
+
+    <Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
+        <Setter Property="Background" Value="#C04787d1"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
     
 
 </Styles>

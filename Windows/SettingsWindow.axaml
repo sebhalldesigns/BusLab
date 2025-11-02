@@ -45,7 +45,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Background="#15808080">
-                <ListBox BorderBrush="Transparent" Padding="0" SelectedIndex="0">
+                <ListBox BorderBrush="Transparent" Padding="0" SelectedIndex="0" SelectionChanged="TabSelectionChanged" Name="TabListBox">
                     <ListBox.Items>
                         <ListBoxItem>General</ListBoxItem>
                         <ListBoxItem>Appearance</ListBoxItem>
@@ -53,6 +53,8 @@
                     </ListBox.Items>
                 </ListBox>
             </Grid>
+
+            <ContentControl Name="TabContent" Grid.Column="1"/>
         </Grid>
         
 

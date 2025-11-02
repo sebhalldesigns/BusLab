@@ -46,7 +46,26 @@ public class TabFactory: Factory
                 activePanel = panel;
             }
         };
+
+        DockableClosed += (_, args) =>
+        {
+            if (args.Dockable is Document doc)
+            {
+                ResetLayoutIfEmpty();   
+            }
+
+        };
+
+        DockableMoved += (_, args) =>
+        {
+            if (args.Dockable is Document doc)
+            {
+                ResetLayoutIfEmpty();   
+            }
+        };
     }
+
+    
 
     public override IRootDock CreateLayout()
     {
@@ -351,6 +370,46 @@ public class TabFactory: Factory
                     Console.WriteLine($"{prefix}Splitter ({splitter.Proportion})");
                     break;
             }
+        }
+    }
+
+    private void ResetLayoutIfEmpty()
+    {
+        if (root == null) return;
+
+        /* check if there are any open documents left */
+        int rootDockables = root.VisibleDockables.Count;
+        
+        if (rootDockables == 0)
+        {
+            /* create new layout */
+            DocumentDock dock = new DocumentDock();
+            dock.DocumentFactory = CreateTab;
+            dock.CanCreateDocument = true;
+            dock.IsCollapsable = true;
+            dock.CanFloat = false;
+            dock.MinHeight = 100;
+            dock.MinWidth = 100;
+
+            Document? startDocument = dock.DocumentFactory() as Document;
+            
+            if (startDocument != null)
+            {
+                dock.VisibleDockables = CreateList<IDockable>(startDocument);
+                dock.ActiveDockable = startDocument;
+            }
+
+            ProportionalDock mainLayout = new ProportionalDock
+            {
+                Orientation = Orientation.Horizontal,
+                VisibleDockables = CreateList<IDockable>(dock)
+            };
+            
+            root.VisibleDockables = CreateList<IDockable>(mainLayout);
+            root.DefaultDockable = mainLayout;
+            
+            InitLayout(root);
+            return;
         }
     }
 }
