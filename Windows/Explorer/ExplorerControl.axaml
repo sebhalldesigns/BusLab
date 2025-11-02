@@ -16,7 +16,7 @@
                 Workspace1
             </TextBlock>
             <StackPanel HorizontalAlignment="Right" Margin="0" Orientation="Horizontal" Spacing="2.5">
-                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="NewPressed">
                     <Button.Styles>
                         <Style Selector="Button:pointerover /template/ ContentPresenter">
                             <Setter Property="Background" Value="#60808080" />
@@ -51,11 +51,16 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ScrollViewer>
-            <StackPanel>
-
-            </StackPanel>
-        </ScrollViewer>
+        <TreeView ItemsSource="{Binding Entries}">
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Children}">
+                    <Grid Margin="0">
+                        <materialIcons:MaterialIcon Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Left" Kind="{Binding Icon}" Margin="0 0 5 0" IsVisible="{Binding IconVisible}"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="{Binding LabelMargin}"/>
+                    </Grid>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </DockPanel>
     
 </UserControl>
