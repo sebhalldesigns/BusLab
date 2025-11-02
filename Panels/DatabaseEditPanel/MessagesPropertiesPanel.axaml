@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="300" d:DesignHeight="350"
+        x:Class="BusLab.MessagesPropertiesPanel"
+        x:DataType="local:MessagesPropertiesPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#30808080" IsHitTestVisible="False">
+            <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Message Properties
+            </TextBlock>
+        </Grid>        
+
+        <ScrollViewer Grid.Row="1" Margin="10">
+            <StackPanel Spacing="10">
+
+                <DockPanel>
+                    <TextBlock VerticalAlignment="Center" Width="50">Name:</TextBlock>
+                    <TextBox Margin="10 0" Height="25"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock VerticalAlignment="Center" Width="50">ID:</TextBlock>
+                    <TextBox Margin="10 0" Height="25"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock VerticalAlignment="Center" Width="50">Length:</TextBlock>
+                    <TextBox Margin="10 0" Height="25"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock VerticalAlignment="Center" Width="50">Sender:</TextBlock>
+                    <TextBox Margin="10 0" Height="25"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <TextBlock Margin="0 5" VerticalAlignment="Top" Width="50">Comment:</TextBlock>
+                    <TextBox Margin="10 0" Height="250" AcceptsReturn="True" TextWrapping="Wrap"/>
+                </DockPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <DockPanel Grid.Row="2" Background="#30808080">
+            <Button DockPanel.Dock="Right" VerticalAlignment="Center" CornerRadius="5" Margin="5 0" Padding="10 3">Apply</Button>
+            <Button DockPanel.Dock="Right" VerticalAlignment="Center" CornerRadius="5" Margin="0" Padding="10 3">Cancel</Button>
+            <Rectangle/>
+        </DockPanel>        
+
+    </Grid>
+</UserControl>

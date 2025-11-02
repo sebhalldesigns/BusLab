@@ -1,0 +1,262 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: AIM BMS MCU ECU
+
+
+BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
+ SG_ N_MCUStatusword : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ D_SteeringAngle_Filt : 0|16@1- (0.110223184,-1802.86551) [-1800|1800] "Deg" Vector__XXX
+
+BO_ 770 TDAQ_Rear_Status: 7 Vector__XXX
+ SG_ P_Brake_Rear : 40|11@1+ (1,0) [0|2047] "Bar" Vector__XXX
+ SG_ S_BackRightDamper_Position : 28|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ S_BackLeftDamper_Position : 16|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ RPS_BackRight_Speed : 8|8@1+ (10,0) [0|2550] "" Vector__XXX
+ SG_ RPS_BackLeft_Speed : 0|8@1+ (10,0) [0|2550] "" Vector__XXX
+
+BO_ 769 TDAQ_Front_Status: 7 Vector__XXX
+ SG_ P_Brake_Front : 40|11@1+ (1,0) [0|2047] "Bar" Vector__XXX
+ SG_ S_FrontRightDamper_Position : 28|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ S_FrontLeftDamper_Position : 16|12@1+ (1,0) [0|4095] "" Vector__XXX
+ SG_ RPS_FrontRight_Speed : 8|8@1+ (10,0) [0|2550] "" Vector__XXX
+ SG_ RPS_FrontLeft_Speed : 0|8@1+ (10,0) [0|2550] "" Vector__XXX
+
+BO_ 768 PTMB_Status: 6 Vector__XXX
+ SG_ B_CoolingLoopPump2_Active : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ B_CoolingLoopPump1_Active : 46|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ F_CoolingLoopPump_Flowrate : 40|6@1+ (1,0) [0|63] "" Vector__XXX
+ SG_ T_CoolingLoop4 : 30|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ T_CoolingLoop3 : 20|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ T_CoolingLoop2 : 10|10@1+ (1,0) [0|1023] "" Vector__XXX
+ SG_ T_CoolingLoop1 : 0|10@1+ (1,0) [0|1023] "" Vector__XXX
+
+BO_ 344 ECU_ADAS: 8 ECU
+
+BO_ 641 MCU_TPDO2: 6 Vector__XXX
+ SG_ N_MCUTorqueActual : 32|16@1- (1,0) [-1000|1000] "quant" Vector__XXX
+ SG_ N_MCUError : 16|16@1+ (1,0) [0|65535] "" Vector__XXX
+ SG_ N_MCUWarning : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 339 ECU_DriveFunctionDiagnostic: 5 ECU
+ SG_ M_MotorRequest : 16|16@1- (1,0) [-128|127] "Nm" Vector__XXX
+ SG_ M_DriverRequest : 0|16@1- (1,0) [-128|127] "Nm" Vector__XXX
+ SG_ N_RTDStateMachine : 32|8@1+ (1,0) [0|255] ""  AIM
+
+BO_ 340 ECU_Battery_Levels: 7 ECU
+ SG_ V_LV : 32|16@1+ (1,0) [0|65535] "mV"  AIM
+ SG_ V_AUX : 16|16@1+ (1,0) [0|65535] "mV"  AIM
+ SG_ I_LVBat : 0|16@1+ (1,0) [0|0] ""  AIM
+ SG_ B_PumpControl_On : 48|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_BatLVVoltage_Warning : 49|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_AUXVoltage_Warning : 50|1@1+ (1,0) [0|1] ""  AIM
+
+BO_ 343 ECU_TSDiagnostic: 3 ECU
+ SG_ N_TSEnableStateMachine : 16|8@1+ (1,0) [0|255] ""  AIM
+ SG_ B_ECUShutdownSignal_Present : 0|1@1+ (1,0) [0|1] ""  AIM
+
+BO_ 342 ECU_PedalboxProcessing: 6 ECU
+ SG_ R_Brake : 40|8@1+ (1,0) [0|255] "%"  AIM
+ SG_ R_ThrottleCombined : 32|8@1+ (1,0) [0|255] "%"  AIM
+ SG_ R_Throttle2 : 24|8@1+ (1,0) [0|255] "%"  AIM
+ SG_ R_Throttle1 : 16|8@1+ (1,0) [0|255] "%"  AIM
+ SG_ B_PedalboxFailure_Occured : 4|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_APPS_Latched : 3|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_APPS_Implaubibility : 2|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_APPSBP_Latched : 1|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_APPSBP_Implaubibility : 0|1@1+ (1,0) [0|1] ""  AIM
+
+BO_ 341 ECU_PedalBoxInputsDiagnostic: 7 ECU
+ SG_ V_Throttle2 : 32|16@1+ (1,0) [0|65535] "mV"  AIM
+ SG_ V_Throttle1 : 16|16@1+ (1,0) [0|65535] "mV"  AIM
+ SG_ V_BPSFront : 0|16@1+ (1,0) [0|65535] "mV"  AIM
+ SG_ B_Throttle_Pressed : 48|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_Brake_Pressed : 50|1@1+ (1,0) [0|1] ""  AIM
+
+BO_ 338 ECU_DashInputsDiagnostic: 2 ECU
+ SG_ B_MarkButton_Pressed : 3|1@1+ (1,0) [0|1] ""  AIM
+ SG_ N_DriveMode : 8|8@1+ (1,0) [0|255] ""  AIM
+ SG_ B_TSSButton_Pressed : 1|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_RTDButton_Pressed : 0|1@1+ (1,0) [0|1] ""  AIM
+
+BO_ 337 ECU_Accy_Diagnostic: 6 ECU
+ SG_ B_AIRPrecharge_RequestedStatus : 9|1@1+ (1,0) [0|1] ""  AIM
+ SG_ R_IMDDuty : 32|16@1+ (1,0) [0|65535] ""  AIM
+ SG_ F_IMD_Freq : 16|16@1+ (1,0) [0|65535] "Hz"  AIM
+ SG_ B_BMSDischarged_Enabled : 8|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_BMSCharge_Enabled : 7|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_BMSMulti2_Triggered : 6|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_BMSMulti1_Triggered : 5|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_AIRLow_ActualStatus : 4|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_AIRHigh_ActualStatus : 3|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_AIRHigh_RequestedStatus : 2|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_AccyFanExt_On : 1|1@1+ (1,0) [0|1] ""  AIM
+ SG_ B_AccyFanInt_On : 0|1@1+ (1,0) [0|1] ""  AIM
+
+BO_ 1153 MCU_DC_Current: 8 MCU
+ SG_ I_MCU_DC_Current : 0|8@1- (1,0) [-128|127] "A"  ECU,AIM
+
+BO_ 1537 ECU_CO_MCU_SDO_Req: 8 ECU
+ SG_ N_MCUSDOSpecifier : 0|32@1+ (1,0) [0|4294967295] ""  ECU,MCU,AIM
+ SG_ N_MCUOperationCode : 32|16@1+ (1,0) [0|65535] ""  ECU,MCU,AIM
+
+BO_ 0 ECU_CO_NMT: 2 ECU
+ SG_ N_MCUOperationState : 0|16@1- (1,0) [0|0] ""  ECU,MCU,AIM
+
+BO_ 385 MCU_CO_TPDO1: 8 MCU
+ SG_ RPM_Motor : 32|16@1- (1,0) [-32768|32767] "rpm"  ECU,AIM
+ SG_ T_MCUCapacitor : 8|8@1- (1,0) [-128|127] "degC"  ECU,AIM
+ SG_ T_Motor : 0|8@1+ (1,0) [0|255] "degC"  ECU,AIM
+ SG_ V_MCUCapacitor : 16|16@1+ (0.1,0) [0|6553.5] "V"  ECU,AIM
+
+BO_ 513 ECU_CO_MCU_RPDO1: 8 ECU
+ SG_ N_MCUTorqueRequestQuants : 0|16@1- (1,0) [-1000|1000] "Nm"  ECU,MCU,AIM
+
+BO_ 257 BMS_Feedback_2: 8 BMS
+ SG_ V_AccyCellAverage : 32|16@1+ (0.1,0) [0|6553.5] "mV"  ECU,AIM
+ SG_ V_AccyHighestCell : 16|16@1+ (0.1,0) [0|6553.5] "mV"  ECU,AIM
+ SG_ N_AccyHighestCellID : 56|8@1+ (1,0) [0|255] ""  ECU,AIM
+ SG_ V_AccyLowestCell : 0|16@1+ (0.1,0) [0|6553.5] "mV"  ECU,AIM
+ SG_ N_AccyLowestCellID : 48|8@1+ (1,0) [0|255] ""  ECU,AIM
+
+BO_ 256 BMS_Feedback_1: 6 BMS
+ SG_ V_AccyInstantaneous : 0|16@1+ (0.1,0) [0|6553.5] "V"  ECU,AIM
+ SG_ R_AccySOC : 16|16@1+ (1,0) [0|100] "%"  ECU,AIM
+ SG_ I_Accy : 32|16@1+ (1,0) [0|255] "A"  ECU,AIM
+
+BO_ 128 ECU_CO_Sync: 1 ECU
+ SG_ N_MCUSyncCommand : 0|8@1+ (1,0) [0|255] ""  ECU,MCU,AIM
+
+BO_ 258 BMS_Feedback_3: 6 BMS
+ SG_ T_AccyThermistorAverage : 0|8@1+ (1,0) [0|255] "degC"  ECU,AIM,BMS
+ SG_ T_AccyHighestThermistor : 8|8@1+ (1,0) [0|255] "degC"  ECU,AIM,BMS
+ SG_ T_AccyLowestThermistor : 16|8@1+ (1,0) [0|255] "degC"  ECU,AIM,BMS
+ SG_ ID_AccyHighestThermistor : 24|8@1+ (1,0) [0|255] ""  ECU,AIM,BMS
+ SG_ N_AccyLowestThermistorID : 32|8@1+ (1,0) [0|255] ""  ECU,AIM,BMS
+ SG_ T_MCUHeatsink : 40|8@1+ (1,0) [0|255] "degC"  ECU,AIM,BMS
+
+
+
+CM_ "This is the TBReCAR DBC File.
+
+This DBC lays out the arrangement of CAN networking on the car.
+
+It contains both CAN1 (Main Car Diagnostics + Telemetry) and also CAN2 (CanOpen torque requests to the MCU).";
+CM_ BU_ AIM "AIM Dash and Datalogger";
+CM_ BU_ BMS "Battery Management System";
+CM_ BU_ MCU "Motor Controller Unit";
+CM_ BU_ ECU "Central vehicle control unit, responsible for generating torque demands for the inverter";
+CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
+CM_ BO_ 344 "Longitudional traction control message";
+CM_ SG_ 337 B_AIRHigh_RequestedStatus "Control (requested) signal bit for High AIR - This used to be called <BAIRHighControl>";
+CM_ SG_ 337 B_AccyFanExt_On "ECU Control bit for enabling the External Accy Fans. This used to be called <BAccyFanExtControl>";
+CM_ SG_ 337 B_AccyFanInt_On "ECU Control bit for enabling the internal Accy fans.
+
+History:
+hello
+ghello
+keoo";
+BA_DEF_ BO_  "CSMcycleTime" INT 0 0;
+BA_DEF_ BU_  "CSMdeviceChannels" INT 0 16;
+BA_DEF_ BU_  "CSMdeviceHash" HEX 0 0;
+BA_DEF_ BU_  "CSMdeviceSerialNo" HEX 0 -1;
+BA_DEF_ BU_  "CSMdeviceDeviceType" INT -1 3020;
+BA_DEF_ BU_  "CSMdeviceType" INT -1 3020;
+BA_DEF_  "CSMdata0017" STRING ;
+BA_DEF_  "CSMdata0016" STRING ;
+BA_DEF_  "CSMdata0015" STRING ;
+BA_DEF_  "CSMdata0014" STRING ;
+BA_DEF_  "CSMdata0013" STRING ;
+BA_DEF_  "CSMdata0012" STRING ;
+BA_DEF_  "CSMdata0011" STRING ;
+BA_DEF_  "CSMdata0010" STRING ;
+BA_DEF_  "CSMdata0009" STRING ;
+BA_DEF_  "CSMdata0008" STRING ;
+BA_DEF_  "CSMdata0007" STRING ;
+BA_DEF_  "CSMdata0006" STRING ;
+BA_DEF_  "CSMdata0005" STRING ;
+BA_DEF_  "CSMdata0004" STRING ;
+BA_DEF_  "CSMdata0003" STRING ;
+BA_DEF_  "CSMdata0002" STRING ;
+BA_DEF_  "CSMdata0001" STRING ;
+BA_DEF_  "CSMdata0000" STRING ;
+BA_DEF_  "CSMformatVersion" INT 0 255;
+BA_DEF_  "CSMconfigVersion" STRING ;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "CSMcycleTime" 0;
+BA_DEF_DEF_  "CSMdeviceChannels" 0;
+BA_DEF_DEF_  "CSMdeviceHash" 0;
+BA_DEF_DEF_  "CSMdeviceSerialNo" 0;
+BA_DEF_DEF_  "CSMdeviceDeviceType" -1;
+BA_DEF_DEF_  "CSMdeviceType" -1;
+BA_DEF_DEF_  "CSMdata0017" "";
+BA_DEF_DEF_  "CSMdata0016" "";
+BA_DEF_DEF_  "CSMdata0015" "";
+BA_DEF_DEF_  "CSMdata0014" "";
+BA_DEF_DEF_  "CSMdata0013" "";
+BA_DEF_DEF_  "CSMdata0012" "";
+BA_DEF_DEF_  "CSMdata0011" "";
+BA_DEF_DEF_  "CSMdata0010" "";
+BA_DEF_DEF_  "CSMdata0009" "";
+BA_DEF_DEF_  "CSMdata0008" "";
+BA_DEF_DEF_  "CSMdata0007" "";
+BA_DEF_DEF_  "CSMdata0006" "";
+BA_DEF_DEF_  "CSMdata0005" "";
+BA_DEF_DEF_  "CSMdata0004" "";
+BA_DEF_DEF_  "CSMdata0003" "";
+BA_DEF_DEF_  "CSMdata0002" "";
+BA_DEF_DEF_  "CSMdata0001" "";
+BA_DEF_DEF_  "CSMdata0000" "";
+BA_DEF_DEF_  "CSMformatVersion" 0;
+BA_DEF_DEF_  "CSMconfigVersion" "";
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "DBName" "TBReCAR";
+BA_ "NmStationAddress" BU_ AIM 409;
+BA_ "NmStationAddress" BU_ BMS 3;
+BA_ "NmStationAddress" BU_ MCU 1;
+BA_ "NmStationAddress" BU_ ECU 2;
+

@@ -1,0 +1,24 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#ff4000",
+        "titleBar.activeBackground": "#ff4000",
+        "activityBar.foreground": "#ffffff",
+        "titleBar.activeForeground": "#ffffff",
+        "titleBar.inactiveForeground": "#ffffff",
+        "activityBar.inactiveForeground": "#bbbbbb",
+        "titleBar.inactiveBackground": "#982903"
+    },
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false,
+    "[csharp]": {
+        "editor.formatOnType": false,
+        "editor.defaultFormatter": null
+    },
+    "omnisharp.enableEditorConfigSupport": false,
+    "omnisharp.enableRoslynAnalyzers": false,
+    "omnisharp.useModernNet": false,
+    "omnisharp.formatOnType": false,
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": false,
+    "dotnet.formatting.organizeImportsOnFormat": false,
+    
+}

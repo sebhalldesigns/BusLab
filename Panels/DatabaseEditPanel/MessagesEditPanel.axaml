@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.MessagesEditPanel"
+        x:DataType="local:MessagesEditPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="100"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="*" MinHeight="100"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Grid DockPanel.Dock="Top" Height="25" Background="#30808080" IsHitTestVisible="False">
+                <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                    Messages
+                </TextBlock>
+            </Grid>
+
+            <DataGrid Margin="0" BorderBrush="Transparent" ItemsSource="{Binding Database.Messages}" 
+                    IsReadOnly="True"
+                    Name="MessagesDataGrid"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="False"
+                    GridLinesVisibility="All"
+                    SelectionChanged="MessageSelectionChanged"
+                    RowBackground="Transparent"
+                    BorderThickness="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"  Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="ID"  Binding="{Binding ID}"/>
+                        <DataGridTextColumn Header="DLC" Binding="{Binding Length}" />
+                        <DataGridTextColumn Header="Sender" Binding="{Binding SenderNode}" />
+                        <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
+                        <DataGridTextColumn Header="Attributes"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+        </DockPanel>
+
+        <GridSplitter Grid.Row="1" Background="#30808080"/>
+
+        <DockPanel Grid.Row="2">
+            <Grid DockPanel.Dock="Top" Height="25" Background="#30808080" IsHitTestVisible="False">
+                <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                    Signals
+                </TextBlock>
+            </Grid>        
+
+            <DataGrid Margin="0" BorderBrush="Transparent" ItemsSource="{Binding SelectedMessage.Signals}" 
+                    IsReadOnly="True"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    CanUserSortColumns="False"
+                    GridLinesVisibility="All"
+                    RowBackground="Transparent"
+                    BorderThickness="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"  Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Type"  Binding="{Binding SignalType}"/>
+                        <DataGridTextColumn Header="Byte Order" Binding="{Binding ByteOrder}" />
+                        <DataGridTextColumn Header="Start Bit" Binding="{Binding StartBit}" />
+                        <DataGridTextColumn Header="Length" Binding="{Binding BitLength}" />
+                        <DataGridTextColumn Header="Scale" Binding="{Binding Scale}" />
+                        <DataGridTextColumn Header="Offset" Binding="{Binding Offset}" />
+                        <DataGridTextColumn Header="Minimum" Binding="{Binding Minimum}" />
+                        <DataGridTextColumn Header="Maximum" Binding="{Binding Maximum}" />
+                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" />
+                        <DataGridTextColumn Header="Receiver" Binding="{Binding ReceiverNode}" />
+                        <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+        </DockPanel>
+        
+    </Grid>
+</UserControl>

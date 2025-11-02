@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.DatabaseEditPanel"
+        x:DataType="local:DatabaseEditPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" MinWidth="250"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="*" MinWidth="250"/>
+        </Grid.ColumnDefinitions>
+    
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ScrollViewer Grid.Row="0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="MessagesButton" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Padding="10 0">Messages</Button>
+                    <Button Name="SignalsButton" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Padding="10 0">Signals</Button>
+                    <Button Name="NodesButton" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Padding="10 0">Nodes</Button>
+                    <Button Name="OtherButton" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Padding="10 0">Other</Button>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Row="1" BorderBrush="#30808080" BorderThickness="2 2 0 2">
+                <ContentControl Name="TabContentControl"/>
+            </Border>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" BorderBrush="#30808080"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="1" BorderBrush="#30808080" BorderThickness="0 2 2 2">
+                <ContentControl Grid.Row="1" Name="PropertiesContentControl"/>
+            </Border>
+        </Grid>
+
+    </Grid>
+</UserControl>

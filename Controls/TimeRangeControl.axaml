@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.TimeRangeControl"
+        x:DataType="local:TimeRangeControl"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+   
+    <Grid Name="ColumnsGrid" VerticalAlignment="Center" Height="15" Margin="5 0">
+
+        <Border Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="#80808080" BorderThickness="1" CornerRadius="5"/>
+
+        <Border Grid.Column="1" Background="#80808080" BorderBrush="#80808080" BorderThickness="1" CornerRadius="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="Gray" Cursor="SizeWestEast" CornerRadius="5 0 0 5" PointerPressed="OnLeftHandlePressed"/>
+                <Rectangle Grid.Column="1" Fill="Transparent" Cursor="SizeAll" PointerPressed="OnMiddlePressed"/>
+                <Border Grid.Column="2" Background="Gray" Cursor="SizeWestEast" CornerRadius="0 5 5 0" PointerPressed="OnRightHandlePressed"/>
+            </Grid>
+        </Border>
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="500" Height="350"
+        x:Class="BusLab.ErrorWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="Full"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
+        Title="Error">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/> 
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#30808080" IsHitTestVisible="False">
+            <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                Error
+            </TextBlock>
+        </Grid>
+
+        <DockPanel Grid.Row="2" Background="#30808080">
+            <Button DockPanel.Dock="Right" CornerRadius="5" Margin="5 5" VerticalAlignment="Center" Padding="10 3.5" IsCancel="True" IsDefault="True" Click="ClosePressed">Close</Button>
+            <Rectangle/>
+        </DockPanel>
+
+
+        
+        <ScrollViewer Grid.Row="1" Margin="0 10">
+            <StackPanel Margin="10 10" Spacing="10">
+                <TextBlock TextWrapping="Wrap" FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" Name="ErrorMessageTextBlock"/>
+                <TextBlock TextWrapping="Wrap" Name="ErrorDescriptionTextBlock"/>
+            </StackPanel>
+        </ScrollViewer>
+        
+
+    </Grid>
+
+</Window>

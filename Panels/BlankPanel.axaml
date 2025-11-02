@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.BlankPanel"
+        x:DataType="local:BlankPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+   
+    <Grid>
+        <DockPanel Name="SelectPanelContent" HorizontalAlignment="Center" Margin="25">
+            <TextBlock DockPanel.Dock="Top" FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 10">
+                Select Panel Type
+            </TextBlock>
+            <ScrollViewer>
+                 <WrapPanel>
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="NetworkMessagesPressed">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Network Messages
+                            </TextBlock>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-index-48.png"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="NetworkTracePressed">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="5 0">
+                                Network Trace
+                            </TextBlock>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-history-48.png"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="SignalPlotPressed">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Signal Plot
+                            </TextBlock>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-line-chart-48.png"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="DatabaseFilePressed">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                CAN Database Editor
+                            </TextBlock>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-database-48.png"/>
+                        </DockPanel>
+                    </Button>
+
+                </WrapPanel>
+            </ScrollViewer>
+        </DockPanel>    
+        <ContentControl Name="PanelContent"/>    
+    </Grid>
+
+</UserControl>
