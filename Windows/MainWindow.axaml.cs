@@ -24,6 +24,9 @@ public partial class MainWindow : Window
     private DockControl dockControl;
     private TabFactory tabFactory;
 
+    private double previousLeftSidebarWidth = 300;
+    private double previousRightSidebarWidth = 300;
+
     public MainWindow()
     {
         InitializeComponent();        
@@ -125,6 +128,43 @@ public partial class MainWindow : Window
         Console.WriteLine(workspaceContent);
         //File.WriteAllText("layout.json", workspaceContent);
     }
+
+    public void ToggleLeftSidebarPressed(object? sender, RoutedEventArgs e)
+    {
+        if (SidebarsGrid.ColumnDefinitions[0].Width.Value > 0)
+        {
+            previousLeftSidebarWidth = SidebarsGrid.ColumnDefinitions[0].Width.Value;
+            SidebarsGrid.ColumnDefinitions[0].Width = new GridLength(0);
+            SidebarsGrid.ColumnDefinitions[0].MinWidth = 0;
+        }
+        else
+        {
+            if (previousLeftSidebarWidth < 200)
+                previousLeftSidebarWidth = 300;
+                
+            SidebarsGrid.ColumnDefinitions[0].Width = new GridLength(previousLeftSidebarWidth);
+            SidebarsGrid.ColumnDefinitions[0].MinWidth = 200;
+        }
+    }
+
+    public void ToggleRightSidebarPressed(object? sender, RoutedEventArgs e)
+    {
+        if (SidebarsGrid.ColumnDefinitions[4].Width.Value > 0)
+        {
+            previousRightSidebarWidth = SidebarsGrid.ColumnDefinitions[4].Width.Value;
+            SidebarsGrid.ColumnDefinitions[4].Width = new GridLength(0);
+            SidebarsGrid.ColumnDefinitions[4].MinWidth = 0;
+        }
+        else
+        {
+            if (previousRightSidebarWidth < 200)
+                previousRightSidebarWidth = 300;
+
+            SidebarsGrid.ColumnDefinitions[4].Width = new GridLength(previousRightSidebarWidth);
+            SidebarsGrid.ColumnDefinitions[4].MinWidth = 200;
+        }
+    }
+
 
 }
 

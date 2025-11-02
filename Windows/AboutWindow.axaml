@@ -10,7 +10,7 @@
         ExtendClientAreaTitleBarHeightHint="-1"
         SystemDecorations="Full"
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
-        Title="About">
+        Title="About BusLab">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
@@ -20,7 +20,7 @@
 
         <Grid Grid.Row="0" Background="#30808080" IsHitTestVisible="False">
             <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
-                About
+                About BusLab
             </TextBlock>
         </Grid>
 

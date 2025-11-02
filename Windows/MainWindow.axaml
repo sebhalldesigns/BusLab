@@ -3,8 +3,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        MinWidth="750" MinHeight="500"
+        Width="1600" Height="1000"
         x:Class="BusLab.MainWindow"
         ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterScreen"
         SystemDecorations="Full"
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
         Icon="avares://BusLab/Assets/Icons/icon.ico"
@@ -41,32 +44,38 @@
                 BusLab
             </TextBlock>
             <Menu  DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" Padding="5" CornerRadius="5">
-                <MenuItem Header="_File" Padding="5 2.5" CornerRadius="5">
-                    <MenuItem Header="New Database" CornerRadius="5"/>
+                <MenuItem Header="_File">
+                    <MenuItem Header="New..."/>
+                    <Separator/>
+                    <MenuItem Header="Open..." Click="OpenPressed" HotKey="Ctrl+O"/>
+                    <Separator/>    
+                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save As..."/>
+                    <Separator/>
+                    <MenuItem Header="Settings" Click="SettingsPressed" HotKey="Ctrl+,"/>    
+                    <Separator/>
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="Cut"/>
+                    <MenuItem Header="Copy"/>
+                    <MenuItem Header="Paste"/>
+                    <Separator/>
+                    <MenuItem Header="Find"/>
+                </MenuItem>
+                <MenuItem Header="_View">
                     <MenuItem Header="New Window"/>
                     <Separator/>
-                    <MenuItem Header="Open Recent..."/>
-                    <MenuItem Header="Open Database" Click="OpenDatabasePressed"/>
-                    <MenuItem Header="Open Interface" Click="OpenPressed"/>
-                    <MenuItem Header="Open Workspace"/>
-                    <Separator/>
-                    <MenuItem Header="Save File"/>
-                    <MenuItem Header="Save Workspace" Click="SaveWorkspacePressed"/>
-                    <Separator/>
-                    <MenuItem Header="Settings" Click="SettingsPressed"/>    
-                    <Separator/>
-                    <MenuItem Header="_Exit"/>
+                    <MenuItem Header="Open Workspace..."/>
+                    <MenuItem Header="Save Workspace As..." Click="SaveWorkspacePressed"/>
                 </MenuItem>
-                <MenuItem Header="_Edit" Padding="5 2.5" CornerRadius="5">
-                    <MenuItem Header="_Exit"/>
+                <MenuItem Header="_Panels">
+                    <MenuItem Header="Network Messages"/>
+                    <MenuItem Header="Network Trace"/>
+                    <MenuItem Header="Signal Plot"/>
+                    <MenuItem Header="CAN Database Editor"/>
                 </MenuItem>
-                <MenuItem Header="_View" Padding="5 2.5" CornerRadius="5">
-                    <MenuItem Header="_Exit"/>
-                </MenuItem>
-                <MenuItem Header="_Tools" Padding="5 2.5" CornerRadius="5">
-                    <MenuItem Header="_Exit"/>
-                </MenuItem>
-                <MenuItem Header="_Help" Padding="5 2.5" CornerRadius="5">
+                <MenuItem Header="_Help">
                     <MenuItem Header="_Documentation"/>
                     <Separator/>
                     <MenuItem Header="About" Click="AboutPressed"/>
@@ -75,19 +84,90 @@
         </StackPanel>
 
         <StackPanel  Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0 0 140 0" Orientation="Horizontal" Spacing="2.5">
-            <Button VerticalAlignment="Center" CornerRadius="5">⚙️</Button>
-            <Button VerticalAlignment="Center" CornerRadius="5">ℹ️</Button>
-            <Button VerticalAlignment="Center" CornerRadius="5" Click="ToggleTheme">💡</Button>
+            <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="ToggleLeftSidebarPressed">
+                <Button.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#60808080" />
+                    </Style>
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#30808080" />
+                    </Style>
+                </Button.Styles>
+                <Image Source="avares://BusLab/Assets/Icons/icons8-sidebar-left-48.png"/>
+            </Button>
+            <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="ToggleRightSidebarPressed">
+                <Button.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#60808080" />
+                    </Style>
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#30808080" />
+                    </Style>
+                </Button.Styles>
+                <Image Source="avares://BusLab/Assets/Icons/icons8-sidebar-right-48.png"/>
+            </Button>
+
+            <Rectangle Width="10"/>
+
+            <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="SettingsPressed">
+                <Button.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#60808080" />
+                    </Style>
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#30808080" />
+                    </Style>
+                </Button.Styles>
+                <Image Source="avares://BusLab/Assets/Icons/icons8-wrench-48.png"/>
+            </Button>
+            <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                <Button.Styles>
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#60808080" />
+                    </Style>
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#30808080" />
+                    </Style>
+                </Button.Styles>
+                <Image Source="avares://BusLab/Assets/Icons/icons8-question-48.png"/>
+            </Button>
         </StackPanel>
 
-        <DockPanel Grid.Row="1" Grid.ColumnSpan="3">
-            <DockPanel DockPanel.Dock="Top" Height="35" Background="#15808080">
-                <Button CornerRadius="5" DockPanel.Dock="Left" Margin="5 5">Connections</Button>
+        <Grid Name="SidebarsGrid" Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" MinWidth="200"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="*" MinWidth="200"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="300" MinWidth="200"/> 
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0">
+                <Grid DockPanel.Dock="Top" Background="#30808080" Height="27">
+                    <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                        Explorer
+                    </TextBlock>
+                </Grid> 
                 <Rectangle/>
             </DockPanel>
-            <ContentControl Name="MainContent" Margin="2.5 2.5 2.5 0"/>
 
-        </DockPanel>
+            <GridSplitter Grid.Column="1" Background="#30808080" Width="2"/>
+            
+            <ContentControl Grid.Column="2" Name="MainContent" Margin="0"/>
+
+            <GridSplitter Grid.Column="3" Background="#30808080" Width="2"/>
+
+            <DockPanel Grid.Column="4">
+                <Grid DockPanel.Dock="Top" Background="#30808080" Height="27">
+                    <TextBlock FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+                        Properties
+                    </TextBlock>
+                </Grid> 
+                <Rectangle/>
+            </DockPanel>
+
+            
+        </Grid>
         
 
         <DockPanel Grid.Row="2" Grid.ColumnSpan="3" Background="#30808080">
