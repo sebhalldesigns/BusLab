@@ -34,8 +34,8 @@ public class TabFactory: Factory
                 dock.IsCollapsable = true;
                 dock.CanCreateDocument = true;
                 dock.CanFloat = false;
-                dock.MinHeight = 100;
-                dock.MinWidth = 100;
+                dock.MinHeight = 200;
+                dock.MinWidth = 200;
             }
         };
 
@@ -76,8 +76,8 @@ public class TabFactory: Factory
         dock.CanCreateDocument = true;
         dock.IsCollapsable = true;
         dock.CanFloat = false;
-        dock.MinHeight = 100;
-        dock.MinWidth = 100;
+        dock.MinHeight = 200;
+        dock.MinWidth = 200;
 
         Document? startDocument = dock.DocumentFactory() as Document;
         
@@ -103,7 +103,7 @@ public class TabFactory: Factory
     {
         Document doc = new Document
         {
-            Title = $"Select Panel Type",
+            Title = $"Create New...",
             CanFloat = false
         };
 
@@ -388,8 +388,8 @@ public class TabFactory: Factory
             dock.CanCreateDocument = true;
             dock.IsCollapsable = true;
             dock.CanFloat = false;
-            dock.MinHeight = 100;
-            dock.MinWidth = 100;
+            dock.MinHeight = 200;
+            dock.MinWidth = 200;
 
             Document? startDocument = dock.DocumentFactory() as Document;
             

@@ -12,45 +12,57 @@
     <Grid>
         <DockPanel Name="SelectPanelContent" HorizontalAlignment="Center" Margin="25">
             <TextBlock DockPanel.Dock="Top" FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 10">
-                Select Panel Type
+                Create New...
             </TextBlock>
-            <ScrollViewer>
-                 <WrapPanel>
-                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="NetworkMessagesPressed">
+            <ScrollViewer BorderBrush="Transparent">
+                <WrapPanel>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="DatabaseFilePressed">
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
-                                Network Messages
+                                CAN Database
                             </TextBlock>
-                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-index-48.png"/>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-database-48.png"/>
                         </DockPanel>
                     </Button>
 
-                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="NetworkTracePressed">
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
                         <DockPanel>
-                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="5 0">
-                                Network Trace
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Filter
                             </TextBlock>
-                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-history-48.png"/>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-filter-48.png"/>
+                        </DockPanel>
+                    </Button>
+
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="NetworkMessagesPressed">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
+                                Network
+                            </TextBlock>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-lan-48.png"/>
                         </DockPanel>
                     </Button>
 
                     <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="SignalPlotPressed">
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
-                                Signal Plot
+                                Plot
                             </TextBlock>
                             <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-line-chart-48.png"/>
                         </DockPanel>
                     </Button>
 
-                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="DatabaseFilePressed">
+                    <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
-                                CAN Database Editor
+                                Canvas
                             </TextBlock>
-                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-database-48.png"/>
+                            <Image Height="40" Margin="0 5 0 8" Source="avares://BusLab/Assets/Icons/icons8-adjust-48.png"/>
                         </DockPanel>
                     </Button>
+
+                    
 
                 </WrapPanel>
             </ScrollViewer>

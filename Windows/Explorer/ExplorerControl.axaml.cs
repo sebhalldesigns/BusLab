@@ -7,6 +7,9 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Material.Icons.Avalonia;
 using Material.Icons;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using System;
 
 namespace BusLab;
 
@@ -14,7 +17,7 @@ public class ExplorerEntry
 {
     public string Name { get; set; } = "New Entry";
     public string Path { get; set; } = "C:\\Path\\To\\Entry";
-    public MaterialIconKind? Icon { get; set; } = null;
+    public IImage? Icon { get; set; } = null;
     public bool IconVisible { get; set; } = false;
     public Thickness LabelMargin { get; set; } = new Thickness(0, 0, 0, 0);
     public ObservableCollection<ExplorerEntry> Children { get; set; } = new ObservableCollection<ExplorerEntry>();
@@ -39,35 +42,35 @@ public partial class ExplorerControl: UserControl
                     Name = "MyNet.net", 
                     Path = "C:\\Users\\User\\Documents\\Resume.dbc",
                     LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = MaterialIconKind.Lan,
+                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-lan-16.png"))),
                     IconVisible = true
                 },
                 new ExplorerEntry {
                     Name = "ExampleFilter.filter", 
                     Path = "C:\\Users\\User\\Documents\\Resume.dbc",
                     LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = MaterialIconKind.FilterOutline,
+                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-filter-16.png"))),
                     IconVisible = true
                 },
                 new ExplorerEntry {
                     Name = "Network.dbc", 
                     Path = "C:\\Users\\User\\Documents\\Resume.dbc",
                     LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = MaterialIconKind.DatabaseOutline,
+                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-database-16.png"))),
                     IconVisible = true
                 },
                 new ExplorerEntry {
                     Name = "ExamplePlot.plot", 
                     Path = "C:\\Users\\User\\Documents\\Resume.dbc",
                     LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = MaterialIconKind.ChartLine,
+                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-line-chart-16.png"))),
                     IconVisible = true
                 },
                 new ExplorerEntry {
                     Name = "ExampleCanvas.canvas", 
-                    Path = "C:\\Users\\User\\Documents\\Resume.dbc",
+                    Path = "C:\\Users\\User\\Documents\\Resume.canvas",
                     LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = MaterialIconKind.Numeric,
+                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-vertical-timeline-16.png"))),
                     IconVisible = true
                 },
             }
