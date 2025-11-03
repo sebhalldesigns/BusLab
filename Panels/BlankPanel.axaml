@@ -14,6 +14,12 @@
             <TextBlock DockPanel.Dock="Top" FontFamily="avares://BusLab/Assets/Fonts#Iosevka SemiBold" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 10">
                 Create New...
             </TextBlock>
+            <DockPanel Margin="10 5 5 5" DockPanel.Dock="Top">
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="75">
+                    Name:
+                </TextBlock>
+                <TextBox Margin="0">Untitled</TextBox>
+            </DockPanel>
             <ScrollViewer BorderBrush="Transparent">
                 <WrapPanel>
 

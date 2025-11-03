@@ -35,22 +35,13 @@ public partial class MainWindow : Window
         tabFactory = new TabFactory();
 
         IRootDock root = tabFactory.CreateLayout();
-        
-        if (File.Exists("layout.json") && false)
-        {
-            string json = File.ReadAllText("layout.json");
-            root = tabFactory.LoadRootFromJson(json);
-
-            Console.WriteLine("Layout loaded from file.");
-        }
-
         tabFactory.InitLayout(root);
 
         dockControl.Factory = tabFactory;
         dockControl.Layout = root;
         
         MainContent.Content = dockControl;
-        LeftSidebarContent.Content = new ExplorerControl();
+        LeftSidebarContent.Content = new ExplorerControl(this);
     }
 
     public void OpenPressed(object? sender, RoutedEventArgs e)
@@ -62,9 +53,7 @@ public partial class MainWindow : Window
 
     public void NewPressed(object? sender, RoutedEventArgs e)
     {
-        NewWindow newWindow = new NewWindow();
-        newWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        newWindow.ShowDialog(this);
+        tabFactory.AddNewTab();
     }
 
     public void SettingsPressed(object? sender, RoutedEventArgs e)
@@ -132,9 +121,7 @@ public partial class MainWindow : Window
 
     public void SaveWorkspacePressed(object? sender, RoutedEventArgs e)
     {
-        string workspaceContent = tabFactory.GetJsonLayout();
-        Console.WriteLine(workspaceContent);
-        //File.WriteAllText("layout.json", workspaceContent);
+      
     }
 
     public void ToggleLeftSidebarPressed(object? sender, RoutedEventArgs e)

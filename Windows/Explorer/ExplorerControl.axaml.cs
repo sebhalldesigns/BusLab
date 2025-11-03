@@ -27,9 +27,13 @@ public partial class ExplorerControl: UserControl
 {
     public ObservableCollection<ExplorerEntry> Entries { get; set; } = new ObservableCollection<ExplorerEntry>();
 
-    public ExplorerControl()
+    private MainWindow mainWindow;
+
+    public ExplorerControl(MainWindow mainWindow)
     {
         InitializeComponent();
+
+        this.mainWindow = mainWindow;
 
         // Sample data
         Entries.Add(new ExplorerEntry
@@ -82,8 +86,7 @@ public partial class ExplorerControl: UserControl
 
     public void NewPressed(object? sender, RoutedEventArgs e)
     {
-        NewWindow newWindow = new NewWindow();
-        newWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        newWindow.ShowDialog(this.GetVisualRoot() as Window);
+        mainWindow.NewPressed(sender, e);
     }
+
 }
