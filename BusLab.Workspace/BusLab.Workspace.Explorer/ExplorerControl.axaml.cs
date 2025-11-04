@@ -11,6 +11,8 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System;
 
+using BusLab.Windows;
+
 namespace BusLab;
 
 public class ExplorerEntry
@@ -87,6 +89,16 @@ public partial class ExplorerControl: UserControl
     public void NewPressed(object? sender, RoutedEventArgs e)
     {
         mainWindow.NewPressed(sender, e);
+    }
+
+    public void NewFolderPressed(object? sender, RoutedEventArgs e)
+    {
+        
+    }
+
+    public void OpenFolderPressed(object? sender, RoutedEventArgs e)
+    {
+        mainWindow.OpenFolderPressed(sender, e);
     }
 
 }

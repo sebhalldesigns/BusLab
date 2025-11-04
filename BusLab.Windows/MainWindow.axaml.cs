@@ -16,8 +16,9 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text;
 
+using BusLab.Workspace;
 
-namespace BusLab;
+namespace BusLab.Windows;
 
 public partial class MainWindow : Window
 {   
@@ -27,9 +28,13 @@ public partial class MainWindow : Window
     private double previousLeftSidebarWidth = 300;
     private double previousRightSidebarWidth = 300;
 
+    public WorkspaceManager WorkspaceManager { get; set; }
+
     public MainWindow()
     {
         InitializeComponent();        
+
+        WorkspaceManager = new WorkspaceManager(this);
 
         dockControl = new DockControl();
         tabFactory = new TabFactory();
@@ -46,14 +51,17 @@ public partial class MainWindow : Window
 
     public void OpenPressed(object? sender, RoutedEventArgs e)
     {
-        OpenWindow openWindow = new OpenWindow();
-        openWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        openWindow.ShowDialog(this);
+        WorkspaceManager.OpenFile(); 
+    }
+
+    public async void OpenFolderPressed(object? sender, RoutedEventArgs e)
+    {
+        WorkspaceManager.OpenWorkspace();
     }
 
     public void NewPressed(object? sender, RoutedEventArgs e)
     {
-        tabFactory.AddNewTab();
+        WorkspaceManager.NewFile();
     }
 
     public void SettingsPressed(object? sender, RoutedEventArgs e)
@@ -62,43 +70,6 @@ public partial class MainWindow : Window
         settingsWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         settingsWindow.ShowDialog(this);
     }
-
-    public async void OpenDatabasePressed(object? sender, RoutedEventArgs e)
-    {
-
-        if (tabFactory.activePanel != null && tabFactory.activePanel is BlankPanel blankPanel)
-        {
-            switch (tabFactory.activePanel.ActivePanel)
-            {
-                case DatabaseEditPanel dbPanel:
-                    IReadOnlyList<IStorageFile> files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-                    {
-                        Title = "Open CAN Database File",
-                        AllowMultiple = false,
-                        FileTypeFilter = new List<FilePickerFileType>
-                        {
-                            new FilePickerFileType("CAN Database Files")
-                            {
-                                Patterns = new[] { "*.dbc" }
-                            }
-                        }
-                    });
-
-                    if (files.Count == 1)
-                    {
-                        string filePath = files[0].Path.LocalPath;
-                        dbPanel.LoadDatabase(filePath);
-                    }
-
-                    break;
-            }
-        }
-
-        
-
-        
-    }
-
 
     public void AboutPressed(object? sender, RoutedEventArgs e)
     {

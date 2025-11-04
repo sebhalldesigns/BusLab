@@ -27,7 +27,7 @@
                     </Button.Styles>
                     <materialIcons:MaterialIcon Kind="Plus" Width="18" Height="18" />
                 </Button>
-                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="NewFolderPressed">
                     <Button.Styles>
                         <Style Selector="Button:pointerover /template/ ContentPresenter">
                             <Setter Property="Background" Value="#60808080" />
@@ -38,7 +38,7 @@
                     </Button.Styles>
                     <materialIcons:MaterialIcon Kind="FolderPlusOutline" Width="18" Height="18" />
                 </Button>
-                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+                <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="OpenFolderPressed">
                     <Button.Styles>
                         <Style Selector="Button:pointerover /template/ ContentPresenter">
                             <Setter Property="Background" Value="#60808080" />

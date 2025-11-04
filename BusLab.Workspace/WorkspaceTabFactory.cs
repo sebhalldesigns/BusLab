@@ -13,14 +13,13 @@ using Dock.Model.Avalonia.Controls;
 using Dock.Model.Core;
 using Dock.Avalonia.Controls;
 
-
-namespace BusLab;
+namespace BusLab.Workspace;
 
 public class TabFactory: Factory
 {
     IRootDock? root = null;
 
-    public BlankPanel? activePanel = null;
+    public PanelContainer? activePanel = null;
     public DocumentDock? activeDocumentDock = null;
 
     public TabFactory()
@@ -42,7 +41,7 @@ public class TabFactory: Factory
 
         DockableActivated += (_, args) =>
         {
-            if (args.Dockable is Document doc && doc.Content is BlankPanel panel)
+            if (args.Dockable is Document doc && doc.Content is PanelContainer panel)
             {
                 activePanel = panel;
             }
@@ -74,14 +73,13 @@ public class TabFactory: Factory
         root = CreateRootDock();
 
         DocumentDock dock = new DocumentDock();
-        dock.DocumentFactory = CreateTab;
-        dock.CanCreateDocument = true;
+        dock.CanCreateDocument = false;
         dock.IsCollapsable = true;
         dock.CanFloat = false;
         dock.MinHeight = 200;
         dock.MinWidth = 200;
 
-        Document? startDocument = dock.DocumentFactory() as Document;
+        Document? startDocument = CreateTab() as Document;
         
         if (startDocument != null)
         {
@@ -109,7 +107,7 @@ public class TabFactory: Factory
             CanFloat = false
         };
 
-        BlankPanel panel = new BlankPanel(doc);
+        PanelContainer panel = new PanelContainer(doc);
         doc.Content = panel;
         activePanel = panel;
 
@@ -127,14 +125,13 @@ public class TabFactory: Factory
         {
             /* create new layout */
             DocumentDock dock = new DocumentDock();
-            dock.DocumentFactory = CreateTab;
-            dock.CanCreateDocument = true;
+            dock.CanCreateDocument = false;
             dock.IsCollapsable = true;
             dock.CanFloat = false;
             dock.MinHeight = 200;
             dock.MinWidth = 200;
 
-            Document? startDocument = dock.DocumentFactory() as Document;
+            Document? startDocument = CreateTab() as Document;
             
             if (startDocument != null)
             {
@@ -162,7 +159,6 @@ public class TabFactory: Factory
 
         if (root.ActiveDockable is ProportionalDock propDock)
         {
-            Console.WriteLine("Adding new tab to active DocumentDock.");
 
             DocumentDock? docDock = null;
             
@@ -191,14 +187,7 @@ public class TabFactory: Factory
                     docDock.ActiveDockable = newDoc;
                 }
             }   
-            else
-            {
-                Console.WriteLine($"No active DocumentDock found. {propDock.ActiveDockable?.GetType().Name}");
-            }
         }
-        else 
-        {
-            Console.WriteLine($"No active DocumentDock found. {root.ActiveDockable?.GetType().Name}");
-        }
+
     }
 }

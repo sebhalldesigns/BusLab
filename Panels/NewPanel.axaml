@@ -23,7 +23,7 @@
         <ScrollViewer BorderBrush="Transparent">
             <WrapPanel>
 
-                <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="DatabaseFilePressed">
+                <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
                             CAN Database
@@ -41,7 +41,7 @@
                     </DockPanel>
                 </Button>
 
-                <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="NetworkMessagesPressed">
+                <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
                             Network
@@ -50,7 +50,7 @@
                     </DockPanel>
                 </Button>
 
-                <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5" Click="SignalPlotPressed">
+                <Button Width="80" Height="100" CornerRadius="5" Padding="0" Margin="5">
                     <DockPanel>
                         <TextBlock DockPanel.Dock="Bottom" Height="30" TextWrapping="Wrap" TextAlignment="Center" Margin="0" Padding="0">
                             Plot
