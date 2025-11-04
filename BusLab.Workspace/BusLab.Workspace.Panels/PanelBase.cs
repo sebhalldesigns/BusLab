@@ -34,6 +34,14 @@ public class PanelBase: UserControl
         {
             SaveAs();
         }
+        else
+        {
+            string path = ExplorerEntry.Path;
+            System.IO.File.WriteAllText(path, EncodeFile());
+
+            IsModified = false;
+            UpdateTitle();
+        }
     }
 
     public async void SaveAs()
@@ -86,12 +94,23 @@ public class PanelBase: UserControl
                     {
                         this.ExplorerEntry = newEntry;
                         this.IsModified = false;
-                        TitleUpdate?.Invoke(entry.Name);
+                        UpdateTitle();
                     }
                 }
             }
             
         }
 
+    }
+
+    public void UpdateTitle()
+    {
+        string title = ExplorerEntry != null ? ExplorerEntry.Name : "Untitled";
+        if (IsModified)
+        {
+            title += "*";
+        }
+
+        TitleUpdate?.Invoke(title);
     }
 }

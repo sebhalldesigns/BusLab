@@ -102,6 +102,10 @@ public class WorkspaceManager
         if (files.Count == 1)
         {
             Console.WriteLine("Selected file: " + files[0].Path);
+
+            ErrorWindow errorWindow = new ErrorWindow("Not implemented!", "Opening files from outside the workspace is not yet implemented.");
+            errorWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            errorWindow.ShowDialog((Window)parentWindow);
         }
     }
 
