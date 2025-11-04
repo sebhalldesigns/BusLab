@@ -153,9 +153,9 @@ public class TabFactory: Factory
         }
     }
 
-    public void AddNewTab()
+    public PanelContainer? AddNewTab()
     {
-        if (root == null) return;
+        if (root == null) return null;
 
         if (root.ActiveDockable is ProportionalDock propDock)
         {
@@ -178,16 +178,26 @@ public class TabFactory: Factory
 
             if (propDock != null && docDock != null)
             {
-                Document? newDoc = docDock.DocumentFactory() as Document;
-                if (newDoc != null)
+                Document newDoc = new Document
                 {
-                    List<IDockable> dockables = new List<IDockable>(docDock.VisibleDockables);
-                    dockables.Add(newDoc);
-                    docDock.VisibleDockables = dockables;
-                    docDock.ActiveDockable = newDoc;
-                }
+                    Title = $"Create New...",
+                    CanFloat = false
+                };
+
+                PanelContainer panel = new PanelContainer(newDoc);
+                newDoc.Content = panel;
+                activePanel = panel;
+
+                List<IDockable> dockables = new List<IDockable>(docDock.VisibleDockables);
+                dockables.Add(newDoc);
+                docDock.VisibleDockables = dockables;
+                docDock.ActiveDockable = newDoc;
+
+                return panel;
+                
             }   
         }
-
+        
+        return null;    
     }
 }

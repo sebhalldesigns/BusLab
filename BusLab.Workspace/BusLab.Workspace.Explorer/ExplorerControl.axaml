@@ -51,7 +51,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <TreeView ItemsSource="{Binding Entries}" BorderThickness="0" Background="Transparent" Margin="0">
+        <TreeView ItemsSource="{Binding Entries}" BorderThickness="0" Background="Transparent" Margin="0" SelectionChanged="TreeViewSelectionChanged">
             <TreeView.ItemTemplate>
                 <TreeDataTemplate ItemsSource="{Binding Children}">
                     <Grid Margin="0 3">

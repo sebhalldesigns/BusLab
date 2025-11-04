@@ -29,6 +29,11 @@ public partial class PanelContainer: UserControl
         parent.Title = title;
     }
 
+    public void SetPanel(PanelBase panel)
+    {
+        this.Content = panel;
+    }
+
     public async void OpenFilePressed()
     {
         

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 
 using BusLab.Windows;
+using BusLab.Workspace.Panels;
 
 namespace BusLab.Workspace;
 
@@ -110,6 +111,45 @@ public class WorkspaceManager
     {
         string docsUrl = "https://buslab.net";
         await parentWindow.Launcher.LaunchUriAsync(new Uri(docsUrl));
+    }
+
+    public void ExplorerEntrySelected(ExplorerEntry entry)
+    {
+
+        if (System.IO.File.Exists(entry.Path))
+        {
+
+            string extension = Path.GetExtension(entry.Path).ToLower();
+
+            switch (extension)
+            {
+            
+                default:
+                    long fileSize = new FileInfo(entry.Path).Length;
+
+                    if (fileSize > 1*1024*1024)
+                    {
+                        ErrorWindow errorWindow = new ErrorWindow("File too large!", $"The selected file size {(double)fileSize / (1024.0*1024.0):F3}MB is >1MB and cannot be opened.");
+                        errorWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        errorWindow.ShowDialog((Window)parentWindow);
+                        return;
+                    }
+                    
+                    PanelContainer? panelContainer = parentWindow.TabFactory.AddNewTab();
+                    if (panelContainer == null) return;
+
+                    TextPanel textPanel = new TextPanel();
+
+                    string fileContents = System.IO.File.ReadAllText(entry.Path);
+
+                    
+
+                    textPanel.LoadFileContents(fileContents);
+                    panelContainer.SetPanel(textPanel);
+                    panelContainer.SetTabTitle(entry.Name);
+                    break;
+            }
+        }
     }
 
     private void UpdatePath()

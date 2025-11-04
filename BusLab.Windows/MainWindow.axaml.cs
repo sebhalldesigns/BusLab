@@ -23,7 +23,7 @@ namespace BusLab.Windows;
 public partial class MainWindow : Window
 {   
     private DockControl dockControl;
-    private TabFactory tabFactory;
+    public TabFactory TabFactory { get; set; }
 
     private double previousLeftSidebarWidth = 300;
     private double previousRightSidebarWidth = 300;
@@ -37,12 +37,12 @@ public partial class MainWindow : Window
 
 
         dockControl = new DockControl();
-        tabFactory = new TabFactory();
+        TabFactory = new TabFactory();
 
-        IRootDock root = tabFactory.CreateLayout();
-        tabFactory.InitLayout(root);
+        IRootDock root = TabFactory.CreateLayout();
+        TabFactory.InitLayout(root);
 
-        dockControl.Factory = tabFactory;
+        dockControl.Factory = TabFactory;
         dockControl.Layout = root;
         
         MainContent.Content = dockControl;

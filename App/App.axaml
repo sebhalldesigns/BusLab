@@ -33,6 +33,8 @@
             </ResourceDictionary.ThemeDictionaries>
 
             <SolidColorBrush x:Key="ThemeControlHighBrush" Color="Transparent"/>
+            <SolidColorBrush x:Key="TextAreaSelectionBrush" Color="#C04787d1"/>
+
             
         </ResourceDictionary>
 

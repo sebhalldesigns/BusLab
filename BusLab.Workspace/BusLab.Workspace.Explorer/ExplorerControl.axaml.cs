@@ -58,4 +58,13 @@ public partial class ExplorerControl: UserControl
         mainWindow.OpenFolderPressed(sender, e);
     }
 
+    private void TreeViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            ExplorerEntry selectedEntry = e.AddedItems[0] as ExplorerEntry;
+            mainWindow.WorkspaceManager.ExplorerEntrySelected(selectedEntry);
+        }
+    }
+
 }
