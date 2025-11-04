@@ -12,7 +12,7 @@
     
     <DockPanel>
         <Grid DockPanel.Dock="Top" Background="#30808080" Height="27">
-            <TextBlock FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0">
+            <TextBlock FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0" Name="WorkspaceTitle">
                 Workspace1
             </TextBlock>
             <StackPanel HorizontalAlignment="Right" Margin="0" Orientation="Horizontal" Spacing="2.5">

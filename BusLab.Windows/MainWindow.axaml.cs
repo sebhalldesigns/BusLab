@@ -29,12 +29,12 @@ public partial class MainWindow : Window
     private double previousRightSidebarWidth = 300;
 
     public WorkspaceManager WorkspaceManager { get; set; }
+    public ExplorerControl ExplorerControl { get; set; }
 
     public MainWindow()
     {
         InitializeComponent();        
 
-        WorkspaceManager = new WorkspaceManager(this);
 
         dockControl = new DockControl();
         tabFactory = new TabFactory();
@@ -46,7 +46,11 @@ public partial class MainWindow : Window
         dockControl.Layout = root;
         
         MainContent.Content = dockControl;
-        LeftSidebarContent.Content = new ExplorerControl(this);
+
+        ExplorerControl = new ExplorerControl(this);
+        LeftSidebarContent.Content = ExplorerControl;
+        
+        WorkspaceManager = new WorkspaceManager(this);
     }
 
     public void OpenPressed(object? sender, RoutedEventArgs e)

@@ -164,6 +164,8 @@
         
 
         <DockPanel Grid.Row="2" Grid.ColumnSpan="3" Background="#30808080">
+            <TextBlock FontSize="12" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0" Name="PathTextBlock"/>
+            <Rectangle/>
         </DockPanel>
     </Grid>
 </Window>
