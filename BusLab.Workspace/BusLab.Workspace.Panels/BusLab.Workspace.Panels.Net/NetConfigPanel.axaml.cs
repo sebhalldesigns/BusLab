@@ -5,18 +5,16 @@ using System.Collections.ObjectModel;
 using System;
 
 using BusLab.Windows;
-using BusLab.Workspace.Panels.Net;
 
-namespace BusLab.Workspace.Panels;
+namespace BusLab.Workspace.Panels.Net;
 
-public partial class NetPanel: PanelBase
+public partial class NetConfigPanel: UserControl
 {
-    public NetPanel()
+    public NetConfigPanel()
     {
         InitializeComponent();
-
-        TabContent.Content = new NetConfigPanel();
     }
+
 
 
 }

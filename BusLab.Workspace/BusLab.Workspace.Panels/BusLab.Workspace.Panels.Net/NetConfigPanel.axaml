@@ -1,0 +1,91 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab.Workspace.Panels.Net"
+        mc:Ignorable="d"
+        d:DesignWidth="500" d:DesignHeight="350"
+        x:Class="BusLab.Workspace.Panels.Net.NetConfigPanel"
+        x:DataType="local:NetConfigPanel"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+   
+    <ScrollViewer>
+        <StackPanel Spacing="10" Margin="10" Width="350" HorizontalAlignment="Center">
+             <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Name: MOVE TO PROPERTIES
+                </TextBlock>
+                <TextBox Margin="10 0">New Net</TextBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Interface:
+                </TextBlock>
+                <ComboBox Margin="10 0" SelectedIndex="0">
+                    <ComboBoxItem>None</ComboBoxItem>
+                    <ComboBoxItem>Log File</ComboBoxItem>
+                    <ComboBoxItem>PEAK</ComboBoxItem>
+                    <ComboBoxItem>Kvaser</ComboBoxItem>
+                    <ComboBoxItem>Vector</ComboBoxItem>
+                    <ComboBoxItem>SocketCAN</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+
+            <Rectangle Height="10"/>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Channel:
+                </TextBlock>
+                <ComboBox Margin="10 0" SelectedIndex="0">
+                    <ComboBoxItem>None</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Bitrate (kbps):
+                </TextBlock>
+                <TextBox Margin="10 0">500</TextBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Width="100">
+                    Filter:
+                </TextBlock>
+                <ComboBox Margin="10 0" SelectedIndex="0">
+                    <ComboBoxItem>None</ComboBoxItem>
+                </ComboBox>
+            </DockPanel>
+
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Top" Width="100" Margin="0 5">
+                    Database:
+                </TextBlock>
+                <StackPanel>
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10 0">
+                        <ListBox Margin="0" BorderThickness="0" Background="Transparent">
+                            <ListBoxItem>None</ListBoxItem>
+                            <ListBoxItem>None</ListBoxItem>
+                        </ListBox>
+                    </Border>
+
+                    <UniformGrid Columns="2" Margin="10 5">
+                        <Button Width="80" Margin="5 0" CornerRadius="5">Add</Button>
+                        <Button Width="80" Margin="5 0" CornerRadius="5">Remove</Button>
+                    </UniformGrid>
+
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10 0">
+                        <ListBox Margin="0" BorderThickness="0" Background="Transparent">
+                            <ListBoxItem>None</ListBoxItem>
+                            <ListBoxItem>None</ListBoxItem>
+                        </ListBox>
+                    </Border>
+                    
+                </StackPanel>
+            </DockPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

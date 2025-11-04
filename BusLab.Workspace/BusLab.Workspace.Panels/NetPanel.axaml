@@ -10,6 +10,43 @@
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
    
     <Grid>
-        <TextBlock>Net Panel</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" Background="#30808080">
+            <Button CornerRadius="5" Padding="0" Margin="2.5 2.5 2.5 3">
+                <DockPanel>
+                    <Image DockPanel.Dock="Left" Height="25" Margin="2 2 0 2" Source="avares://BusLab/Assets/Icons/icons8-play-48.png"/>
+                    <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="5 5" Padding="0">
+                        Start
+                    </TextBlock>
+                    
+                </DockPanel>
+            </Button>
+            <TextBlock VerticalAlignment="Center" Margin="10 0">
+                Status: Disconnected
+            </TextBlock>
+        </WrapPanel>
+        <ListBox Grid.Row="1" BorderBrush="Transparent" Padding="0" SelectedIndex="0" Name="TabListBox">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.Items>
+                <ListBoxItem>Messages</ListBoxItem>
+                <ListBoxItem>Raw Log</ListBoxItem>
+                <ListBoxItem>Configuration</ListBoxItem>
+            </ListBox.Items>
+        </ListBox>
+        
+        <Rectangle Grid.Row="2" Height="2" Fill="#C04787d1"/>   
+
+        <ContentControl Grid.Row="3" Name="TabContent"/>
+
     </Grid>
 </UserControl>
