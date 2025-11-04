@@ -68,6 +68,11 @@ public partial class MainWindow : Window
         WorkspaceManager.NewFile();
     }
 
+    public void DocsPressed(object? sender, RoutedEventArgs e)
+    {
+        WorkspaceManager.OpenDocs();
+    }
+
     public void SettingsPressed(object? sender, RoutedEventArgs e)
     {
         SettingsWindow settingsWindow = new SettingsWindow();
@@ -80,18 +85,6 @@ public partial class MainWindow : Window
         AboutWindow aboutWindow = new AboutWindow();
         aboutWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
         aboutWindow.ShowDialog(this);
-    }
-
-    public void ToggleTheme(object? sender, RoutedEventArgs e)
-    {
-        if (Application.Current!.ActualThemeVariant == ThemeVariant.Light)
-        {
-            Application.Current!.RequestedThemeVariant = ThemeVariant.Dark;
-        }
-        else
-        {
-            Application.Current!.RequestedThemeVariant = ThemeVariant.Light;
-        }
     }
 
     public void SaveWorkspacePressed(object? sender, RoutedEventArgs e)

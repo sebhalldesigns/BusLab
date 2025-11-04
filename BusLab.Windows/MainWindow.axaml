@@ -78,7 +78,7 @@
                     <MenuItem Header="CAN Database Editor"/>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_Documentation"/>
+                    <MenuItem Header="Help &amp; Docs" Click="DocsPressed"/>
                     <Separator/>
                     <MenuItem Header="About" Click="AboutPressed"/>
                 </MenuItem>
@@ -122,7 +122,7 @@
                 </Button.Styles>
                 <materialIcons:MaterialIcon Kind="Cog" Width="18" Height="18" />
             </Button>
-            <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0">
+            <Button VerticalAlignment="Center" CornerRadius="5" Height="24" Width="24" Padding="2" Background="Transparent" BorderThickness="0" Click="DocsPressed">
                 <Button.Styles>
                     <Style Selector="Button:pointerover /template/ ContentPresenter">
                         <Setter Property="Background" Value="#60808080" />
