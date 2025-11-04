@@ -3,11 +3,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
-        xmlns:local="clr-namespace:BusLab"
+        xmlns:local="clr-namespace:BusLab.Workspace.Panels"
         mc:Ignorable="d"
         d:DesignWidth="500" d:DesignHeight="350"
-        x:Class="BusLab.DatabaseEditPanel"
-        x:DataType="local:DatabaseEditPanel"
+        x:Class="BusLab.Workspace.Panels.DatabasePanel"
+        x:DataType="local:DatabasePanel"
         FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
     <Grid>
         <Grid.ColumnDefinitions>

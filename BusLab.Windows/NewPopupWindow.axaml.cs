@@ -9,7 +9,7 @@ namespace BusLab.Windows;
 
 public partial class NewPopupWindow : Window
 {
-    public WorkspaceItem? newItem = null;
+    public WorkspaceItem? NewItem = null;
     
     public NewPopupWindow(Window owner)
     {
@@ -43,7 +43,7 @@ public partial class NewPopupWindow : Window
             string selected = TypeListBox.SelectedItem.ToString();
             if (Enum.TryParse<WorkspaceItem>(selected, out WorkspaceItem item))
             {
-                newItem = item;
+                NewItem = item;
                 this.Close();
             }
         }

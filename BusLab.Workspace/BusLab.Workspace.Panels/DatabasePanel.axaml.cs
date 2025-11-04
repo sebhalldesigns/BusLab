@@ -6,25 +6,23 @@ using Avalonia.Threading;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 
-namespace BusLab;
+namespace BusLab.Workspace.Panels;
 
-public partial class DatabaseEditPanel: UserControl
+public partial class DatabasePanel: PanelBase
 {
     private Button[] tabButtons;
     private UserControl[] tabPanels;
     private UserControl[] propertiesPanels;
-    private TitleUpdate titleUpdate;
 
     public CanDatabase Database { get; set; } = new CanDatabase();
 
     private MessagesEditPanel messagesEditPanel = new MessagesEditPanel();
     private MessagesPropertiesPanel messagesPropertiesPanel = new MessagesPropertiesPanel();
 
-    public DatabaseEditPanel(TitleUpdate titleUpdate)
+    public DatabasePanel()
     {
         InitializeComponent();
 
-        this.titleUpdate = titleUpdate;
         this.DataContext = this;
 
         tabButtons = new Button[]
@@ -80,31 +78,20 @@ public partial class DatabaseEditPanel: UserControl
         PropertiesContentControl.Content = propertiesPanels[tabIndex];
     }
 
-    public void LoadDatabase(string filePath)
+    public override void LoadFileContents(string contents)
     {
-        // Load the database file and update the UI accordingly
-        Console.WriteLine($"Loading database from: {filePath}");
-
-        // Update the title of the tab
-        titleUpdate?.Invoke(System.IO.Path.GetFileName(filePath));
-
-        CanDatabase? database = DatabaseReader.Read(filePath, out string error, out string detailedError);
         
-        if (database != null)
-        {
-            Console.WriteLine($"Database loaded successfully with {database.Messages.Count} messages.");
-            
-            messagesEditPanel.Database = database;
-            
-            // Update UI with database content
-        }
-        else
-        {
-            ErrorWindow errorWindow = new ErrorWindow(error, detailedError);
-            errorWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            errorWindow.ShowDialog(TopLevel.GetTopLevel(this) as Window ?? new Window());
-        }
     }
-   
+
+    public override void OpenFilePressed()
+    {
+        
+    }
+
+    public override void SaveFilePressed()
+    {
+        
+    }
+
 
 }

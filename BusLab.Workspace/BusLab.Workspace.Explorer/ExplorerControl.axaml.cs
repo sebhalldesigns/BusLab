@@ -53,6 +53,11 @@ public partial class ExplorerControl: UserControl
         
     }
 
+    private void RefreshPressed(object? sender, RoutedEventArgs e)
+    {
+        mainWindow.WorkspaceManager.UpdatePath();
+    }
+
     private void OpenFolderPressed(object? sender, RoutedEventArgs e)
     {
         mainWindow.OpenFolderPressed(sender, e);

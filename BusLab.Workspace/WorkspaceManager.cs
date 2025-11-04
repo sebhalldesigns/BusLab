@@ -71,6 +71,15 @@ public class WorkspaceManager
         parentWindow.IsEnabled = false;
         await newWindow.ShowDialog((Window)parentWindow);
         parentWindow.IsEnabled = true;
+
+        if (newWindow.NewItem != null)
+        {
+            switch (newWindow.NewItem)
+            {
+                default:
+                    break;
+            }
+        }        
     }
 
     public async void OpenFile()
@@ -119,11 +128,63 @@ public class WorkspaceManager
         if (System.IO.File.Exists(entry.Path))
         {
 
+            PanelContainer? panelContainer = null;
+
             string extension = Path.GetExtension(entry.Path).ToLower();
 
             switch (extension)
             {
-            
+
+                case ".dbc":
+                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    if (panelContainer == null) return;
+
+                    DatabasePanel databasePanel = new DatabasePanel();
+                    databasePanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    panelContainer.SetPanel(databasePanel);
+                    panelContainer.SetTabTitle(entry.Name);
+                    break;
+
+                case ".net":
+                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    if (panelContainer == null) return;
+
+                    NetPanel netPanel = new NetPanel();
+                    netPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    panelContainer.SetPanel(netPanel);
+                    panelContainer.SetTabTitle(entry.Name);
+                    break;
+
+                case ".filter":
+                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    if (panelContainer == null) return;
+                    
+                    FilterPanel filterPanel = new FilterPanel();
+                    filterPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    panelContainer.SetPanel(filterPanel);
+                    panelContainer.SetTabTitle(entry.Name);
+                    break;
+
+                case ".plot":
+                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    if (panelContainer == null) return;
+
+                    PlotPanel plotPanel = new PlotPanel();
+                    plotPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    panelContainer.SetPanel(plotPanel);
+                    panelContainer.SetTabTitle(entry.Name);
+                    break;
+
+                case ".canvas":
+                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    if (panelContainer == null) return;
+
+                    CanvasPanel canvasPanel = new CanvasPanel();
+                    canvasPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    panelContainer.SetPanel(canvasPanel);
+                    panelContainer.SetTabTitle(entry.Name);
+                    break;
+                
                 default:
                     long fileSize = new FileInfo(entry.Path).Length;
 
@@ -135,14 +196,12 @@ public class WorkspaceManager
                         return;
                     }
                     
-                    PanelContainer? panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewTab();
                     if (panelContainer == null) return;
 
                     TextPanel textPanel = new TextPanel();
 
                     string fileContents = System.IO.File.ReadAllText(entry.Path);
-
-                    
 
                     textPanel.LoadFileContents(fileContents);
                     panelContainer.SetPanel(textPanel);
@@ -152,7 +211,7 @@ public class WorkspaceManager
         }
     }
 
-    private void UpdatePath()
+    public void UpdatePath()
     {
         parentWindow.ExplorerControl.SetWorkspaceTitle(Path.GetFileName(WorkspacePath));
         parentWindow.PathTextBlock.Text = WorkspacePath;
