@@ -74,9 +74,18 @@ public class WorkspaceManager
 
         if (newWindow.NewItem != null)
         {
+            PanelContainer? panelContainer = null;
+
             switch (newWindow.NewItem)
             {
-                default:
+                case WorkspaceItem.Database:
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
+                    if (panelContainer == null) return;
+
+                    DatabasePanel databasePanel = new DatabasePanel();
+                    databasePanel.IsModified = true;
+                    panelContainer.SetPanel(databasePanel);
+                    panelContainer.SetTabTitle("Untitled.dbc*");
                     break;
             }
         }        
@@ -120,6 +129,26 @@ public class WorkspaceManager
     {
         string docsUrl = "https://buslab.net";
         await parentWindow.Launcher.LaunchUriAsync(new Uri(docsUrl));
+    }
+
+    public async void SaveFile()
+    {
+        PanelContainer? activePanelContainer = parentWindow.TabFactory.ActivePanel;
+
+        if (activePanelContainer != null && activePanelContainer.Panel != null)
+        {
+            activePanelContainer.Panel.Save();
+        }
+    }
+
+    public async void SaveFileAs()
+    {
+        PanelContainer? activePanelContainer = parentWindow.TabFactory.ActivePanel;
+
+        if (activePanelContainer != null && activePanelContainer.Panel != null)
+        {
+            activePanelContainer.Panel.SaveAs();
+        }
     }
 
     public void ExplorerEntrySelected(ExplorerEntry entry)

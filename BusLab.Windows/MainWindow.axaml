@@ -51,8 +51,8 @@
                     <MenuItem Header="Open..." Click="OpenPressed" HotKey="Ctrl+O" InputGesture="Ctrl+O"/>
                     <MenuItem Header="Open Folder..." Click="OpenFolderPressed" HotKey="Ctrl+Shift+O" InputGesture="Ctrl+Shift+O"/>
                     <Separator/>    
-                    <MenuItem Header="Save"/>
-                    <MenuItem Header="Save As..."/>
+                    <MenuItem Header="Save" Click="SavePressed" HotKey="Ctrl+S" InputGesture="Ctrl+S"/>
+                    <MenuItem Header="Save As..." Click="SaveAsPressed" HotKey="Ctrl+Shift+S" InputGesture="Ctrl+Shift+S"/>
                     <Separator/>
                     <MenuItem Header="Settings" Click="SettingsPressed" HotKey="Ctrl+," InputGesture="Ctrl+,"/>    
                     <Separator/>

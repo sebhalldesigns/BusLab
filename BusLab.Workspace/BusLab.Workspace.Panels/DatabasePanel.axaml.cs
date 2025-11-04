@@ -24,6 +24,9 @@ public partial class DatabasePanel: PanelBase
     {
         InitializeComponent();
 
+        FileExtension = ".dbc";
+        FileTypeDescription = "CAN Database Files";
+
         this.DataContext = this;
 
         tabButtons = new Button[]
@@ -78,16 +81,5 @@ public partial class DatabasePanel: PanelBase
         TabContentControl.Content = tabPanels[tabIndex];
         PropertiesContentControl.Content = propertiesPanels[tabIndex];
     }
-
-    public override void OpenFilePressed()
-    {
-        
-    }
-
-    public override void SaveFilePressed()
-    {
-        
-    }
-
 
 }

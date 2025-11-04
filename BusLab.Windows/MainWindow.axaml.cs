@@ -17,6 +17,7 @@ using System.Text.Json;
 using System.Text;
 
 using BusLab.Workspace;
+using System.Threading.Tasks;
 
 namespace BusLab.Windows;
 
@@ -62,9 +63,19 @@ public partial class MainWindow : Window
         WorkspaceManager.OpenWorkspace();
     }
 
-    public void NewPressed(object? sender, RoutedEventArgs e)
+    public void SavePressed(object? sender, RoutedEventArgs e)
     {
-        WorkspaceManager.NewFile();
+        WorkspaceManager.SaveFile();
+    }
+
+    public void SaveAsPressed(object? sender, RoutedEventArgs e)
+    {
+        WorkspaceManager.SaveFileAs();
+    }
+
+    public async void NewPressed(object? sender, RoutedEventArgs e)
+    {
+        await WorkspaceManager.NewFile();
     }
 
     public void DocsPressed(object? sender, RoutedEventArgs e)
