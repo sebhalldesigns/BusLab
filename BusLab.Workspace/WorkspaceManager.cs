@@ -121,19 +121,30 @@ public class WorkspaceManager
 
         ObservableCollection<ExplorerEntry> Entries = new ObservableCollection<ExplorerEntry>();    
 
-
-        List<string> list = new List<string>();
         try
         {
-            SearchDirectory(list, WorkspacePath);
+            SearchDirectory(Entries, null, WorkspacePath);
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
+            ErrorWindow errorWindow = new ErrorWindow("Could not open folder!", e.Message);
+            errorWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            errorWindow.ShowDialog((Window)parentWindow);
             return;
         }
 
-        foreach (string file in list)
+        parentWindow.ExplorerControl.UpdateEntries(Entries);
+    }
+
+    public static void SearchDirectory(ObservableCollection<ExplorerEntry> entries, ExplorerEntry? activeFolder, string startDirectory)
+    {
+        
+        // Get files in this directory, sort by file name (case-insensitive), then add
+        string[] filePaths = Directory.GetFiles(startDirectory, "*.*");
+        Array.Sort(filePaths, (a, b) => StringComparer.OrdinalIgnoreCase.Compare(Path.GetFileName(a), Path.GetFileName(b)));
+
+        foreach (string file in filePaths)
         {
             string extension = Path.GetExtension(file).ToLower();
 
@@ -167,73 +178,46 @@ public class WorkspaceManager
                     entry.Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-file-16.png")));
                     break;
             }
-
-            Entries.Add(entry);
-        }
-
-
-        // Sample data
-        /*Entries.Add(new ExplorerEntry
-        {
-            Name = "Documents",
-            Path = "C:\\Users\\User\\Documents",
-            Children = new ObservableCollection<ExplorerEntry>
+            
+            if (activeFolder != null)
             {
-                new ExplorerEntry {
-                    Name = "MyNet.net", 
-                    Path = "C:\\Users\\User\\Documents\\Resume.dbc",
-                    LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-lan-16.png"))),
-                    IconVisible = true
-                },
-                new ExplorerEntry {
-                    Name = "ExampleFilter.filter", 
-                    Path = "C:\\Users\\User\\Documents\\Resume.dbc",
-                    LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-filter-16.png"))),
-                    IconVisible = true
-                },
-                new ExplorerEntry {
-                    Name = "Network.dbc", 
-                    Path = "C:\\Users\\User\\Documents\\Resume.dbc",
-                    LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-database-16.png"))),
-                    IconVisible = true
-                },
-                new ExplorerEntry {
-                    Name = "ExamplePlot.plot", 
-                    Path = "C:\\Users\\User\\Documents\\Resume.dbc",
-                    LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-line-chart-16.png"))),
-                    IconVisible = true
-                },
-                new ExplorerEntry {
-                    Name = "ExampleCanvas.canvas", 
-                    Path = "C:\\Users\\User\\Documents\\Resume.canvas",
-                    LabelMargin = new Thickness(20, 0, 0, 0),
-                    Icon = new Bitmap(AssetLoader.Open(new Uri("avares://BusLab/Assets/Icons/icons8-vertical-timeline-16.png"))),
-                    IconVisible = true
-                },
+                activeFolder.Children.Add(entry);
             }
-        });*/
-
-        parentWindow.ExplorerControl.UpdateEntries(Entries);
-    }
-
-    public static void SearchDirectory(List<string> files, string startDirectory)
-    {
-        
-        // Get files in this directory, sort by file name (case-insensitive), then add
-        string[] filePaths = Directory.GetFiles(startDirectory, "*.*");
-        Array.Sort(filePaths, (a, b) => StringComparer.OrdinalIgnoreCase.Compare(Path.GetFileName(a), Path.GetFileName(b)));
-        files.AddRange(filePaths);
+            else
+            {
+                entries.Add(entry);    
+            }
+        }
 
         // Get subdirectories, sort by directory name (case-insensitive), then recurse
         string[] directories = Directory.GetDirectories(startDirectory);
         Array.Sort(directories, (a, b) => StringComparer.OrdinalIgnoreCase.Compare(Path.GetFileName(a), Path.GetFileName(b)));
+
         foreach (string directory in directories)
         {
-            SearchDirectory(files, directory);
+            /* skip hidden/system directories */
+            if (Path.GetFileName(directory).StartsWith("."))
+                continue;
+
+            string dirName = Path.GetFileName(directory);
+            ExplorerEntry entry = new ExplorerEntry
+            {
+                Name = dirName,
+                Path = directory,
+                LabelMargin = new Thickness(0, 0, 0, 0),
+                IconVisible = true
+            };
+
+            if (activeFolder != null)
+            {
+                activeFolder.Children.Add(entry);
+            }
+            else
+            {
+                entries.Add(entry);    
+            }
+
+            SearchDirectory(entries, entry, directory);
         }
  
     }
