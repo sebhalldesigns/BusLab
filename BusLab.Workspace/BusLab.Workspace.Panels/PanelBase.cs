@@ -1,13 +1,26 @@
 
 using Avalonia.Controls;
+using BusLab.Workspace;
 
 namespace BusLab.Workspace.Panels;
 
-public abstract class PanelBase: UserControl
+public class PanelBase: UserControl
 {
-    public abstract void SaveFilePressed(); 
-    public abstract void OpenFilePressed();
+    public TitleUpdateDelegate? TitleUpdate { get; set; }
+    public ExplorerEntry? ExplorerEntry { get; set; }
+    
+    public virtual void SaveFilePressed()
+    {
+        
+    }
 
-    public abstract void LoadFileContents(string contents);
+    public virtual void OpenFilePressed()
+    {
+        
+    }
 
+    public virtual void LoadFile(ExplorerEntry entry, string contents)
+    {
+        ExplorerEntry = entry;
+    }
 }

@@ -8,8 +8,9 @@ using BusLab.Windows;
 
 namespace BusLab.Workspace.Panels;
 
-public partial class WelcomePanel: UserControl
+public partial class WelcomePanel: PanelBase
 {
+
     public WelcomePanel()
     {
         InitializeComponent();

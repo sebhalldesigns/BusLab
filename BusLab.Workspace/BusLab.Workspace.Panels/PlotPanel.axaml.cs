@@ -10,24 +10,10 @@ namespace BusLab.Workspace.Panels;
 
 public partial class PlotPanel: PanelBase
 {
+
     public PlotPanel()
     {
         InitializeComponent();
-    }
-
-    public override void LoadFileContents(string contents)
-    {
-        
-    }
-
-    public override void OpenFilePressed()
-    {
-        
-    }
-
-    public override void SaveFilePressed()
-    {
-        
     }
 
 }

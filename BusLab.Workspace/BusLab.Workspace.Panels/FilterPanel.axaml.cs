@@ -10,24 +10,11 @@ namespace BusLab.Workspace.Panels;
 
 public partial class FilterPanel: PanelBase
 {
+
     public FilterPanel()
     {
         InitializeComponent();
     }
 
-    public override void LoadFileContents(string contents)
-    {
-        
-    }
-
-    public override void OpenFilePressed()
-    {
-        
-    }
-
-    public override void SaveFilePressed()
-    {
-        
-    }
 
 }

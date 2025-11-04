@@ -15,19 +15,5 @@ public partial class NetPanel: PanelBase
         InitializeComponent();
     }
 
-    public override void LoadFileContents(string contents)
-    {
-        
-    }
-
-    public override void OpenFilePressed()
-    {
-        
-    }
-
-    public override void SaveFilePressed()
-    {
-        
-    }
 
 }

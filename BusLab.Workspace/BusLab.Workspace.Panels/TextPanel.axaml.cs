@@ -10,24 +10,16 @@ namespace BusLab.Workspace.Panels;
 
 public partial class TextPanel: PanelBase
 {
+
     public TextPanel()
     {
         InitializeComponent();
     }
 
-    public override void LoadFileContents(string contents)
+    public override void LoadFile(ExplorerEntry entry, string contents)
     {
+        base.LoadFile(entry, contents);
         TextEditor.Text = contents;
-    }
-
-    public override void OpenFilePressed()
-    {
-        
-    }
-
-    public override void SaveFilePressed()
-    {
-        
     }
 
 }

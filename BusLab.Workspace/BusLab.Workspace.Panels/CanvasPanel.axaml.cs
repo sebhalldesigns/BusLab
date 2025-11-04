@@ -15,19 +15,6 @@ public partial class CanvasPanel: PanelBase
         InitializeComponent();
     }
 
-    public override void LoadFileContents(string contents)
-    {
-        
-    }
 
-    public override void OpenFilePressed()
-    {
-        
-    }
-
-    public override void SaveFilePressed()
-    {
-        
-    }
 
 }

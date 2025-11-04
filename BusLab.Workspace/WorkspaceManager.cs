@@ -128,6 +128,15 @@ public class WorkspaceManager
         if (System.IO.File.Exists(entry.Path))
         {
 
+            foreach (PanelContainer panel in parentWindow.TabFactory.ActivePanelContainers)
+            {
+                if (panel.Panel?.ExplorerEntry != null && panel.Panel.ExplorerEntry.Path == entry.Path)
+                {
+                    parentWindow.TabFactory.ActivateDocument(panel.Parent);
+                    return;
+                }
+            }
+
             PanelContainer? panelContainer = null;
 
             string extension = Path.GetExtension(entry.Path).ToLower();
@@ -136,51 +145,51 @@ public class WorkspaceManager
             {
 
                 case ".dbc":
-                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
                     if (panelContainer == null) return;
 
                     DatabasePanel databasePanel = new DatabasePanel();
-                    databasePanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    databasePanel.LoadFile(entry, File.ReadAllText(entry.Path));
                     panelContainer.SetPanel(databasePanel);
                     panelContainer.SetTabTitle(entry.Name);
                     break;
 
                 case ".net":
-                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
                     if (panelContainer == null) return;
 
                     NetPanel netPanel = new NetPanel();
-                    netPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    netPanel.LoadFile(entry, File.ReadAllText(entry.Path));
                     panelContainer.SetPanel(netPanel);
                     panelContainer.SetTabTitle(entry.Name);
                     break;
 
                 case ".filter":
-                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
                     if (panelContainer == null) return;
                     
                     FilterPanel filterPanel = new FilterPanel();
-                    filterPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    filterPanel.LoadFile(entry, File.ReadAllText(entry.Path));
                     panelContainer.SetPanel(filterPanel);
                     panelContainer.SetTabTitle(entry.Name);
                     break;
 
                 case ".plot":
-                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
                     if (panelContainer == null) return;
 
                     PlotPanel plotPanel = new PlotPanel();
-                    plotPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    plotPanel.LoadFile(entry, File.ReadAllText(entry.Path));
                     panelContainer.SetPanel(plotPanel);
                     panelContainer.SetTabTitle(entry.Name);
                     break;
 
                 case ".canvas":
-                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
                     if (panelContainer == null) return;
 
                     CanvasPanel canvasPanel = new CanvasPanel();
-                    canvasPanel.LoadFileContents(System.IO.File.ReadAllText(entry.Path));
+                    canvasPanel.LoadFile(entry, File.ReadAllText(entry.Path));
                     panelContainer.SetPanel(canvasPanel);
                     panelContainer.SetTabTitle(entry.Name);
                     break;
@@ -196,14 +205,14 @@ public class WorkspaceManager
                         return;
                     }
                     
-                    panelContainer = parentWindow.TabFactory.AddNewTab();
+                    panelContainer = parentWindow.TabFactory.AddNewPanel();
                     if (panelContainer == null) return;
 
                     TextPanel textPanel = new TextPanel();
 
                     string fileContents = System.IO.File.ReadAllText(entry.Path);
 
-                    textPanel.LoadFileContents(fileContents);
+                    textPanel.LoadFile(entry, File.ReadAllText(entry.Path));
                     panelContainer.SetPanel(textPanel);
                     panelContainer.SetTabTitle(entry.Name);
                     break;

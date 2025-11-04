@@ -12,13 +12,14 @@ public delegate void TitleUpdateDelegate(string title);
 
 public partial class PanelContainer: UserControl
 {
-    Dock.Model.Avalonia.Controls.Document parent;
+    public Dock.Model.Avalonia.Controls.Document Parent;
+    public PanelBase? Panel { get; private set; }
      
     public PanelContainer(Dock.Model.Avalonia.Controls.Document parent)
     {
         InitializeComponent();
 
-        this.parent = parent;
+        this.Parent = parent;
         SetTabTitle("BusLab");
 
         this.Content = new WelcomePanel();
@@ -26,12 +27,14 @@ public partial class PanelContainer: UserControl
 
     public void SetTabTitle(string title)
     {
-        parent.Title = title;
+        Parent.Title = title;
     }
 
     public void SetPanel(PanelBase panel)
     {
+        Panel = panel;
         this.Content = panel;
+        panel.TitleUpdate = SetTabTitle;
     }
 
     public async void OpenFilePressed()

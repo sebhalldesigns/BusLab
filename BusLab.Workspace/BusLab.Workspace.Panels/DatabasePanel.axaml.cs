@@ -10,6 +10,7 @@ namespace BusLab.Workspace.Panels;
 
 public partial class DatabasePanel: PanelBase
 {
+
     private Button[] tabButtons;
     private UserControl[] tabPanels;
     private UserControl[] propertiesPanels;
@@ -76,11 +77,6 @@ public partial class DatabasePanel: PanelBase
 
         TabContentControl.Content = tabPanels[tabIndex];
         PropertiesContentControl.Content = propertiesPanels[tabIndex];
-    }
-
-    public override void LoadFileContents(string contents)
-    {
-        
     }
 
     public override void OpenFilePressed()
