@@ -108,4 +108,26 @@
         <Setter Property="Background" Value="#C04787d1"/>
     </Style>
 
+    <Style Selector="Button">
+        <Setter Property="Padding" Value="5 2.5"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <Style Selector="Button:selected /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource MenuBackground}"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <Style Selector="Button:selected:pointerover /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource MenuHighlight}"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource MenuHighlight}"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
 </Styles>

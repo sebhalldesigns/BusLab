@@ -40,7 +40,7 @@ public partial class MainWindow : Window
         dockControl.Factory = tabFactory;
         dockControl.Layout = root;
         
-        MainContent.Content = dockControl;
+        MainContent.Content = new Workbench();
         LeftSidebarContent.Content = new ExplorerControl(this);
     }
 
