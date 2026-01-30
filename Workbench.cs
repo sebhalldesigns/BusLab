@@ -1,7 +1,17 @@
 using Avalonia;
 using Avalonia.Controls;
-using System;
+using Avalonia.Controls.Primitives;
+
 using Material.Icons.Avalonia;
+using Avalonia.Interactivity;
+using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Layout;
+using Avalonia.Media;
+using Avalonia.VisualTree;
+
+using System;
+using System.Collections.Generic;
 
 namespace BusLab;
 
@@ -17,6 +27,9 @@ public class Workbench: UserControl
 
 public class TabGroup: UserControl
 {
+
+    public List<Tab> Tabs = new List<Tab>();
+
     public TabGroup()
     {
         Grid grid = new Grid();
@@ -31,8 +44,9 @@ public class TabGroup: UserControl
         contentControl.Content = new TextBlock { Text = "Content goes here." };
         Grid.SetRow(contentControl, 1);
 
-        grid.Children.Add(scrollViewer);
         grid.Children.Add(contentControl);
+        grid.Children.Add(scrollViewer);
+        
 
         Content = grid;
 
@@ -43,14 +57,18 @@ public class TabGroup: UserControl
         {
             Tab tab = new Tab();
             tabPanel.Children.Add(tab);
-            tab.HandleButton.Click += (s, e) => SelectTab(tab);
+            Tabs.Add(tab);
+            tab.TextBlock.Text = "Tab " + (i + 1);
+            tab.Button.Click += (s, e) => SelectTab(tab);
         }
+
+        SelectTab(Tabs[0]);
 
     }
 
     public void SelectTab(Tab tab)
     {
-        foreach (var child in ((StackPanel)((ScrollViewer)((Grid)Content).Children[0]).Content).Children)
+        foreach (Tab child in Tabs)
         {
             if (child is Tab t)
             {
@@ -72,27 +90,28 @@ public class Tab: UserControl
     public Button Button;
     public Button CloseButton;
     public TextBlock TextBlock;
-    public Button HandleButton;
+
+    private bool isDragging = false;
+    private Point dragStartPoint;
+    private Control? dragAdorner;
+    private AdornerLayer? adornerLayer;
 
     public Tab()
     {
-
         /* create a new button on top of label */
         
         Button = new Button();
         Content = Button;
-        Button.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
+        Button.HorizontalContentAlignment = HorizontalAlignment.Stretch;
         Button.Padding = new Thickness(0);
         
         contentDock = new DockPanel();
         Button.Content = contentDock;
-
         labelGrid = new Grid();
-
         CloseButton = new Button();
         CloseButton.Width = 17;
         CloseButton.Height = 17;
-        CloseButton.Background = Avalonia.Media.Brushes.Transparent;
+        CloseButton.Background = Brushes.Transparent;
         CloseButton.Margin = new Thickness(0, 0, 3, 0);
         CloseButton.CornerRadius = new CornerRadius(4);
         CloseButton.BorderThickness = new Thickness(0);
@@ -103,50 +122,150 @@ public class Tab: UserControl
         CloseButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
         CloseButton.PointerPressed += (s, e) =>
         {
+            Console.WriteLine("Close tab");
             e.Handled = true;
         };
-
         CloseButton.PointerEntered += (s, e) =>
         {
-            CloseButton.Background = new Avalonia.Media.SolidColorBrush(0x50808080);
+            CloseButton.Background = new SolidColorBrush(0x50808080);
         };
-
         CloseButton.PointerExited += (s, e) =>
         {
-            CloseButton.Background = Avalonia.Media.Brushes.Transparent;
+            CloseButton.Background = Brushes.Transparent;
         };
 
         CloseButton.IsVisible = false;
-
         DockPanel.SetDock(CloseButton, Avalonia.Controls.Dock.Right);
         contentDock.Children.Add(CloseButton);
         contentDock.Children.Add(labelGrid);
     
         TextBlock = new TextBlock { Text = "Tab" };
-        TextBlock.TextAlignment = Avalonia.Media.TextAlignment.Left;
-        TextBlock.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
+        TextBlock.TextAlignment = TextAlignment.Left;
+        TextBlock.VerticalAlignment = VerticalAlignment.Center;
         TextBlock.Margin = new Thickness(5, 0, 0, 0);
+        TextBlock.IsHitTestVisible = false;
         labelGrid.Children.Add(TextBlock);
-
-        HandleButton = new Button();
-        HandleButton.Background = Avalonia.Media.Brushes.Transparent;
-        HandleButton.BorderThickness = new Thickness(0);
-        labelGrid.Children.Add(HandleButton);
         
         MinWidth = 100;
         MaxWidth = 200;
-
-        IsSelected = false;
-
+        
         PointerEntered += (s, e) =>
         {
             CloseButton.IsVisible = true;
         };
-
         PointerExited += (s, e) =>
         {
             CloseButton.IsVisible = false;
         };
+        
+        // Use AddHandler with handledEventsToo = true
+        Button.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble, handledEventsToo: true);
+        Button.AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, handledEventsToo: true);
+        Button.AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Bubble, handledEventsToo: true);
+    }
+    
+    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        isDragging = true;
+        dragStartPoint = e.GetPosition(this);
+        
+        Console.WriteLine("Started dragging tab at " + dragStartPoint);
+    }
+    
+    private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        
+        // Remove adorner
+        if (dragAdorner != null && adornerLayer != null)
+        {
+            adornerLayer.Children.Remove(dragAdorner);
+            dragAdorner = null;
+        }
+        
+        // Make original tab visible again
+        Opacity = 1.0;
+        
+        Console.WriteLine("Stopped dragging tab.");
+    }
+    
+    private void OnPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (!isDragging) return;
+        
+        Point currentPoint = e.GetPosition(this);
+        Vector delta = currentPoint - dragStartPoint;
+        
+        // Only start showing adorner if we've moved a bit (prevents accidental drags)
+        if (Math.Abs(delta.X) < 5 && Math.Abs(delta.Y) < 5)
+            return;
+        
+        // Get adorner layer on first significant move
+        if (adornerLayer == null)
+        {
+            adornerLayer = AdornerLayer.GetAdornerLayer(this);
+            if (adornerLayer == null)
+            {
+                Console.WriteLine("Warning: No AdornerLayer found");
+                return;
+            }
+        }
+        
+        // Create adorner if needed
+        if (dragAdorner == null)
+        {
+            dragAdorner = CreateDragAdorner();
+            adornerLayer.Children.Add(dragAdorner);
+            
+            // Make original tab semi-transparent while dragging
+            Opacity = 0.5;
+        }
+        
+        // Get position relative to adorner layer
+        Point adornerPosition = e.GetPosition(adornerLayer);
+        
+        // Position the adorner (offset by where user grabbed it)
+        Canvas.SetLeft(dragAdorner, adornerPosition.X - dragStartPoint.X);
+        Canvas.SetTop(dragAdorner, adornerPosition.Y - dragStartPoint.Y);
+        
+        Console.WriteLine($"Dragging tab by {delta}");
+    }
+    
+    private Control CreateDragAdorner()
+    {
+        // Create a visual copy of the tab
+        var border = new Border
+        {
+            Width = Bounds.Width,
+            Height = Bounds.Height,
+            Background = new SolidColorBrush(0x30808080), // Dark background
+            BorderBrush = Brushes.Transparent,
+            BorderThickness = new Thickness(2),
+            CornerRadius = new CornerRadius(4),
+            BoxShadow = new BoxShadows(new BoxShadow
+            {
+                Blur = 10,
+                Color = Colors.Black,
+                OffsetX = 0,
+                OffsetY = 4
+            }),
+            Opacity = 0.9
+        };
+        
+        // Copy the text content
+        var textBlock = new TextBlock
+        {
+            Text = TextBlock.Text,
+            TextAlignment = TextAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(5, 0, 0, 0)
+        };
+        
+        border.Child = textBlock;
+        
+        return border;
     }
 
     private void SetIsSelected(bool value)
