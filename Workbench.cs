@@ -44,37 +44,63 @@ public class TabDragEvent
 public class Workbench: UserControl
 {
     public List<TabGroup> TabGroups = new List<TabGroup>(); 
+    public List<Tab> Tabs = new List<Tab>();
     
-    private Grid grid;
+    private Grid rootGrid;
     private TabDragEvent currentTabDragEvent = new TabDragEvent();
     
     public Workbench()
     {
         Console.WriteLine("Hello from Workbench");
 
-        grid = new Grid();
-        this.Content = grid;
+        rootGrid = new Grid();
+        this.Content = rootGrid;
 
-        grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-        grid.ColumnDefinitions.Add(new ColumnDefinition(5.0, GridUnitType.Pixel));
-        grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+        for (int i = 0; i < 10; i++)
+        {
+            Tab tab = AddTab();
+            tab.TextBlock.Text = "Tab " + (i + 1);
+        }
 
-        GridSplitter splitter = new GridSplitter();
-        splitter.Width = 5;
-        Grid.SetColumn(splitter, 1);
-        grid.Children.Add(splitter);
+    }
 
+    public Tab AddTab()
+    {
+        Tab tab = new Tab(this);
 
-        TabGroup tabGroup1 = new TabGroup(this);
-        Grid.SetColumn(tabGroup1, 0);
-        grid.Children.Add(tabGroup1);
-        TabGroups.Add(tabGroup1);
+        if (TabGroups.Count == 0)
+        {
+            TabGroup tabGroup = new TabGroup(this, rootGrid);
+            Grid.SetColumn(tabGroup, 0);
+            rootGrid.Children.Add(tabGroup);
+            TabGroups.Add(tabGroup);
+        }
 
-        TabGroup tabGroup2 = new TabGroup(this);
-        Grid.SetColumn(tabGroup2, 2);
-        grid.Children.Add(tabGroup2);
-        TabGroups.Add(tabGroup2);
+        TabGroups[0].AddTab(tab);
+        Tabs.Add(tab);
 
+        return tab;
+    }
+
+    public void RemoveTab(Tab tab)
+    {
+        if (Tabs.Contains(tab))
+        {
+            tab.TabGroup?.RemoveTab(tab);
+            Tabs.Remove(tab);
+        }
+
+        RemoveEmptyTabGroups();
+    }
+
+    public void SelectTab(Tab tab)
+    {
+        foreach (Tab t in Tabs)
+        {
+            t.IsSelected = false;
+        }
+
+        tab.IsSelected = true;
     }
 
     public void TabDragged(Tab tab, PointerEventArgs e)
@@ -108,7 +134,7 @@ public class Workbench: UserControl
                 if (currentTabDragEvent.Tab.TabGroup != currentTabDragEvent.TargetGroup)
                 {   
                     /* move tab to target group */
-                    currentTabDragEvent.Tab.TabGroup.RemoveTab(currentTabDragEvent.Tab);
+                    currentTabDragEvent.Tab.TabGroup?.RemoveTab(currentTabDragEvent.Tab);
                     currentTabDragEvent.TargetGroup.AddTab(currentTabDragEvent.Tab);
                 }
                
@@ -117,12 +143,179 @@ public class Workbench: UserControl
             case TabDragEventType.INSERT:
             {
                 /* move tab to target group at specified index */
-                currentTabDragEvent.Tab.TabGroup.RemoveTab(currentTabDragEvent.Tab);
+                currentTabDragEvent.Tab.TabGroup?.RemoveTab(currentTabDragEvent.Tab);
                 currentTabDragEvent.TargetGroup.AddTab(currentTabDragEvent.Tab, currentTabDragEvent.InsertIndex);
             } break;
 
+            case TabDragEventType.SPLIT:
+            {
+                currentTabDragEvent.Tab.TabGroup?.RemoveTab(currentTabDragEvent.Tab);
+                SplitTabGroup(currentTabDragEvent.TargetGroup, currentTabDragEvent.SplitDirection).AddTab(currentTabDragEvent.Tab);
+
+            } break;
+
+        }
+
+        currentTabDragEvent = new TabDragEvent();
+
+        RemoveEmptyTabGroups();
+    }
+
+    private TabGroup SplitTabGroup(TabGroup sourceGroup, TabSplitDirection direction)
+    {
+        Grid parentGrid = sourceGroup.Grid;
+
+        /* swap in the new grid */
+        Grid newGrid = new Grid();  
+        Grid.SetRow(newGrid, Grid.GetRow(sourceGroup));
+        Grid.SetColumn(newGrid, Grid.GetColumn(sourceGroup));
+        parentGrid.Children.Remove(sourceGroup);
+        parentGrid.Children.Add(newGrid);
+
+        if (direction == TabSplitDirection.LEFT || direction == TabSplitDirection.RIGHT)
+        {
+            newGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+            newGrid.ColumnDefinitions.Add(new ColumnDefinition(2.0, GridUnitType.Pixel));
+            newGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+
+            if (direction == TabSplitDirection.LEFT)
+            {
+                Grid.SetColumn(sourceGroup, 2);
+            }
+            else
+            {
+                Grid.SetColumn(sourceGroup, 0);
+            }
+
+            GridSplitter splitter = new GridSplitter
+            {
+                Width = 2.0,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            Grid.SetColumn(splitter, 1);
+            newGrid.Children.Add(splitter);
+        }
+        else
+        {
+            newGrid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
+            newGrid.RowDefinitions.Add(new RowDefinition(2.0, GridUnitType.Pixel));
+            newGrid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
+
+            if (direction == TabSplitDirection.UP)
+            {
+                Grid.SetRow(sourceGroup, 2);
+            }
+            else
+            {
+                Grid.SetRow(sourceGroup, 0);
+            }
+
+            GridSplitter splitter = new GridSplitter
+            {
+                Height = 2.0,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            Grid.SetRow(splitter, 1);
+            newGrid.Children.Add(splitter);
+        }
+        
+        newGrid.Children.Add(sourceGroup);
+        sourceGroup.Grid = newGrid;
+
+        TabGroup newTabGroup = new TabGroup(this, newGrid);
+        if (direction == TabSplitDirection.LEFT || direction == TabSplitDirection.RIGHT)
+        {
+            if (direction == TabSplitDirection.LEFT)
+            {
+                Grid.SetColumn(newTabGroup, 0);
+            }
+            else
+            {
+                Grid.SetColumn(newTabGroup, 2);
+            }
+        }
+        else
+        {
+            if (direction == TabSplitDirection.UP)
+            {
+                Grid.SetRow(newTabGroup, 0);
+            }
+            else
+            {
+                Grid.SetRow(newTabGroup, 2);
+            }
+        }
+
+        newGrid.Children.Add(newTabGroup);
+        TabGroups.Add(newTabGroup);
+
+        return newTabGroup;
+
+    }
+
+    private void RemoveEmptyTabGroups()
+    {
+        List<TabGroup> groupsToRemove = new List<TabGroup>();
+        foreach (TabGroup group in TabGroups)
+        {
+            if (group.Tabs.Count == 0) 
+            {
+                groupsToRemove.Add(group);
+            }
+        }
+
+        foreach (TabGroup group in groupsToRemove)
+        {
+            TabGroups.Remove(group);
+            Grid parentGrid = group.Grid;
+
+            /* If this group is inside a split (3 children: Group, Splitter, Other) */
+            if (parentGrid.Children.Count == 3)
+            {
+                Control? remainingChild = null;
+                foreach (var child in parentGrid.Children)
+                {
+                    /* Find the child that ISN'T the empty group and ISN'T the splitter */
+                    if (child != group && !(child is GridSplitter))
+                    {
+                        remainingChild = child as Control;
+                        break;
+                    }
+                }
+
+                Grid? higherLevelGrid = parentGrid.Parent as Grid;
+                if (higherLevelGrid != null && remainingChild != null)
+                {
+                    int row = Grid.GetRow(parentGrid);
+                    int col = Grid.GetColumn(parentGrid);
+
+                    /* Detach remaining child from the split-grid */
+                    parentGrid.Children.Remove(remainingChild);
+                    
+                    /* Replace the split-grid with the remaining child in the higher grid */
+                    higherLevelGrid.Children.Remove(parentGrid);
+                    higherLevelGrid.Children.Add(remainingChild);
+                    Grid.SetRow(remainingChild, row);
+                    Grid.SetColumn(remainingChild, col);
+
+                    /* Update the internal Grid reference if the remaining child is a TabGroup */
+                    if (remainingChild is TabGroup remainingGroup)
+                    {
+                        remainingGroup.Grid = higherLevelGrid;
+                    }
+                }
+            }
+            else if (parentGrid == rootGrid)
+            {
+                parentGrid.Children.Remove(group);
+            }
         }
     }
+
 }
 
 public class TabGroup: UserControl
@@ -138,9 +331,12 @@ public class TabGroup: UserControl
     private Panel overlayPanel;
     private StackPanel tabPanel;
 
-    public TabGroup(Workbench workbench)
+    public Grid Grid;
+
+    public TabGroup(Workbench workbench, Grid parentGrid)
     {
         this.workbench = workbench;
+        this.Grid = parentGrid;
 
         Grid grid = new Grid();
         grid.RowDefinitions.Add(new RowDefinition(25.0f, GridUnitType.Pixel));
@@ -176,25 +372,6 @@ public class TabGroup: UserControl
         tabPanel = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal };
         scrollViewer.Content = tabPanel;
 
-        for (int i = 0; i < 5; i++)
-        {
- 
-            Panel inBetween = new Panel();
-            inBetween.Width = 4;
-            inBetween.Margin = new Thickness(-2, 0, -2, 0);
-            inBetween.Background = Brushes.Transparent;
-            tabPanel.Children.Add(inBetween);
-            inBetweenPanels.Add(inBetween);
-
-            Tab tab = new Tab(workbench, this);
-            tabPanel.Children.Add(tab);
-            Tabs.Add(tab);
-            tab.TextBlock.Text = "Tab " + (i + 1);
-            tab.Button.Click += (s, e) => SelectTab(tab);
-            
-            
-        }
-
         Panel inBetween2 = new Panel();
         inBetween2.Width = 4;
         inBetween2.Margin = new Thickness(-2, 0, -2, 0);
@@ -202,19 +379,6 @@ public class TabGroup: UserControl
         tabPanel.Children.Add(inBetween2);
         inBetweenPanels.Add(inBetween2);
 
-        SelectTab(Tabs[0]);
-
-    }
-
-    public void SelectTab(Tab tab)
-    {
-        foreach (Tab child in Tabs)
-        {
-            if (child is Tab t)
-            {
-                t.IsSelected = (t == tab);
-            }
-        }
     }
 
     public void RemoveTab(Tab tab)
@@ -433,9 +597,9 @@ public class Tab: UserControl
     private Control? dragAdorner;
     private AdornerLayer? adornerLayer;
 
-    public TabGroup TabGroup;
+    public TabGroup? TabGroup;
 
-    public Tab(Workbench workbench, TabGroup tabGroup)
+    public Tab(Workbench workbench, TabGroup? tabGroup = null)
     {
         this.workbench = workbench;
         this.TabGroup = tabGroup;
@@ -465,8 +629,10 @@ public class Tab: UserControl
         CloseButton.PointerPressed += (s, e) =>
         {
             Console.WriteLine("Close tab");
+            workbench.RemoveTab(this);
             e.Handled = true;
         };
+
         CloseButton.PointerEntered += (s, e) =>
         {
             CloseButton.Background = new SolidColorBrush(0x50808080);
@@ -531,8 +697,31 @@ public class Tab: UserControl
         Opacity = 1.0;
 
         workbench.TabDragEnded();
-        
+
         Console.WriteLine("Stopped dragging tab.");
+
+        Visual? parent = this.GetVisualParent();
+        if (parent == null) return;
+
+        Point position = e.GetPosition(parent);
+
+        if (this.Bounds.Contains(position))
+        {
+            if (CloseButton.Bounds.Contains(e.GetPosition(contentDock)))
+            {
+                // Clicked close button
+                Console.WriteLine("Close button clicked on tab.");
+                workbench.RemoveTab(this);
+            }
+            else
+            {
+                // Select tab
+                workbench.SelectTab(this);
+                Console.WriteLine("Tab selected.");
+            }
+        }
+        
+
     }
     
     private void OnPointerMoved(object? sender, PointerEventArgs e)
