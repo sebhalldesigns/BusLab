@@ -18,13 +18,36 @@ namespace BusLab;
 public class Workbench: UserControl
 {
     public List<TabGroup> TabGroups = new List<TabGroup>(); 
-
+    
+    private Grid grid;
+    
     public Workbench()
     {
         Console.WriteLine("Hello from Workbench");
 
-        Content = new TabGroup(this);
-        TabGroups.Add((TabGroup)Content);
+        grid = new Grid();
+        this.Content = grid;
+
+        grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+        grid.ColumnDefinitions.Add(new ColumnDefinition(5.0, GridUnitType.Pixel));
+        grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+
+        GridSplitter splitter = new GridSplitter();
+        splitter.Width = 5;
+        Grid.SetColumn(splitter, 1);
+        grid.Children.Add(splitter);
+
+
+        TabGroup tabGroup1 = new TabGroup(this);
+        Grid.SetColumn(tabGroup1, 0);
+        grid.Children.Add(tabGroup1);
+        TabGroups.Add(tabGroup1);
+
+        TabGroup tabGroup2 = new TabGroup(this);
+        Grid.SetColumn(tabGroup2, 2);
+        grid.Children.Add(tabGroup2);
+        TabGroups.Add(tabGroup2);
+
     }
 
     public void TabDragged(Tab tab, PointerEventArgs e)
@@ -33,10 +56,15 @@ public class Workbench: UserControl
         
         foreach (TabGroup group in TabGroups)
         {
-            if (group.TabDragged(tab, e))
-            {
-                return;
-            }
+            group.TabDragged(tab, e);
+        }
+    }
+
+    public void TabDragEnded()
+    {
+        foreach (TabGroup group in TabGroups)
+        {
+            group.TabDragEnded();
         }
     }
 }
@@ -45,11 +73,14 @@ public class TabGroup: UserControl
 {
 
     public List<Tab> Tabs = new List<Tab>();
+    
     public ContentControl ContentControl;
 
+    private List<Panel> inBetweenPanels = new List<Panel>();
     private Workbench workbench;
     private Grid contentGrid;
     private Panel overlayPanel;
+    private StackPanel tabPanel;
 
     public TabGroup(Workbench workbench)
     {
@@ -61,7 +92,6 @@ public class TabGroup: UserControl
 
         ScrollViewer scrollViewer = new ScrollViewer();
         Grid.SetRow(scrollViewer, 0);
-        scrollViewer.Background = new Avalonia.Media.SolidColorBrush(0x30808080);
 
         contentGrid = new Grid();
         contentGrid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
@@ -87,17 +117,35 @@ public class TabGroup: UserControl
         overlayPanel = new Panel();
         overlayPanel.Background = new SolidColorBrush(0x804787d1);
 
-        StackPanel tabPanel = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal };
+        tabPanel = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal };
         scrollViewer.Content = tabPanel;
 
         for (int i = 0; i < 5; i++)
         {
+ 
+            Panel inBetween = new Panel();
+            inBetween.Width = 4;
+            inBetween.Margin = new Thickness(-2, 0, -2, 0);
+            inBetween.Background = Brushes.Transparent;
+            tabPanel.Children.Add(inBetween);
+            inBetweenPanels.Add(inBetween);
+
             Tab tab = new Tab(workbench);
             tabPanel.Children.Add(tab);
             Tabs.Add(tab);
             tab.TextBlock.Text = "Tab " + (i + 1);
             tab.Button.Click += (s, e) => SelectTab(tab);
+            
+            
         }
+
+        Panel inBetween2 = new Panel();
+        inBetween2.Width = 4;
+        inBetween2.Margin = new Thickness(-2, 0, -2, 0);
+        inBetween2.Background = Brushes.Transparent;
+        tabPanel.Children.Add(inBetween2);
+        inBetweenPanels.Add(inBetween2);
+
 
         SelectTab(Tabs[0]);
 
@@ -116,7 +164,18 @@ public class TabGroup: UserControl
 
     public bool TabDragged(Tab tab, PointerEventArgs e)
     {
-        Point position = e.GetPosition(this);
+
+        Console.WriteLine("CHECKING TAB");
+
+        Visual? parent = this.GetVisualParent();
+        if (parent == null) return false;
+
+        Point position = e.GetPosition(parent);
+
+        foreach (Panel inBetween in inBetweenPanels)
+        {
+            inBetween.Background = Brushes.Transparent;
+        }
         
         if (!this.Bounds.Contains(position))
         {
@@ -124,6 +183,8 @@ public class TabGroup: UserControl
             {
                 contentGrid.Children.Remove(overlayPanel);
             }   
+
+            Console.WriteLine("> NOT IN BOUNDS");
 
             return false;
         }
@@ -135,13 +196,36 @@ public class TabGroup: UserControl
             {
                 contentGrid.Children.Remove(overlayPanel);
             }   
+
+            Console.WriteLine("> IN TAB BAR");
+
+            for (int i = 0; i < Tabs.Count; i++)
+            {
+                if (Tabs[i].Bounds.Contains(e.GetPosition(tabPanel)))
+                {
+                    if (e.GetPosition(Tabs[i]).X < Tabs[i].Bounds.Width / 2)
+                    {
+                        /* left side */
+                        Panel leftInBetween = inBetweenPanels[i];
+                        leftInBetween.Background = new SolidColorBrush(0x804787d1);
+                    }
+                    else
+                    {
+                        /* right side */
+                        Panel rightInBetween = inBetweenPanels[i + 1];
+                        rightInBetween.Background = new SolidColorBrush(0x804787d1);
+                    }
+                }
+            }
         }
         else
         {
             /* handle content area */
+
+            Console.WriteLine("> IN CONTENT");
             
-            double xProportion = position.X / this.Bounds.Width;
-            double yProportion = (position.Y - 25) / (this.Bounds.Height - 25);
+            double xProportion = (position.X - this.Bounds.X) / this.Bounds.Width;
+            double yProportion = (position.Y - 25 - this.Bounds.Y) / (this.Bounds.Height - 25);
 
             Grid.SetRow(overlayPanel, 0);
             Grid.SetRowSpan(overlayPanel, 2);
@@ -183,6 +267,19 @@ public class TabGroup: UserControl
 
 
         return true;
+    }
+
+    public void TabDragEnded()
+    {   
+        if (overlayPanel.Parent != null)
+        {
+            contentGrid.Children.Remove(overlayPanel);
+        }   
+
+        foreach (Panel inBetween in inBetweenPanels)
+        {
+            inBetween.Background = Brushes.Transparent;
+        }
     }
 }
 
@@ -299,6 +396,8 @@ public class Tab: UserControl
         
         // Make original tab visible again
         Opacity = 1.0;
+
+        workbench.TabDragEnded();
         
         Console.WriteLine("Stopped dragging tab.");
     }
