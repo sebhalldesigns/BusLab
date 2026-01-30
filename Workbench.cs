@@ -15,11 +15,38 @@ using System.Collections.Generic;
 
 namespace BusLab;
 
+public enum TabDragEventType
+{
+    NONE,
+    SPLIT,
+    DROP, 
+    INSERT
+}
+
+public enum TabSplitDirection
+{
+    NONE,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+}
+
+public class TabDragEvent
+{
+    public TabDragEventType EventType { get; set; } = TabDragEventType.NONE;
+    public TabSplitDirection SplitDirection { get; set; } = TabSplitDirection.NONE;
+    public int InsertIndex { get; set; } = -1;
+    public Tab? Tab { get; set; } = null;
+    public TabGroup? TargetGroup { get; set; } = null;
+}
+
 public class Workbench: UserControl
 {
     public List<TabGroup> TabGroups = new List<TabGroup>(); 
     
     private Grid grid;
+    private TabDragEvent currentTabDragEvent = new TabDragEvent();
     
     public Workbench()
     {
@@ -52,11 +79,12 @@ public class Workbench: UserControl
 
     public void TabDragged(Tab tab, PointerEventArgs e)
     {
-        Console.WriteLine("Tab dragged: " + tab.TextBlock.Text + " at " + e.GetPosition(this));
+
+        currentTabDragEvent = new TabDragEvent { Tab = tab };
         
         foreach (TabGroup group in TabGroups)
         {
-            group.TabDragged(tab, e);
+            group.TabDragged(tab, e, currentTabDragEvent);
         }
     }
 
@@ -65,6 +93,34 @@ public class Workbench: UserControl
         foreach (TabGroup group in TabGroups)
         {
             group.TabDragEnded();
+        }
+
+        Console.WriteLine("Tab drag ended with event type: " + currentTabDragEvent.EventType);
+        Console.WriteLine("Split direction: " + currentTabDragEvent.SplitDirection);
+        Console.WriteLine("Insert index: " + currentTabDragEvent.InsertIndex);
+
+        if (currentTabDragEvent.Tab == null || currentTabDragEvent.TargetGroup == null) return;
+
+        switch (currentTabDragEvent.EventType)
+        {
+            case TabDragEventType.DROP:
+            {
+                if (currentTabDragEvent.Tab.TabGroup != currentTabDragEvent.TargetGroup)
+                {   
+                    /* move tab to target group */
+                    currentTabDragEvent.Tab.TabGroup.RemoveTab(currentTabDragEvent.Tab);
+                    currentTabDragEvent.TargetGroup.AddTab(currentTabDragEvent.Tab);
+                }
+               
+            } break;
+
+            case TabDragEventType.INSERT:
+            {
+                /* move tab to target group at specified index */
+                currentTabDragEvent.Tab.TabGroup.RemoveTab(currentTabDragEvent.Tab);
+                currentTabDragEvent.TargetGroup.AddTab(currentTabDragEvent.Tab, currentTabDragEvent.InsertIndex);
+            } break;
+
         }
     }
 }
@@ -130,7 +186,7 @@ public class TabGroup: UserControl
             tabPanel.Children.Add(inBetween);
             inBetweenPanels.Add(inBetween);
 
-            Tab tab = new Tab(workbench);
+            Tab tab = new Tab(workbench, this);
             tabPanel.Children.Add(tab);
             Tabs.Add(tab);
             tab.TextBlock.Text = "Tab " + (i + 1);
@@ -145,7 +201,6 @@ public class TabGroup: UserControl
         inBetween2.Background = Brushes.Transparent;
         tabPanel.Children.Add(inBetween2);
         inBetweenPanels.Add(inBetween2);
-
 
         SelectTab(Tabs[0]);
 
@@ -162,10 +217,49 @@ public class TabGroup: UserControl
         }
     }
 
-    public bool TabDragged(Tab tab, PointerEventArgs e)
+    public void RemoveTab(Tab tab)
     {
+        if (Tabs.Contains(tab))
+        {
+            
+            /* remove an inBetweenPanel */
+            int tabIndex = Tabs.IndexOf(tab);
+            Panel inBetweenToRemove = inBetweenPanels[tabIndex + 1];
+            tabPanel.Children.Remove(inBetweenToRemove);
+            inBetweenPanels.Remove(inBetweenToRemove);
 
-        Console.WriteLine("CHECKING TAB");
+            tabPanel.Children.Remove(tab);
+            Tabs.Remove(tab);
+        }
+    }
+
+    public void AddTab(Tab tab, int index = -1)
+    {
+        Panel inBetween = new Panel();
+        inBetween.Width = 4;
+        inBetween.Margin = new Thickness(-2, 0, -2, 0);
+        inBetween.Background = Brushes.Transparent;
+
+        if (index < 0 || index > Tabs.Count)
+        {
+            tabPanel.Children.Add(tab);
+            Tabs.Add(tab);
+            tabPanel.Children.Add(inBetween);
+            inBetweenPanels.Add(inBetween);
+        }
+        else
+        {
+            tabPanel.Children.Insert(index * 2 + 1, inBetween);
+            tabPanel.Children.Insert(index * 2 + 1, tab);
+            Tabs.Insert(index, tab);
+            inBetweenPanels.Insert(index + 1, inBetween);
+        }
+
+        tab.TabGroup = this;
+    }
+
+    public bool TabDragged(Tab tab, PointerEventArgs e, TabDragEvent dragEvent)
+    {
 
         Visual? parent = this.GetVisualParent();
         if (parent == null) return false;
@@ -184,10 +278,10 @@ public class TabGroup: UserControl
                 contentGrid.Children.Remove(overlayPanel);
             }   
 
-            Console.WriteLine("> NOT IN BOUNDS");
-
             return false;
         }
+
+        dragEvent.TargetGroup = this;
 
         if (position.Y < 25)
         {
@@ -196,8 +290,6 @@ public class TabGroup: UserControl
             {
                 contentGrid.Children.Remove(overlayPanel);
             }   
-
-            Console.WriteLine("> IN TAB BAR");
 
             for (int i = 0; i < Tabs.Count; i++)
             {
@@ -208,21 +300,32 @@ public class TabGroup: UserControl
                         /* left side */
                         Panel leftInBetween = inBetweenPanels[i];
                         leftInBetween.Background = new SolidColorBrush(0x804787d1);
+                        dragEvent.EventType = TabDragEventType.INSERT;
+                        dragEvent.InsertIndex = i;
                     }
                     else
                     {
                         /* right side */
                         Panel rightInBetween = inBetweenPanels[i + 1];
                         rightInBetween.Background = new SolidColorBrush(0x804787d1);
+                        dragEvent.EventType = TabDragEventType.INSERT;
+                        dragEvent.InsertIndex = i + 1;
                     }
+
+                    return true;
                 }
             }
+
+            Panel endInBetween = inBetweenPanels[inBetweenPanels.Count - 1];
+            endInBetween.Background = new SolidColorBrush(0x804787d1);
+
+            dragEvent.EventType = TabDragEventType.INSERT;
+            dragEvent.InsertIndex = -1; /* append to end */
+            return true;
         }
         else
         {
             /* handle content area */
-
-            Console.WriteLine("> IN CONTENT");
             
             double xProportion = (position.X - this.Bounds.X) / this.Bounds.Width;
             double yProportion = (position.Y - 25 - this.Bounds.Y) / (this.Bounds.Height - 25);
@@ -234,11 +337,15 @@ public class TabGroup: UserControl
             {
                 Grid.SetColumn(overlayPanel, 0);
                 Grid.SetColumnSpan(overlayPanel, 1);
+                dragEvent.EventType = TabDragEventType.SPLIT;
+                dragEvent.SplitDirection = TabSplitDirection.LEFT;
             }
             else if (xProportion > 0.8)
             {
                 Grid.SetColumn(overlayPanel, 1);
                 Grid.SetColumnSpan(overlayPanel, 1);
+                dragEvent.EventType = TabDragEventType.SPLIT;
+                dragEvent.SplitDirection = TabSplitDirection.RIGHT;
             }
             else
             {
@@ -249,15 +356,23 @@ public class TabGroup: UserControl
                 {
                     Grid.SetRow(overlayPanel, 0);
                     Grid.SetRowSpan(overlayPanel, 1);
+                    dragEvent.EventType = TabDragEventType.SPLIT;
+                    dragEvent.SplitDirection = TabSplitDirection.UP;
+
                 }
                 else if (yProportion > 0.8)
                 {
                     Grid.SetRow(overlayPanel, 1);
                     Grid.SetRowSpan(overlayPanel, 1);
+                    dragEvent.EventType = TabDragEventType.SPLIT;
+                    dragEvent.SplitDirection = TabSplitDirection.DOWN;
+                }
+                else
+                {
+                    dragEvent.EventType = TabDragEventType.DROP;
                 }
             }
 
-           
             if (overlayPanel.Parent == null)
             {
                 contentGrid.Children.Add(overlayPanel);
@@ -281,6 +396,21 @@ public class TabGroup: UserControl
             inBetween.Background = Brushes.Transparent;
         }
     }
+
+    private void DebugPrintStructure()
+    {
+        Console.WriteLine("=== Tab Panel Structure ===");
+        for (int i = 0; i < tabPanel.Children.Count; i++)
+        {
+            var child = tabPanel.Children[i];
+            if (child is Panel)
+                Console.WriteLine($"{i}: InBetween Panel");
+            else if (child is Tab tab)
+                Console.WriteLine($"{i}: Tab '{tab.TextBlock.Text}'");
+        }
+        Console.WriteLine($"Tabs.Count: {Tabs.Count}");
+        Console.WriteLine($"InBetweenPanels.Count: {inBetweenPanels.Count}");
+    }
 }
 
 public class Tab: UserControl
@@ -303,9 +433,12 @@ public class Tab: UserControl
     private Control? dragAdorner;
     private AdornerLayer? adornerLayer;
 
-    public Tab(Workbench workbench)
+    public TabGroup TabGroup;
+
+    public Tab(Workbench workbench, TabGroup tabGroup)
     {
         this.workbench = workbench;
+        this.TabGroup = tabGroup;
 
         /* create a new button on top of label */
         
@@ -443,7 +576,6 @@ public class Tab: UserControl
 
         workbench.TabDragged(this, e);
         
-        Console.WriteLine($"Dragging tab by {delta}");
     }
     
     private Control CreateDragAdorner()
