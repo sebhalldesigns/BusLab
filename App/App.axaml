@@ -1,37 +1,32 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia" 
              x:Class="BusLab.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushLow">#C04787d1</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushMed">#C04787d1</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushHigh">#C04787d1</SolidColorBrush>
-            <SolidColorBrush x:Key="DockApplicationAccentBrushIndicator">#C04787d1</SolidColorBrush>
-
-            <SolidColorBrush x:Key="DockThemeBorderLowBrush" Color="#30808080" />
-            <SolidColorBrush x:Key="DockThemeAccentBrush" Color="#d08880" />
-            <SolidColorBrush x:Key="DockToolChromeIconBrush" Color="#30808080" />
 
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#E0E0E0</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuBackground">#404040</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuHighlight">#505050</SolidColorBrush>
+                    <SolidColorBrush x:Key="AccentBrush">#596a80</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuBackground">#151515</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuHighlight">#151515</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuPopupBorder">#303030</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuPopupHighlight">#303030</SolidColorBrush>
                     <!-- dark-specific overrides -->
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="DockApplicationAccentForegroundBrush">#101010</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuBackground">#E7E7E7</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuHighlight">#D7D7D7</SolidColorBrush>
+                    <SolidColorBrush x:Key="AccentBrush">#a4c3eb</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuBackground">#FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuHighlight">#FFFFFF</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuPopupBorder">#E8E8E8</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuPopupHighlight">#E8E8E8</SolidColorBrush>
                     <!-- light-specific overrides -->
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-
-            <SolidColorBrush x:Key="ThemeControlHighBrush" Color="Transparent"/>
             
         </ResourceDictionary>
 
@@ -41,6 +36,6 @@
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
         <StyleInclude Source="avares://BusLab/App/GlobalStyles.axaml"/>
         <SimpleTheme/>
-        <DockSimpleTheme/>
+        <materialIcons:MaterialIconStyles/>
     </Application.Styles>
 </Application>

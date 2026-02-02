@@ -3,13 +3,6 @@ using Avalonia.Styling;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Dock.Avalonia.Themes.Simple;
-using Dock.Avalonia.Controls;
-using Dock.Model.Avalonia;
-using Dock.Model.Avalonia.Controls;
-using Dock.Model.Core;
-using Dock.Model.Controls;
-using Dock.Settings;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -21,7 +14,6 @@ namespace BusLab;
 
 public partial class MainWindow : Window
 {   
-    private DockControl dockControl;
 
     private double previousLeftSidebarWidth = 300;
     private double previousRightSidebarWidth = 300;

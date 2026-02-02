@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:local="clr-namespace:BusLab.ToolBar"
+        mc:Ignorable="d"
+        x:Class="BusLab.ToolBar.ToolBar"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular">
+
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#30808080"/>
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="5" />
+        </Style>
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#60808080" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+        <Style Selector="Button:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#30808080" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="#20808080">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Spacing="5" Margin="5 0">
+            <Button Padding="2" Margin="0 0 0 5">
+                <StackPanel Orientation="Horizontal">
+                    <materialIcons:MaterialIcon Kind="Connection" Width="18" Height="18"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5 0 5 0">Connect</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Padding="2" Margin="0 0 0 5">
+                <StackPanel Orientation="Horizontal">
+                    <materialIcons:MaterialIcon Kind="Record" Width="18" Height="18"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5 0 5 0">Start Logging</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Spacing="5" Margin="5 0">
+            <Button Padding="2" Margin="0 0 0 5">
+                <StackPanel Orientation="Horizontal">
+                    <materialIcons:MaterialIcon Kind="Lan" Width="18" Height="18"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5 0 5 0">Network</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Button Padding="2" Margin="0 0 0 5">
+                <StackPanel Orientation="Horizontal">
+                    <materialIcons:MaterialIcon Kind="Gear" Width="18" Height="18"/>
+                    <TextBlock VerticalAlignment="Center" Margin="5 0 5 0">Settings</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+
+</UserControl>
