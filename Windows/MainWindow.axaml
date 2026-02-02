@@ -6,6 +6,7 @@
         xmlns:TitleBar="clr-namespace:BusLab.TitleBar"
         xmlns:ToolBar="clr-namespace:BusLab.ToolBar"
         xmlns:StatusBar="clr-namespace:BusLab.StatusBar"
+        xmlns:Explorer="clr-namespace:BusLab.Explorer"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         MinWidth="750" MinHeight="500"
         Width="1600" Height="1000"
@@ -42,10 +43,12 @@
                 <ColumnDefinition Width="3*" MinWidth="500"/>
             </Grid.ColumnDefinitions>
             
+            <Explorer:Explorer Grid.Column="0"/>
+
             <GridSplitter Grid.Column="1" Width="2"/>
 
             <DockPanel Grid.Column="2">
-                <ToolBar:ToolBar DockPanel.Dock="Top"/>
+                <ToolBar:ToolBar DockPanel.Dock="Top" Height="30"/>
                 <Rectangle/>        
             </DockPanel>
         </Grid>
