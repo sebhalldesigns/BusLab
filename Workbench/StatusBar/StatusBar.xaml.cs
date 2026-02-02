@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text;
 
 
-namespace BusLab.StatusBar;
+namespace BusLab.Workbench;
 
 public partial class StatusBar : UserControl
 {   

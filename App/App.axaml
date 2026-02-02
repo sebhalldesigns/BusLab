@@ -11,10 +11,10 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="AccentBrush">#596a80</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuBackground">#151515</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuHighlight">#151515</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuPopupBorder">#303030</SolidColorBrush>
-                    <SolidColorBrush x:Key="MenuPopupHighlight">#303030</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuBackground">#282828</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuHighlight">#282828</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuPopupBorder">#505050</SolidColorBrush>
+                    <SolidColorBrush x:Key="MenuPopupHighlight">#505050</SolidColorBrush>
                     <!-- dark-specific overrides -->
                 </ResourceDictionary>
 

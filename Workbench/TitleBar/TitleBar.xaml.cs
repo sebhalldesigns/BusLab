@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text;
 
 
-namespace BusLab.TitleBar;
+namespace BusLab.Workbench;
 
 public partial class TitleBar : UserControl
 {   
