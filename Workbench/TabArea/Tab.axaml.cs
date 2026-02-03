@@ -10,6 +10,7 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using Avalonia.Styling;
+using Avalonia.Controls.Metadata;
 
 using System;
 using System.Collections.Generic;
@@ -17,20 +18,14 @@ using System.Collections.Generic;
 
 namespace BusLab.Workbench;
 
-public class Tab: UserControl
+[PseudoClasses(":selected")]
+public partial class Tab: UserControl
 {
 
     private TabArea tabArea;
 
     public bool IsSelected { get => GetIsSelected(); set => SetIsSelected(value); }
     private bool isSelected = false;
-
-    private DockPanel contentDock;
-    private Grid labelGrid;
-
-    public Button Button;
-    public Button CloseButton;
-    public TextBlock TextBlock;
 
     private bool isDragging = false;
     private Point dragStartPoint;
@@ -39,39 +34,14 @@ public class Tab: UserControl
 
     public TabGroup? TabGroup;
 
-    private IBrush highlightBrush = new SolidColorBrush(0x58808080);
-
     public Tab(TabArea tabArea, TabGroup? tabGroup = null)
     {
+
+        InitializeComponent();
+
         this.tabArea = tabArea;
         this.TabGroup = tabGroup;
         
-
-        /* create a new button on top of label */
-        
-        Button = new Button();
-        Content = Button;
-        Button.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-        Button.Padding = new Thickness(0);
-        Button.CornerRadius = new CornerRadius(5);
-        Button.Background = Avalonia.Media.Brushes.Transparent;
-        Button.BorderThickness = new Thickness(0);
-        
-        contentDock = new DockPanel();
-        Button.Content = contentDock;
-        labelGrid = new Grid();
-        CloseButton = new Button();
-        CloseButton.Width = 17;
-        CloseButton.Height = 17;
-        CloseButton.Background = Brushes.Transparent;
-        CloseButton.Margin = new Thickness(0, 0, 3, 0);
-        CloseButton.CornerRadius = new CornerRadius(4);
-        CloseButton.BorderThickness = new Thickness(0);
-        CloseButton.Content = new MaterialIcon { Kind = Material.Icons.MaterialIconKind.Close, Width = 15, Height = 15 };
-        CloseButton.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-        CloseButton.VerticalContentAlignment = Avalonia.Layout.VerticalAlignment.Center;
-
-        CloseButton.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center;
         CloseButton.PointerPressed += (s, e) =>
         {
             Console.WriteLine("Close tab");
@@ -89,35 +59,14 @@ public class Tab: UserControl
             CloseButton.Background = Brushes.Transparent;
         };
 
-        CloseButton.IsVisible = false;
-        DockPanel.SetDock(CloseButton, Avalonia.Controls.Dock.Right);
-        contentDock.Children.Add(CloseButton);
-        contentDock.Children.Add(labelGrid);
-    
-        TextBlock = new TextBlock { Text = "Tab" };
-        TextBlock.TextAlignment = TextAlignment.Left;
-        TextBlock.VerticalAlignment = VerticalAlignment.Center;
-        TextBlock.Margin = new Thickness(5, 0, 0, 0);
-        TextBlock.IsHitTestVisible = false;
-        labelGrid.Children.Add(TextBlock);
-        
-        MinWidth = 100;
-        MaxWidth = 200;
-        
         PointerEntered += (s, e) =>
         {
             CloseButton.IsVisible = true;
-            Button.Background = highlightBrush;
         };
 
         PointerExited += (s, e) =>
         {
             CloseButton.IsVisible = false;
-
-            if (!isSelected)
-            {
-                Button.Background = Avalonia.Media.Brushes.Transparent;
-            }
         };
         
         // Use AddHandler with handledEventsToo = true
@@ -260,14 +209,7 @@ public class Tab: UserControl
     {
         isSelected = value;
 
-        if (!isSelected)
-        {
-            Button.Background = Avalonia.Media.Brushes.Transparent;
-        }
-        else
-        {
-            Button.Background = highlightBrush;
-        }
+        PseudoClasses.Set(":selected", value);
     }
 
     private bool GetIsSelected()

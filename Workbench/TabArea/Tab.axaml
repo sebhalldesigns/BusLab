@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:local="clr-namespace:BusLab.Workbench"
+        mc:Ignorable="d"
+        x:Class="BusLab.Workbench.Tab"
+        FontFamily="avares://BusLab/Assets/Fonts#Iosevka Regular"
+        MinWidth="100" MaxWidth="200">
+    
+
+    <UserControl.Styles>
+        <Style Selector="local|Tab Button#Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource MenuPopupHighlight}"/>
+        </Style>
+
+        <Style Selector="local|Tab:selected Button#Button /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource MenuPopupHighlight}"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Button Name="Button" HorizontalContentAlignment="Stretch" Padding="0" CornerRadius="5" Background="Transparent" BorderThickness="0">    
+        <DockPanel Name="contentDock">
+            <Button Name="CloseButton" DockPanel.Dock="Right" Width="17" Height="17" Background="Transparent" Margin="0 0 3 0" CornerRadius="4" BorderThickness="0"
+                VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsVisible="False">
+                <materialIcons:MaterialIcon Kind="Close" Width="15" Height="15"/>
+            </Button>
+            <Grid Name="labelGrid">
+                <TextBlock Name="TextBlock" TextAlignment="Left" VerticalAlignment="Center" Margin="5 0 0 0" IsHitTestVisible="False">
+                    Tab
+                </TextBlock>
+            </Grid>
+        </DockPanel> 
+    </Button>
+
+</UserControl>
