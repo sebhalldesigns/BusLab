@@ -1,0 +1,105 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab.UI.App"
+        xmlns:docking="clr-namespace:BusLab.UI.Docking"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="1600" Height="1000"
+        x:Class="BusLab.UI.App.MainWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="Full"
+        FontFamily="Segoe UI, -apple-system, system-ui, Noto Sans, Arial"
+        Icon="avares://BusLab/Assets/Icons/icon.ico"
+        Title="BusLab">
+
+    <Window.Styles>
+        <Style Selector="Window[WindowState=Maximized]">
+            <Setter Property="Padding" Value="6"/>
+        </Style>
+        <Style Selector="Window[WindowState=Normal]">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="150"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>            
+
+            <StackPanel Name="MenuBarStack" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
+
+                <TextBlock Text="BusLab" VerticalAlignment="Top" Margin="10 1 5 0" FontWeight="SemiBold"/>
+
+                <Menu DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" CornerRadius="5" FontSize="13">
+                    <MenuItem Header="_File" Classes="Small">
+                        <MenuItem Header="New..."/>
+                        <Separator/>
+                        <MenuItem Header="Open..." InputGesture="Ctrl+O"/>
+                        <MenuItem Header="Open Workspace..." InputGesture="Ctrl+Shift+O"/>
+                        <Separator/>    
+                        <MenuItem Header="Save"/>
+                        <MenuItem Header="Save As..."/>
+                        <Separator/>
+                        <MenuItem Header="Settings" InputGesture="Ctrl+,"/>    
+                        <Separator/>
+                        <MenuItem Header="_Exit"/>
+                    </MenuItem>
+                    <MenuItem Header="_Edit">
+                        <MenuItem Header="Cut"/>
+                        <MenuItem Header="Copy"/>
+                        <MenuItem Header="Paste"/>
+                        <Separator/>
+                        <MenuItem Header="Find"/> 
+                    </MenuItem>
+                    <MenuItem Header="_View">
+                        <MenuItem Header="New Window"/>
+                        <Separator/>
+                        <MenuItem Header="Open Workspace..."/>
+                        <MenuItem Header="Save Workspace As..."/>
+                    </MenuItem>
+                    <MenuItem Header="_Help">
+                        <MenuItem Header="_Documentation"/>
+                        <Separator/>
+                        <MenuItem Header="About"/>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*" MinWidth="150" MaxWidth="500"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="1" BorderThickness="0" Classes="Small" Watermark="Search"/>
+            </Grid>
+
+            <Grid Grid.Column="2" Width="{Binding #MenuBarStack.Bounds.Width}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 100 0">
+                    <Button Width="25" Height="25" MinHeight="0" Padding="0" Background="Transparent">
+                        <PathIcon Width="16" Height="16" Data="{DynamicResource SemiIconSettingStroked}" Foreground="{DynamicResource SemiColorText1}"/>
+                    </Button>
+                    <Button Width="25" Height="25" MinHeight="0" Padding="0" Background="Transparent">
+                        <PathIcon Width="16" Height="16" Data="{DynamicResource SemiIconHelpCircleStroked}" Foreground="{DynamicResource SemiColorText1}"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <docking:TabArea Grid.Row="1"/>
+
+   
+    </Grid>
+</Window>

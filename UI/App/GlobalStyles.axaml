@@ -1,5 +1,9 @@
 <Styles xmlns="https://github.com/avaloniaui" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+     <Style Selector="CaptionButtons /template/ Button#PART_FullScreenButton">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
 
     <Style Selector="ListBoxItem">
         <Setter Property="Padding" Value="5"/>
@@ -64,6 +68,6 @@
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="CornerRadius" Value="4"/>
     </Style>
-    
+
 
 </Styles>

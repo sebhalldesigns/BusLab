@@ -10,20 +10,16 @@ using System.Text.Json;
 using System.Text;
 
 
-namespace BusLab.Workbench;
+namespace BusLab.UI.App;
 
-public partial class ToolBar : UserControl
+public partial class MainWindow : Window
 {   
 
-
-    public ToolBar()
+    public MainWindow()
     {
         InitializeComponent();        
-
-      
+        
     }
-
-
 
 }
 

@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using System;
 
+using BusLab.UI.App;
+
 namespace BusLab;
 
 class Program

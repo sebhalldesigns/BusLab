@@ -13,7 +13,7 @@ using Avalonia.VisualTree;
 using System;
 using System.Collections.Generic;
 
-namespace BusLab.Workbench;
+namespace BusLab.UI.Docking;
 
 public enum TabDragEventType
 {

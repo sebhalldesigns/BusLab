@@ -1,7 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:semi="https://irihi.tech/semi"
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia" 
-             x:Class="BusLab.App"
+             x:Class="BusLab.UI.App.App"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -30,12 +31,19 @@
             
         </ResourceDictionary>
 
+         <!-- top menu bar (File/Edit/...) -->
+        <x:Double x:Key="TopLevelMenuItemMinHeight">20</x:Double>
+        <Thickness x:Key="TopLevelMenuItemPadding">8 2</Thickness>
+
+        <!-- optional: submenu row height/padding -->
+        <Thickness x:Key="MenuItemPadding">10 4</Thickness>
+
     </Application.Resources>
 
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
-        <StyleInclude Source="avares://BusLab/App/GlobalStyles.axaml"/>
-        <SimpleTheme/>
+        <StyleInclude Source="avares://BusLab/UI/App/GlobalStyles.axaml"/>
+        <semi:SemiTheme Locale="en-USCN" />
         <materialIcons:MaterialIconStyles/>
     </Application.Styles>
 </Application>

@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 
 
-namespace BusLab.Workbench;
+namespace BusLab.UI.Docking;
 
 [PseudoClasses(":selected")]
 public partial class Tab: UserControl
