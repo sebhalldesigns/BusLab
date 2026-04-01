@@ -40,6 +40,7 @@ public class TabGroup: UserControl
         grid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
 
         ScrollViewer scrollViewer = new ScrollViewer();
+        scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
         Grid.SetRow(scrollViewer, 0);
 
         contentGrid = new Grid();

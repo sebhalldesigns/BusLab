@@ -15,20 +15,18 @@ using System.Collections.Generic;
 
 namespace BusLab.UI.Docking;
 
-public class TabArea: UserControl
+public partial class TabArea: UserControl
 {
     public List<TabGroup> TabGroups = new List<TabGroup>(); 
     public List<Tab> Tabs = new List<Tab>();
     
-    private Grid rootGrid;
     private TabDragEvent currentTabDragEvent = new TabDragEvent();
     
     public TabArea()
     {
+        InitializeComponent();
         Console.WriteLine("Hello from Workbench");
-
-        rootGrid = new Grid();
-        this.Content = rootGrid;
+    
 
         for (int i = 0; i < 10; i++)
         {
@@ -44,9 +42,9 @@ public class TabArea: UserControl
 
         if (TabGroups.Count == 0)
         {
-            TabGroup tabGroup = new TabGroup(this, rootGrid);
+            TabGroup tabGroup = new TabGroup(this, DocumentGrid);
             Grid.SetColumn(tabGroup, 0);
-            rootGrid.Children.Add(tabGroup);
+            DocumentGrid.Children.Add(tabGroup);
             TabGroups.Add(tabGroup);
         }
 
@@ -283,7 +281,7 @@ public class TabArea: UserControl
                     }
                 }
             }
-            else if (parentGrid == rootGrid)
+            else if (parentGrid == DocumentGrid)
             {
                 parentGrid.Children.Remove(group);
             }
