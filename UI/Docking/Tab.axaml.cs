@@ -18,11 +18,19 @@ using System.Collections.Generic;
 
 namespace BusLab.UI.Docking;
 
-[PseudoClasses(":selected")]
+public enum TabType
+{
+    Document,
+    Tool
+}
+
+[PseudoClasses(":selected", ":tool")]
 public partial class Tab: UserControl
 {
 
     private TabArea tabArea;
+
+    public TabType Type { get; private set; }
 
     public bool IsSelected { get => GetIsSelected(); set => SetIsSelected(value); }
     private bool isSelected = false;
@@ -34,13 +42,19 @@ public partial class Tab: UserControl
 
     public TabGroup? TabGroup;
 
-    public Tab(TabArea tabArea, TabGroup? tabGroup = null)
+    public Tab(TabArea tabArea, TabType type = TabType.Document, TabGroup? tabGroup = null)
     {
 
         InitializeComponent();
 
         this.tabArea = tabArea;
         this.TabGroup = tabGroup;
+        this.Type = type;
+
+        if (type == TabType.Tool)
+        {
+            PseudoClasses.Set(":tool", true);
+        }
         
         CloseButton.PointerPressed += (s, e) =>
         {
@@ -61,12 +75,14 @@ public partial class Tab: UserControl
 
         PointerEntered += (s, e) =>
         {
-            CloseButton.IsVisible = true;
+            CloseButton.Opacity = 1.0;
+            CloseButton.IsHitTestVisible = true;
         };
 
         PointerExited += (s, e) =>
         {
-            CloseButton.IsVisible = false;
+            CloseButton.Opacity = 0.0;
+            CloseButton.IsHitTestVisible = false;
         };
         
         // Use AddHandler with handledEventsToo = true

@@ -15,41 +15,100 @@ using System.Collections.Generic;
 
 namespace BusLab.UI.Docking;
 
+public enum ToolTabLocation
+{
+    Left,
+    Right,
+    Bottom
+}
+
 public partial class TabArea: UserControl
 {
-    public List<TabGroup> TabGroups = new List<TabGroup>(); 
     public List<Tab> Tabs = new List<Tab>();
     
+    public List<TabGroup> DocumentTabs = new List<TabGroup>();
+    public List<TabGroup>[] ToolTabs = new List<TabGroup>[]
+    {
+        new List<TabGroup>(),
+        new List<TabGroup>(),
+        new List<TabGroup>()
+    };
+    
     private TabDragEvent currentTabDragEvent = new TabDragEvent();
+
+    private List<Grid> ToolGrids = new List<Grid>();
     
     public TabArea()
     {
         InitializeComponent();
         Console.WriteLine("Hello from Workbench");
-    
+
+        ToolGrids.Add(LeftToolGrid);
+        ToolGrids.Add(RightToolGrid);
+        ToolGrids.Add(BottomToolGrid);
 
         for (int i = 0; i < 10; i++)
         {
-            Tab tab = AddTab();
+            Tab tab = AddDocumentTab();
             tab.TextBlock.Text = "Tab " + (i + 1);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            Tab tab = AddToolTab(ToolTabLocation.Left);
+            tab.TextBlock.Text = "Tool " + (i + 1);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            Tab tab = AddToolTab(ToolTabLocation.Right);
+            tab.TextBlock.Text = "Tool " + (i + 1);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            Tab tab = AddToolTab(ToolTabLocation.Bottom);
+            tab.TextBlock.Text = "Tool " + (i + 1);
         }
 
     }
 
-    public Tab AddTab()
+    public Tab AddDocumentTab()
     {
         Tab tab = new Tab(this);
 
-        if (TabGroups.Count == 0)
+        if (DocumentTabs.Count == 0)
         {
             TabGroup tabGroup = new TabGroup(this, DocumentGrid);
             Grid.SetColumn(tabGroup, 0);
             DocumentGrid.Children.Add(tabGroup);
-            TabGroups.Add(tabGroup);
+            DocumentTabs.Add(tabGroup);
         }
 
-        TabGroups[0].AddTab(tab);
+        DocumentTabs[0].AddTab(tab);
         Tabs.Add(tab);
+
+        SelectTab(tab);
+
+        return tab;
+    }
+
+    public Tab AddToolTab(ToolTabLocation location)
+    {
+        Tab tab = new Tab(this, TabType.Tool);
+
+        if (ToolTabs[(int)location].Count == 0)
+        {
+            TabGroup tabGroup = new TabGroup(this, ToolGrids[(int)location], TabType.Tool);
+            Grid.SetColumn(tabGroup, 0);
+            ToolGrids[(int)location].Children.Add(tabGroup);
+            ToolTabs[(int)location].Add(tabGroup);
+        }
+
+        ToolTabs[(int)location][0].AddTab(tab);
+        Tabs.Add(tab);
+
+        SelectTab(tab);
 
         return tab;
     }
@@ -62,12 +121,12 @@ public partial class TabArea: UserControl
             Tabs.Remove(tab);
         }
 
-        RemoveEmptyTabGroups();
+        RemoveEmptyTabs();
     }
 
     public void SelectTab(Tab tab)
     {
-        foreach (Tab t in Tabs)
+        foreach (Tab t in tab.TabGroup.Tabs)
         {
             t.IsSelected = false;
         }
@@ -79,18 +138,41 @@ public partial class TabArea: UserControl
     {
 
         currentTabDragEvent = new TabDragEvent { Tab = tab };
-        
-        foreach (TabGroup group in TabGroups)
+
+        if (tab.Type == TabType.Document)
         {
-            group.TabDragged(tab, e, currentTabDragEvent);
+            foreach (TabGroup group in DocumentTabs)
+            {
+                group.TabDragged(tab, e, currentTabDragEvent);
+            }
         }
+        else
+        {
+            foreach (List<TabGroup> groups in ToolTabs)
+            {
+                foreach (TabGroup group in groups)
+                {
+                    group.TabDragged(tab, e, currentTabDragEvent);
+                }
+            }
+        }
+        
+        
     }
 
     public void TabDragEnded()
     {
-        foreach (TabGroup group in TabGroups)
+        foreach (TabGroup group in DocumentTabs)
         {
             group.TabDragEnded();
+        }
+
+        foreach (List<TabGroup> groups in ToolTabs)
+        {
+            foreach (TabGroup group in groups)
+            {
+                group.TabDragEnded();
+            }
         }
 
         Console.WriteLine("Tab drag ended with event type: " + currentTabDragEvent.EventType);
@@ -130,7 +212,7 @@ public partial class TabArea: UserControl
 
         currentTabDragEvent = new TabDragEvent();
 
-        RemoveEmptyTabGroups();
+        RemoveEmptyTabs();
     }
 
     private TabGroup SplitTabGroup(TabGroup sourceGroup, TabSplitDirection direction)
@@ -198,7 +280,7 @@ public partial class TabArea: UserControl
         newGrid.Children.Add(sourceGroup);
         sourceGroup.Grid = newGrid;
 
-        TabGroup newTabGroup = new TabGroup(this, newGrid);
+        TabGroup newTabGroup = new TabGroup(this, newGrid, sourceGroup.TabType);
         if (direction == TabSplitDirection.LEFT || direction == TabSplitDirection.RIGHT)
         {
             if (direction == TabSplitDirection.LEFT)
@@ -223,16 +305,16 @@ public partial class TabArea: UserControl
         }
 
         newGrid.Children.Add(newTabGroup);
-        TabGroups.Add(newTabGroup);
+        DocumentTabs.Add(newTabGroup);
 
         return newTabGroup;
 
     }
 
-    private void RemoveEmptyTabGroups()
+    private void RemoveEmptyTabs()
     {
         List<TabGroup> groupsToRemove = new List<TabGroup>();
-        foreach (TabGroup group in TabGroups)
+        foreach (TabGroup group in DocumentTabs)
         {
             if (group.Tabs.Count == 0) 
             {
@@ -240,9 +322,25 @@ public partial class TabArea: UserControl
             }
         }
 
+        foreach (List<TabGroup> groups in ToolTabs)
+        {
+            foreach (TabGroup group in groups)
+            {
+                if (group.Tabs.Count == 0) 
+                {
+                    groupsToRemove.Add(group);
+                }
+            }
+        }
+
         foreach (TabGroup group in groupsToRemove)
         {
-            TabGroups.Remove(group);
+            DocumentTabs.Remove(group);
+            foreach (List<TabGroup> groups in ToolTabs)
+            {
+                groups.Remove(group);
+            }
+
             Grid parentGrid = group.Grid;
 
             /* If this group is inside a split (3 children: Group, Splitter, Other) */
@@ -285,7 +383,20 @@ public partial class TabArea: UserControl
             {
                 parentGrid.Children.Remove(group);
             }
+            else
+            {
+                foreach (Grid toolGrid in ToolGrids)
+                {
+                    if (parentGrid == toolGrid)
+                    {
+                        parentGrid.Children.Remove(group);
+                        break;
+                    }
+                }
+            }
         }
     }
+
+   
 
 }

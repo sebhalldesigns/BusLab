@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:local="clr-namespace:BusLab.UI.Docking"
+        mc:Ignorable="d"
+        x:Class="BusLab.UI.Docking.TabGroup">
+    
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Rectangle Name="TabBackground" Fill="{DynamicResource SemiColorBackground2}" Grid.Row="0" IsVisible="False"/>
+
+        <ScrollViewer Name="TabScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Row="0">
+            <StackPanel Name="TabStackPanel" Orientation="Horizontal"/>
+        </ScrollViewer>
+
+        <Rectangle Name="DocumentHighlight" Grid.Row="1" Fill="{DynamicResource SemiColorBackground2}" IsVisible="True"/>
+
+        <Grid Name="ContentGrid" Grid.Row="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Name="TabContent" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                Content goes here
+            </ContentControl>
+
+        </Grid>
+    </Grid>
+
+</UserControl>

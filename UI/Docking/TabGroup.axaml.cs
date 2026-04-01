@@ -15,66 +15,45 @@ using System.Collections.Generic;
 
 namespace BusLab.UI.Docking;
 
-public class TabGroup: UserControl
+public partial class TabGroup: UserControl
 {
 
     public List<Tab> Tabs = new List<Tab>();
     
-    public ContentControl ContentControl;
-
     private List<Panel> inBetweenPanels = new List<Panel>();
     private TabArea tabArea;
-    private Grid contentGrid;
     private Panel overlayPanel;
-    private StackPanel tabPanel;
 
     public Grid Grid;
 
-    public TabGroup(TabArea tabArea, Grid parentGrid)
+    public TabType TabType { get; private set; }
+
+    public TabGroup(TabArea tabArea, Grid parentGrid, TabType tabType = TabType.Document)
     {
         this.tabArea = tabArea;
         this.Grid = parentGrid;
+        this.TabType = tabType;
 
-        Grid grid = new Grid();
-        grid.RowDefinitions.Add(new RowDefinition(25.0f, GridUnitType.Pixel));
-        grid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
+        InitializeComponent();
 
-        ScrollViewer scrollViewer = new ScrollViewer();
-        scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-        Grid.SetRow(scrollViewer, 0);
-
-        contentGrid = new Grid();
-        contentGrid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
-        contentGrid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
-        contentGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-        contentGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-
-        Grid.SetRow(contentGrid, 1);
-    
-        ContentControl = new ContentControl();
-        ContentControl.Content = new TextBlock { Text = "Content goes here." };
-        Grid.SetRow(ContentControl, 0);
-        Grid.SetRowSpan(ContentControl, 2);
-        Grid.SetColumn(ContentControl, 0);
-        Grid.SetColumnSpan(ContentControl, 2);
-        contentGrid.Children.Add(ContentControl);
-
-        grid.Children.Add(contentGrid);
-        grid.Children.Add(scrollViewer);
-    
-        Content = grid;
+        if (tabType == TabType.Tool)
+        {
+            TabBackground.IsVisible = true;
+            DocumentHighlight.IsVisible = false;
+        }
+        else
+        {
+            
+        }
 
         overlayPanel = new Panel();
         overlayPanel.Background = new SolidColorBrush(0x804787d1);
-
-        tabPanel = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal };
-        scrollViewer.Content = tabPanel;
 
         Panel inBetween2 = new Panel();
         inBetween2.Width = 4;
         inBetween2.Margin = new Thickness(-2, 0, -2, 0);
         inBetween2.Background = Brushes.Transparent;
-        tabPanel.Children.Add(inBetween2);
+        TabStackPanel.Children.Add(inBetween2);
         inBetweenPanels.Add(inBetween2);
 
     }
@@ -87,10 +66,10 @@ public class TabGroup: UserControl
             /* remove an inBetweenPanel */
             int tabIndex = Tabs.IndexOf(tab);
             Panel inBetweenToRemove = inBetweenPanels[tabIndex + 1];
-            tabPanel.Children.Remove(inBetweenToRemove);
+            TabStackPanel.Children.Remove(inBetweenToRemove);
             inBetweenPanels.Remove(inBetweenToRemove);
 
-            tabPanel.Children.Remove(tab);
+            TabStackPanel.Children.Remove(tab);
             Tabs.Remove(tab);
         }
     }
@@ -104,20 +83,27 @@ public class TabGroup: UserControl
 
         if (index < 0 || index > Tabs.Count)
         {
-            tabPanel.Children.Add(tab);
+            TabStackPanel.Children.Add(tab);
             Tabs.Add(tab);
-            tabPanel.Children.Add(inBetween);
+            TabStackPanel.Children.Add(inBetween);
             inBetweenPanels.Add(inBetween);
         }
         else
         {
-            tabPanel.Children.Insert(index * 2 + 1, inBetween);
-            tabPanel.Children.Insert(index * 2 + 1, tab);
+            TabStackPanel.Children.Insert(index * 2 + 1, inBetween);
+            TabStackPanel.Children.Insert(index * 2 + 1, tab);
             Tabs.Insert(index, tab);
             inBetweenPanels.Insert(index + 1, inBetween);
         }
 
         tab.TabGroup = this;
+
+        foreach (Tab t in Tabs)
+        {
+            t.IsSelected = false;
+        }
+
+        tab.IsSelected = true;
     }
 
     public bool TabDragged(Tab tab, PointerEventArgs e, TabDragEvent dragEvent)
@@ -137,7 +123,7 @@ public class TabGroup: UserControl
         {
             if (overlayPanel.Parent != null)
             {
-                contentGrid.Children.Remove(overlayPanel);
+                ContentGrid.Children.Remove(overlayPanel);
             }   
 
             return false;
@@ -150,12 +136,12 @@ public class TabGroup: UserControl
             /* handle tab bar area */
             if (overlayPanel.Parent != null)
             {
-                contentGrid.Children.Remove(overlayPanel);
+                ContentGrid.Children.Remove(overlayPanel);
             }   
 
             for (int i = 0; i < Tabs.Count; i++)
             {
-                if (Tabs[i].Bounds.Contains(e.GetPosition(tabPanel)))
+                if (Tabs[i].Bounds.Contains(e.GetPosition(TabStackPanel)))
                 {
                     if (e.GetPosition(Tabs[i]).X < Tabs[i].Bounds.Width / 2)
                     {
@@ -237,7 +223,7 @@ public class TabGroup: UserControl
 
             if (overlayPanel.Parent == null)
             {
-                contentGrid.Children.Add(overlayPanel);
+                ContentGrid.Children.Add(overlayPanel);
             }   
             
         }
@@ -250,7 +236,7 @@ public class TabGroup: UserControl
     {   
         if (overlayPanel.Parent != null)
         {
-            contentGrid.Children.Remove(overlayPanel);
+            ContentGrid.Children.Remove(overlayPanel);
         }   
 
         foreach (Panel inBetween in inBetweenPanels)
@@ -262,9 +248,9 @@ public class TabGroup: UserControl
     private void DebugPrintStructure()
     {
         Console.WriteLine("=== Tab Panel Structure ===");
-        for (int i = 0; i < tabPanel.Children.Count; i++)
+        for (int i = 0; i < TabStackPanel.Children.Count; i++)
         {
-            var child = tabPanel.Children[i];
+            var child = TabStackPanel.Children[i];
             if (child is Panel)
                 Console.WriteLine($"{i}: InBetween Panel");
             else if (child is Tab tab)

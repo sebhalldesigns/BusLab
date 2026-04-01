@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BusLab.UI.Docking"
         mc:Ignorable="d"
         x:Class="BusLab.UI.Docking.Tab"
-        MinWidth="100" MaxWidth="200">
+        MinWidth="100" MaxWidth="400">
     
 
     <UserControl.Styles>
@@ -25,12 +25,28 @@
         <Style Selector="local|Tab:selected Border#Button:pointerover">
             <Setter Property="Background" Value="{DynamicResource SemiColorBackground3}"/>
         </Style>
+
+        <Style Selector="local|Tab:tool Border#Button">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="local|Tab:tool Border#Button:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SemiColorBackground3}"/>
+        </Style>
+
+        <Style Selector="local|Tab:selected:tool Border#Button">
+            <Setter Property="Background" Value="{DynamicResource SemiColorBackground0}"/>
+        </Style>
+
+        <Style Selector="local|Tab:selected:tool Border#Button:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}"/>
+        </Style>
     </UserControl.Styles>
 
-    <Border Name="Button" CornerRadius="3">
+    <Border Name="Button" CornerRadius="5 5 0 0" Margin="2 2 2 0">
         <DockPanel Name="contentDock">
             <Border Name="CloseButton" DockPanel.Dock="Right" Width="17" Height="17" Margin="0 0 3 0" CornerRadius="4"
-                VerticalAlignment="Center" IsVisible="False">
+                VerticalAlignment="Center" Opacity="0.0" IsHitTestVisible="False">
                 <materialIcons:MaterialIcon Kind="Close" Width="15" Height="15"
                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
