@@ -11,7 +11,9 @@
         WindowStartupLocation="CenterScreen"
         SystemDecorations="Full"
         FontFamily="Segoe UI, -apple-system, system-ui, Noto Sans, Arial"
+        FontSize="12"
         Icon="avares://BusLab/Assets/Icons/icon.ico"
+        Background="{DynamicResource SemiColorBackground0}"
         Title="BusLab">
 
     <Window.Styles>
@@ -41,7 +43,7 @@
 
                 <TextBlock Text="BusLab" VerticalAlignment="Top" Margin="10 1 5 0" FontWeight="SemiBold"/>
 
-                <Menu DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" CornerRadius="5" FontSize="13">
+                <Menu DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" CornerRadius="5" FontSize="12">
                     <MenuItem Header="_File" Classes="Small">
                         <MenuItem Header="New..."/>
                         <Separator/>
