@@ -12,6 +12,7 @@
     <UserControl.Styles>
         <Style Selector="local|Tab Border#Button">
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="2 0 2 0"/>
         </Style>
 
         <Style Selector="local|Tab Border#Button:pointerover">
@@ -28,6 +29,7 @@
 
         <Style Selector="local|Tab:tool Border#Button">
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="2 2 2 0"/>
         </Style>
 
         <Style Selector="local|Tab:tool Border#Button:pointerover">
@@ -43,7 +45,7 @@
         </Style>
     </UserControl.Styles>
 
-    <Border Name="Button" CornerRadius="5 5 0 0" Margin="2 2 2 0">
+    <Border Name="Button" CornerRadius="5 5 0 0">
         <DockPanel Name="contentDock">
             <Border Name="CloseButton" DockPanel.Dock="Right" Width="17" Height="17" Margin="0 0 3 0" CornerRadius="4"
                 VerticalAlignment="Center" Opacity="0.0" IsHitTestVisible="False">

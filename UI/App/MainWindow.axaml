@@ -18,7 +18,7 @@
 
     <Window.Styles>
         <Style Selector="Window[WindowState=Maximized]">
-            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Padding" Value="7"/>
         </Style>
         <Style Selector="Window[WindowState=Normal]">
             <Setter Property="Padding" Value="0"/>
@@ -41,7 +41,7 @@
 
             <StackPanel Name="MenuBarStack" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0">
 
-                <TextBlock Text="BusLab" VerticalAlignment="Top" Margin="10 1 5 0" FontWeight="SemiBold"/>
+                <TextBlock Text="BusLab" VerticalAlignment="Top" Margin="10 2 5 0" FontWeight="SemiBold"/>
 
                 <Menu DockPanel.Dock="Left" Background="Transparent" IsHitTestVisible="True" VerticalAlignment="Center" CornerRadius="5" FontSize="12">
                     <MenuItem Header="_File" Classes="Small">
