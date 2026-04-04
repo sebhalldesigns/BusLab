@@ -22,7 +22,7 @@ public enum ToolTabLocation
     Bottom
 }
 
-public partial class TabArea: UserControl
+public partial class DockArea: UserControl
 {
     public List<Tab> Tabs = new List<Tab>();
     
@@ -38,7 +38,7 @@ public partial class TabArea: UserControl
 
     private List<Grid> ToolGrids = new List<Grid>();
     
-    public TabArea()
+    public DockArea()
     {
         InitializeComponent();
         Console.WriteLine("Hello from Workbench");

@@ -21,16 +21,16 @@ public partial class TabGroup: UserControl
     public List<Tab> Tabs = new List<Tab>();
     
     private List<Panel> inBetweenPanels = new List<Panel>();
-    private TabArea tabArea;
+    private DockArea dockArea;
     private Panel overlayPanel;
 
     public Grid Grid;
 
     public TabType TabType { get; private set; }
 
-    public TabGroup(TabArea tabArea, Grid parentGrid, TabType tabType = TabType.Document)
+    public TabGroup(DockArea dockArea, Grid parentGrid, TabType tabType = TabType.Document)
     {
-        this.tabArea = tabArea;
+        this.dockArea = dockArea;
         this.Grid = parentGrid;
         this.TabType = tabType;
 

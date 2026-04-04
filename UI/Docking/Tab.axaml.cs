@@ -28,7 +28,7 @@ public enum TabType
 public partial class Tab: UserControl
 {
 
-    private TabArea tabArea;
+    private DockArea dockArea;
 
     public TabType Type { get; private set; }
 
@@ -42,12 +42,12 @@ public partial class Tab: UserControl
 
     public TabGroup? TabGroup;
 
-    public Tab(TabArea tabArea, TabType type = TabType.Document, TabGroup? tabGroup = null)
+    public Tab(DockArea dockArea, TabType type = TabType.Document, TabGroup? tabGroup = null)
     {
 
         InitializeComponent();
 
-        this.tabArea = tabArea;
+        this.dockArea = dockArea;
         this.TabGroup = tabGroup;
         this.Type = type;
 
@@ -59,7 +59,7 @@ public partial class Tab: UserControl
         CloseButton.PointerPressed += (s, e) =>
         {
             Console.WriteLine("Close tab");
-            tabArea.RemoveTab(this);
+            dockArea.RemoveTab(this);
             e.Handled = true;
         };
 
@@ -115,7 +115,7 @@ public partial class Tab: UserControl
         // Make original tab visible again
         Opacity = 1.0;
 
-        tabArea.TabDragEnded();
+        dockArea.TabDragEnded();
 
         Console.WriteLine("Stopped dragging tab.");
 
@@ -130,12 +130,12 @@ public partial class Tab: UserControl
             {
                 // Clicked close button
                 Console.WriteLine("Close button clicked on tab.");
-                tabArea.RemoveTab(this);
+                dockArea.RemoveTab(this);
             }
             else
             {
                 // Select tab
-                tabArea.SelectTab(this);
+                dockArea.SelectTab(this);
                 Console.WriteLine("Tab selected.");
             }
         }
@@ -182,7 +182,7 @@ public partial class Tab: UserControl
         Canvas.SetLeft(dragAdorner, adornerPosition.X - dragStartPoint.X);
         Canvas.SetTop(dragAdorner, adornerPosition.Y - dragStartPoint.Y);
 
-        tabArea.TabDragged(this, e);
+        dockArea.TabDragged(this, e);
         
     }
     

@@ -100,7 +100,7 @@
             </Grid>
         </Grid>
 
-        <docking:TabArea Grid.Row="1"/>
+        <docking:DockArea Grid.Row="1"/>
 
    
     </Grid>
