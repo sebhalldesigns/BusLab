@@ -18,7 +18,7 @@
 
         <Rectangle Name="TabBackground" Fill="{DynamicResource SemiColorBackground2}" Grid.Row="0" IsVisible="False"/>
 
-        <ScrollViewer Name="TabScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Row="0">
+        <ScrollViewer Name="TabScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Grid.Row="0">
             <StackPanel Name="TabStackPanel" Orientation="Horizontal"/>
         </ScrollViewer>
 

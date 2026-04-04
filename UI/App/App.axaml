@@ -3,7 +3,7 @@
              xmlns:semi="https://irihi.tech/semi"
              xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia" 
              x:Class="BusLab.UI.App.App"
-             RequestedThemeVariant="Dark">
+             RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Resources>
@@ -29,6 +29,10 @@
                     <SolidColorBrush x:Key="MenuPopupHighlight">#E8E8E8</SolidColorBrush>
                     <SolidColorBrush x:Key="GridSplitterBackgroundBrush">#1C4A5E77</SolidColorBrush>
                     <SolidColorBrush x:Key="GridSplitterHoverBackgroundBrush">#A05288C5</SolidColorBrush>
+                    <SolidColorBrush x:Key="SemiColorBackground0">#F4F7FB</SolidColorBrush>
+                    <SolidColorBrush x:Key="SemiColorBackground1">#E9EEF5</SolidColorBrush>
+                    <SolidColorBrush x:Key="SemiColorBackground2">#DDE6F1</SolidColorBrush>
+                    <SolidColorBrush x:Key="SemiColorBackground3">#D1DCEA</SolidColorBrush>
                     <!-- light-specific overrides -->
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
