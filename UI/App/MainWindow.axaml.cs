@@ -11,6 +11,7 @@ using System.Text;
 
 
 using BusLab.UI.Tools;
+using BusLab.UI.Documents;
 
 namespace BusLab.UI.App;
 
@@ -27,6 +28,10 @@ public partial class MainWindow : Window
         DockArea.OpenTool(new Problems());
         DockArea.OpenTool(new Properties());
         DockArea.OpenTool(new Assistant());
+
+        DockArea.OpenDocument(new DbcDocument("dbc/mydbc.dbc"));
+        DockArea.OpenDocument(new DbcDocument("dbc/mydbc2.dbc"));
+        DockArea.OpenDocument(new DbcDocument("dbc/mydbc3.dbc"));
     }
 
 }

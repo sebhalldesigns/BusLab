@@ -60,16 +60,6 @@ public partial class DockArea: UserControl
         ToolGrids.Add(LeftToolGrid);
         ToolGrids.Add(RightToolGrid);
         ToolGrids.Add(BottomToolGrid);
-
-        for (int i = 0; i < 10; i++)
-        {
-            DocumentDockItem item = new DocumentDockItem(
-                $"document-{i + 1}",
-                $"Tab {i + 1}");
-            item.Content = CreateDemoContent($"Document {i + 1}", TabType.Document);
-            OpenDocument(item);
-        }
-
     }
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
