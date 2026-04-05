@@ -26,6 +26,12 @@ public enum ToolTabLocation
 
 public partial class DockArea: UserControl
 {
+    private const int LeftToolColumnIndex = 0;
+    private const int DocumentColumnIndex = 2;
+    private const int RightToolColumnIndex = 4;
+    private const int DocumentRowIndex = 0;
+    private const int BottomToolRowIndex = 2;
+
     private List<Tab> tabs = new List<Tab>();
     private Dictionary<DockItem, Tab> tabsByItem = new Dictionary<DockItem, Tab>();
     private Dictionary<string, Tab> toolTabsById = new Dictionary<string, Tab>();
@@ -41,6 +47,7 @@ public partial class DockArea: UserControl
     private TabDragEvent currentTabDragEvent = new TabDragEvent();
     
     private List<Grid> ToolGrids = new List<Grid>();
+    private bool rootSplitSizesInitialized;
 
     public IReadOnlyList<DockItem> OpenItems => tabs.Select(tab => tab.Item).ToList();
     
@@ -48,6 +55,7 @@ public partial class DockArea: UserControl
     {
         InitializeComponent();
         Console.WriteLine("Hello from Workbench");
+        Loaded += OnLoaded;
 
         ToolGrids.Add(LeftToolGrid);
         ToolGrids.Add(RightToolGrid);
@@ -62,6 +70,52 @@ public partial class DockArea: UserControl
             OpenDocument(item);
         }
 
+    }
+
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        TryFreezeRootSplitSizes();
+
+        if (!rootSplitSizesInitialized)
+        {
+            LayoutUpdated += OnLayoutUpdated;
+        }
+    }
+
+    private void OnLayoutUpdated(object? sender, EventArgs e)
+    {
+        TryFreezeRootSplitSizes();
+
+        if (rootSplitSizesInitialized)
+        {
+            LayoutUpdated -= OnLayoutUpdated;
+        }
+    }
+
+    private void TryFreezeRootSplitSizes()
+    {
+        if (rootSplitSizesInitialized)
+        {
+            return;
+        }
+
+        if (LeftToolGrid.Bounds.Width <= 0 || RightToolGrid.Bounds.Width <= 0 || BottomToolGrid.Bounds.Height <= 0)
+        {
+            return;
+        }
+
+        ColumnDefinition leftColumn = RootGrid.ColumnDefinitions[LeftToolColumnIndex];
+        ColumnDefinition rightColumn = RootGrid.ColumnDefinitions[RightToolColumnIndex];
+        RowDefinition bottomRow = RootGrid.RowDefinitions[BottomToolRowIndex];
+
+        leftColumn.Width = new GridLength(Math.Max(leftColumn.MinWidth, LeftToolGrid.Bounds.Width), GridUnitType.Pixel);
+        RootGrid.ColumnDefinitions[DocumentColumnIndex].Width = GridLength.Star;
+        rightColumn.Width = new GridLength(Math.Max(rightColumn.MinWidth, RightToolGrid.Bounds.Width), GridUnitType.Pixel);
+
+        RootGrid.RowDefinitions[DocumentRowIndex].Height = GridLength.Star;
+        bottomRow.Height = new GridLength(Math.Max(bottomRow.MinHeight, BottomToolGrid.Bounds.Height), GridUnitType.Pixel);
+
+        rootSplitSizesInitialized = true;
     }
 
     public Tab OpenDocument(DocumentDockItem item)
