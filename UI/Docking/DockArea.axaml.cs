@@ -9,9 +9,11 @@ using Avalonia.Media;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using Avalonia.Styling;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BusLab.UI.Docking;
 
@@ -24,7 +26,9 @@ public enum ToolTabLocation
 
 public partial class DockArea: UserControl
 {
-    public List<Tab> Tabs = new List<Tab>();
+    private List<Tab> tabs = new List<Tab>();
+    private Dictionary<DockItem, Tab> tabsByItem = new Dictionary<DockItem, Tab>();
+    private Dictionary<string, Tab> toolTabsById = new Dictionary<string, Tab>();
     
     public List<TabGroup> DocumentTabs = new List<TabGroup>();
     public List<TabGroup>[] ToolTabs = new List<TabGroup>[]
@@ -35,8 +39,10 @@ public partial class DockArea: UserControl
     };
     
     private TabDragEvent currentTabDragEvent = new TabDragEvent();
-
+    
     private List<Grid> ToolGrids = new List<Grid>();
+
+    public IReadOnlyList<DockItem> OpenItems => tabs.Select(tab => tab.Item).ToList();
     
     public DockArea()
     {
@@ -49,34 +55,17 @@ public partial class DockArea: UserControl
 
         for (int i = 0; i < 10; i++)
         {
-            Tab tab = AddDocumentTab();
-            tab.TextBlock.Text = "Tab " + (i + 1);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            Tab tab = AddToolTab(ToolTabLocation.Left);
-            tab.TextBlock.Text = "Tool " + (i + 1);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            Tab tab = AddToolTab(ToolTabLocation.Right);
-            tab.TextBlock.Text = "Tool " + (i + 1);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            Tab tab = AddToolTab(ToolTabLocation.Bottom);
-            tab.TextBlock.Text = "Tool " + (i + 1);
+            DocumentDockItem item = new DocumentDockItem(
+                $"document-{i + 1}",
+                $"Tab {i + 1}");
+            item.Content = CreateDemoContent($"Document {i + 1}", TabType.Document);
+            OpenDocument(item);
         }
 
     }
 
-    public Tab AddDocumentTab()
+    public Tab OpenDocument(DocumentDockItem item)
     {
-        Tab tab = new Tab(this);
-
         if (DocumentTabs.Count == 0)
         {
             TabGroup tabGroup = new TabGroup(this, DocumentGrid);
@@ -85,40 +74,82 @@ public partial class DockArea: UserControl
             DocumentTabs.Add(tabGroup);
         }
 
-        DocumentTabs[0].AddTab(tab);
-        Tabs.Add(tab);
-
-        SelectTab(tab);
-
-        return tab;
+        return OpenItem(item, DocumentTabs[0]);
     }
 
-    public Tab AddToolTab(ToolTabLocation location)
+    public Tab OpenTool(ToolDockItem item)
     {
-        Tab tab = new Tab(this, TabType.Tool);
-
-        if (ToolTabs[(int)location].Count == 0)
+        if (toolTabsById.TryGetValue(item.Id, out Tab? existingTab))
         {
-            TabGroup tabGroup = new TabGroup(this, ToolGrids[(int)location], TabType.Tool);
-            Grid.SetColumn(tabGroup, 0);
-            ToolGrids[(int)location].Children.Add(tabGroup);
-            ToolTabs[(int)location].Add(tabGroup);
+            SelectTab(existingTab);
+            return existingTab;
         }
 
-        ToolTabs[(int)location][0].AddTab(tab);
-        Tabs.Add(tab);
+        int toolLocationIndex = (int)item.PreferredLocation;
+
+        if (ToolTabs[toolLocationIndex].Count == 0)
+        {
+            TabGroup tabGroup = new TabGroup(this, ToolGrids[toolLocationIndex], TabType.Tool, item.PreferredLocation);
+            Grid.SetColumn(tabGroup, 0);
+            ToolGrids[toolLocationIndex].Children.Add(tabGroup);
+            ToolTabs[toolLocationIndex].Add(tabGroup);
+        }
+
+        return OpenItem(item, ToolTabs[toolLocationIndex][0]);
+    }
+
+    public bool TrySelectItem(DockItem item)
+    {
+        if (!tabsByItem.TryGetValue(item, out Tab? tab))
+        {
+            return false;
+        }
+
+        SelectTab(tab);
+        return true;
+    }
+
+    public void CloseItem(DockItem item)
+    {
+        if (!tabsByItem.TryGetValue(item, out Tab? tab))
+        {
+            return;
+        }
+
+        RemoveTab(tab);
+    }
+
+    private Tab OpenItem(DockItem item, TabGroup group)
+    {
+        Tab tab = new Tab(this, item);
+
+        group.AddTab(tab);
+        tabs.Add(tab);
+        tabsByItem[item] = tab;
+
+        if (item is ToolDockItem toolItem)
+        {
+            toolTabsById[toolItem.Id] = tab;
+        }
 
         SelectTab(tab);
 
         return tab;
     }
 
-    public void RemoveTab(Tab tab)
+    internal void RemoveTab(Tab tab)
     {
-        if (Tabs.Contains(tab))
+        if (tabs.Contains(tab))
         {
             tab.TabGroup?.RemoveTab(tab);
-            Tabs.Remove(tab);
+            tab.ReleaseItemSubscriptions();
+            tabs.Remove(tab);
+            tabsByItem.Remove(tab.Item);
+
+            if (tab.Item is ToolDockItem)
+            {
+                toolTabsById.Remove(tab.Item.Id);
+            }
         }
 
         RemoveEmptyTabs();
@@ -126,12 +157,7 @@ public partial class DockArea: UserControl
 
     public void SelectTab(Tab tab)
     {
-        foreach (Tab t in tab.TabGroup.Tabs)
-        {
-            t.IsSelected = false;
-        }
-
-        tab.IsSelected = true;
+        tab.TabGroup?.SelectTab(tab);
     }
 
     public void TabDragged(Tab tab, PointerEventArgs e)
@@ -215,6 +241,23 @@ public partial class DockArea: UserControl
         RemoveEmptyTabs();
     }
 
+    private Control CreateDemoContent(string title, TabType tabType)
+    {
+        Border border = new Border
+        {
+            Background = new SolidColorBrush(Color.FromUInt32(tabType == TabType.Tool ? 0x10FFFFFFu : 0x08000000u)),
+            Padding = new Thickness(12)
+        };
+
+        border.Child = new TextBlock
+        {
+            Text = $"{title} content",
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        return border;
+    }
+
     private TabGroup SplitTabGroup(TabGroup sourceGroup, TabSplitDirection direction)
     {
         Grid parentGrid = sourceGroup.Grid;
@@ -280,7 +323,7 @@ public partial class DockArea: UserControl
         newGrid.Children.Add(sourceGroup);
         sourceGroup.Grid = newGrid;
 
-        TabGroup newTabGroup = new TabGroup(this, newGrid, sourceGroup.TabType);
+        TabGroup newTabGroup = new TabGroup(this, newGrid, sourceGroup.TabType, sourceGroup.ToolLocation);
         if (direction == TabSplitDirection.LEFT || direction == TabSplitDirection.RIGHT)
         {
             if (direction == TabSplitDirection.LEFT)
@@ -305,7 +348,15 @@ public partial class DockArea: UserControl
         }
 
         newGrid.Children.Add(newTabGroup);
-        DocumentTabs.Add(newTabGroup);
+
+        if (sourceGroup.TabType == TabType.Tool && sourceGroup.ToolLocation.HasValue)
+        {
+            ToolTabs[(int)sourceGroup.ToolLocation.Value].Add(newTabGroup);
+        }
+        else
+        {
+            DocumentTabs.Add(newTabGroup);
+        }
 
         return newTabGroup;
 

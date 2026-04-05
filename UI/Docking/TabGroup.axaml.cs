@@ -21,18 +21,19 @@ public partial class TabGroup: UserControl
     public List<Tab> Tabs = new List<Tab>();
     
     private List<Panel> inBetweenPanels = new List<Panel>();
-    private DockArea dockArea;
     private Panel overlayPanel;
+    private Tab? selectedTab;
 
     public Grid Grid;
 
     public TabType TabType { get; private set; }
+    public ToolTabLocation? ToolLocation { get; }
 
-    public TabGroup(DockArea dockArea, Grid parentGrid, TabType tabType = TabType.Document)
+    public TabGroup(DockArea _, Grid parentGrid, TabType tabType = TabType.Document, ToolTabLocation? toolLocation = null)
     {
-        this.dockArea = dockArea;
         this.Grid = parentGrid;
         this.TabType = tabType;
+        this.ToolLocation = toolLocation;
 
         InitializeComponent();
 
@@ -47,7 +48,7 @@ public partial class TabGroup: UserControl
         }
 
         overlayPanel = new Panel();
-        overlayPanel.Background = new SolidColorBrush(0x804787d1);
+        overlayPanel.Background = new SolidColorBrush(Color.FromUInt32(0x804787d1u));
 
         Panel inBetween2 = new Panel();
         inBetween2.Width = 4;
@@ -62,15 +63,30 @@ public partial class TabGroup: UserControl
     {
         if (Tabs.Contains(tab))
         {
-            
             /* remove an inBetweenPanel */
             int tabIndex = Tabs.IndexOf(tab);
+            bool wasSelected = selectedTab == tab;
             Panel inBetweenToRemove = inBetweenPanels[tabIndex + 1];
             TabStackPanel.Children.Remove(inBetweenToRemove);
             inBetweenPanels.Remove(inBetweenToRemove);
 
             TabStackPanel.Children.Remove(tab);
             Tabs.Remove(tab);
+            tab.TabGroup = null;
+            tab.IsSelected = false;
+
+            if (wasSelected)
+            {
+                if (Tabs.Count > 0)
+                {
+                    SelectTab(Tabs[Math.Min(tabIndex, Tabs.Count - 1)]);
+                }
+                else
+                {
+                    selectedTab = null;
+                    TabContent.Content = null;
+                }
+            }
         }
     }
 
@@ -98,12 +114,19 @@ public partial class TabGroup: UserControl
 
         tab.TabGroup = this;
 
+        SelectTab(tab);
+    }
+
+    public void SelectTab(Tab tab)
+    {
         foreach (Tab t in Tabs)
         {
             t.IsSelected = false;
         }
 
+        selectedTab = tab;
         tab.IsSelected = true;
+        TabContent.Content = tab.Item;
     }
 
     public bool TabDragged(Tab tab, PointerEventArgs e, TabDragEvent dragEvent)
@@ -147,7 +170,7 @@ public partial class TabGroup: UserControl
                     {
                         /* left side */
                         Panel leftInBetween = inBetweenPanels[i];
-                        leftInBetween.Background = new SolidColorBrush(0x804787d1);
+                        leftInBetween.Background = new SolidColorBrush(Color.FromUInt32(0x804787d1u));
                         dragEvent.EventType = TabDragEventType.INSERT;
                         dragEvent.InsertIndex = i;
                     }
@@ -155,7 +178,7 @@ public partial class TabGroup: UserControl
                     {
                         /* right side */
                         Panel rightInBetween = inBetweenPanels[i + 1];
-                        rightInBetween.Background = new SolidColorBrush(0x804787d1);
+                        rightInBetween.Background = new SolidColorBrush(Color.FromUInt32(0x804787d1u));
                         dragEvent.EventType = TabDragEventType.INSERT;
                         dragEvent.InsertIndex = i + 1;
                     }
@@ -165,7 +188,7 @@ public partial class TabGroup: UserControl
             }
 
             Panel endInBetween = inBetweenPanels[inBetweenPanels.Count - 1];
-            endInBetween.Background = new SolidColorBrush(0x804787d1);
+            endInBetween.Background = new SolidColorBrush(Color.FromUInt32(0x804787d1u));
 
             dragEvent.EventType = TabDragEventType.INSERT;
             dragEvent.InsertIndex = -1; /* append to end */

@@ -30,6 +30,8 @@ public partial class Tab: UserControl
 
     private DockArea dockArea;
 
+    public DockItem Item { get; }
+
     public TabType Type { get; private set; }
 
     public bool IsSelected { get => GetIsSelected(); set => SetIsSelected(value); }
@@ -42,16 +44,20 @@ public partial class Tab: UserControl
 
     public TabGroup? TabGroup;
 
-    public Tab(DockArea dockArea, TabType type = TabType.Document, TabGroup? tabGroup = null)
+    public Tab(DockArea dockArea, DockItem item, TabGroup? tabGroup = null)
     {
 
         InitializeComponent();
 
         this.dockArea = dockArea;
+        this.Item = item;
         this.TabGroup = tabGroup;
-        this.Type = type;
+        this.Type = item.TabType;
+        TextBlock.Text = item.Title;
+        CloseButton.IsVisible = item.CanClose;
+        item.TitleChanged += OnItemTitleChanged;
 
-        if (type == TabType.Tool)
+        if (item.TabType == TabType.Tool)
         {
             PseudoClasses.Set(":tool", true);
         }
@@ -65,7 +71,7 @@ public partial class Tab: UserControl
 
         CloseButton.PointerEntered += (s, e) =>
         {
-            CloseButton.Background = new SolidColorBrush(0x50808080);
+            CloseButton.Background = new SolidColorBrush(Color.FromUInt32(0x50808080u));
         };
 
         CloseButton.PointerExited += (s, e) =>
@@ -89,6 +95,16 @@ public partial class Tab: UserControl
         Button.AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Bubble, handledEventsToo: true);
         Button.AddHandler(PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Bubble, handledEventsToo: true);
         Button.AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Bubble, handledEventsToo: true);
+    }
+
+    private void OnItemTitleChanged(DockItem item)
+    {
+        TextBlock.Text = item.Title;
+    }
+
+    public void ReleaseItemSubscriptions()
+    {
+        Item.TitleChanged -= OnItemTitleChanged;
     }
     
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -130,7 +146,7 @@ public partial class Tab: UserControl
             {
                 // Clicked close button
                 Console.WriteLine("Close button clicked on tab.");
-                dockArea.RemoveTab(this);
+                dockArea.CloseItem(Item);
             }
             else
             {
@@ -193,7 +209,7 @@ public partial class Tab: UserControl
         {
             Width = Bounds.Width,
             Height = Bounds.Height,
-            Background = new SolidColorBrush(0x30808080), // Dark background
+            Background = new SolidColorBrush(Color.FromUInt32(0x30808080u)), // Dark background
             BorderBrush = Brushes.Transparent,
             BorderThickness = new Thickness(2),
             CornerRadius = new CornerRadius(4),
@@ -210,7 +226,7 @@ public partial class Tab: UserControl
         // Copy the text content
         var textBlock = new TextBlock
         {
-            Text = TextBlock.Text,
+            Text = Item.Title,
             TextAlignment = TextAlignment.Left,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(5, 0, 0, 0)
