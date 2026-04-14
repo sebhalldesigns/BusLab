@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusLab.UI.SettingsPanel"
+        x:Class="BusLab.UI.App.SettingsPanel"
+        Background="#80000000">
+
+    <Grid>
+        <Border Background="{DynamicResource SemiColorBackground0}" Margin="25" CornerRadius="10"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            MaxWidth="1000" MinWidth="250" MaxHeight="750" MinHeight="250" >
+            <TabControl TabStripPlacement="Left" Theme="{StaticResource ButtonTabControl}">
+                <TabItem Header="Appearance"/>
+                <TabItem Header="About"/>
+            </TabControl>
+        </Border>
+    </Grid>
+</UserControl>

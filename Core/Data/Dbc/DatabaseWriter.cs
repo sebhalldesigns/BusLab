@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BusLab;
+namespace BusLab.Data.Dbc;
 
 public static class DatabaseWriter
 {

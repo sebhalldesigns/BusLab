@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BusLab;
+namespace BusLab.Data.Dbc;
 
 public enum CanDatabaseAttributeType
 {

@@ -102,6 +102,6 @@
 
         <docking:DockArea Name="DockArea"  Grid.Row="1"/>
 
-   
+        <local:SettingsPanel  Grid.Row="1" Grid.RowSpan="1" IsVisible="False"/>
     </Grid>
 </Window>

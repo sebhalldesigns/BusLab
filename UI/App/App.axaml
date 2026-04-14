@@ -29,7 +29,7 @@
                     <SolidColorBrush x:Key="MenuPopupHighlight">#E8E8E8</SolidColorBrush>
                     <SolidColorBrush x:Key="GridSplitterBackgroundBrush">#1C4A5E77</SolidColorBrush>
                     <SolidColorBrush x:Key="GridSplitterHoverBackgroundBrush">#A05288C5</SolidColorBrush>
-                    <SolidColorBrush x:Key="SemiColorBackground0">#F4F7FB</SolidColorBrush>
+                    <SolidColorBrush x:Key="SemiColorBackground0">#FFFFFF</SolidColorBrush>
                     <SolidColorBrush x:Key="SemiColorBackground1">#E9EEF5</SolidColorBrush>
                     <SolidColorBrush x:Key="SemiColorBackground2">#DDE6F1</SolidColorBrush>
                     <SolidColorBrush x:Key="SemiColorBackground3">#D1DCEA</SolidColorBrush>
@@ -51,7 +51,8 @@
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
         <StyleInclude Source="avares://BusLab/UI/App/GlobalStyles.axaml"/>
-        <semi:SemiTheme Locale="en-USCN" />
+        <semi:SemiTheme Locale="en-US"/>
+        <semi:DataGridSemiTheme/>
         <materialIcons:MaterialIconStyles/>
     </Application.Styles>
 </Application>

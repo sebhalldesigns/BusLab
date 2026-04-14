@@ -4,13 +4,106 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:dock="clr-namespace:BusLab.UI.Docking"
+        xmlns:dbc="clr-namespace:BusLab.Data.Dbc"
         xmlns:local="clr-namespace:BusLab.UI.Documents"
         mc:Ignorable="d"
+        x:DataType="local:DbcDocument"
         x:Class="BusLab.UI.Documents.DbcDocument">
 
-    <Border Background="Pink">
- 
-        
-    </Border>
+    <Grid>
+        <TabControl Background="{DynamicResource SemiColorBackground0}">
+            <TabItem Header="Messages">
+            <DataGrid
+                Classes="Small"
+                Margin="0"
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                HeadersVisibility="All"
+                IsReadOnly="False"
+                ScrollViewer.AllowAutoHide="True"
+                ItemsSource="{Binding Messages}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="4*"
+                            x:DataType="dbc:CanDatabaseMessage"
+                            Binding="{Binding Name}"
+                            Header="Name" />
+                        
+                        <DataGridTemplateColumn Width="2*" Header="ID">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding ID}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <NumericUpDown
+                                        HorizontalAlignment="Stretch"
+                                        FormatString="N0"
+                                        Minimum="0"
+                                        Value="{Binding ID}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        
+                        <DataGridTemplateColumn Width="2*" Header="Length">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Length}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <NumericUpDown
+                                        HorizontalAlignment="Stretch"
+                                        FormatString="N0"
+                                        Minimum="0"
+                                        Value="{Binding Length}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn
+                            Width="4*"
+                            x:DataType="dbc:CanDatabaseMessage"
+                            Binding="{Binding SenderNode}"
+                            Header="Sender" />
+
+                        <DataGridTextColumn
+                            Width="6*"
+                            x:DataType="dbc:CanDatabaseMessage"
+                            Binding="{Binding Comment}"
+                            Header="Comments" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Signals">
+            </TabItem>
+            <TabItem Header="Nodes">
+            </TabItem>
+        </TabControl>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <RadioButton
+                Classes="Small"
+                Theme="{DynamicResource ButtonRadioButton}">
+                Hex
+            </RadioButton>
+            <RadioButton
+                Classes="Small"
+                IsChecked="True"
+                Theme="{DynamicResource ButtonRadioButton}">
+                Dec
+            </RadioButton>
+        </StackPanel>
+    </Grid>
 
 </dock:DocumentDockItem>
