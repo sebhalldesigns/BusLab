@@ -4,3 +4,5 @@ cmake-build*/
 .vscode/
 .zed/
 .cache/
+.claude/
+__cmake*/
