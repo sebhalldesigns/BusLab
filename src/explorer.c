@@ -71,6 +71,8 @@ static explorer_listing_t listing[EXPLORER_MAX_ENTRIES];
 
 static explorer_entry_t *selected = NULL;
 
+static explorer_file_callback_t file_callback = NULL;
+
 /***************************************************************
 ** MARK: STATIC FUNCTION DEFS
 ***************************************************************/
@@ -99,6 +101,11 @@ void explorer_init(void)
 
     scroll_view.virtualize = true;
     scroll_view.item_height = EXPLORER_ROW_HEIGHT;
+}
+
+void explorer_set_file_callback(explorer_file_callback_t callback)
+{
+    file_callback = callback;
 }
 
 nk_view_t *explorer_get_view(void)
@@ -138,8 +145,10 @@ static void item_pressed(nk_tree_item_t *item)
             explorer_collapse(entry);
         }
     }
-
-    printf("Explorer selected: %s\n", entry->path);
+    else if (file_callback)
+    {
+        file_callback(entry->path);
+    }
 }
 
 static explorer_entry_t *entry_alloc(void)

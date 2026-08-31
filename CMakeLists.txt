@@ -9,6 +9,7 @@ add_subdirectory(nanokit)
 add_executable(BusLab
     src/main.c
     src/explorer.c
+    src/editor.c
 )
 
 set_target_properties(BusLab PROPERTIES WIN32_EXECUTABLE $<CONFIG:Release>)

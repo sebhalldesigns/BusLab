@@ -18,7 +18,9 @@
 #include <nanokit.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
+#include "editor.h"
 #include "explorer.h"
 
 /***************************************************************
@@ -46,6 +48,7 @@ static void command_callback(const char *command, const char *user_data);
 
 static void file_open_callback(bool accepted, const char **paths, size_t path_count);
 static void directory_open_callback(bool accepted, const char *path);
+static void explorer_file_selected(const char *path);
 
 /***************************************************************
 ** MARK: PUBLIC FUNCTIONS
@@ -97,8 +100,6 @@ static void app_launched(void)
     menubar_create_info.menus = menus;
     menubar_create_info.menus_count = sizeof(menus) / sizeof(nk_menu_t);
 
-    static nk_workbench_t workbench;
-
     static nk_workbench_create_info_t workbench_create_info;
     workbench_create_info.app_title = "BusLab";
     workbench_create_info.menubar_create_info = &menubar_create_info;
@@ -111,7 +112,10 @@ static void app_launched(void)
     nk_dock_add_tab(&workbench.dock, &explorer_tab, DOCK_TAB_LEFT_AREA);
 
     explorer_init();
+    explorer_set_file_callback(explorer_file_selected);
     nk_view_add_child(&explorer_tab.view, explorer_get_view());
+
+    editor_init(&workbench.dock);
 
     static nk_dock_tab_t devices_tab;
     devices_tab.is_tool = true;
@@ -147,19 +151,7 @@ static void app_launched(void)
     label.text_info.color_resource = NKRES_COLOR_TEXT_PRIMARY;
     nk_view_add_child(&welcome_tab.view, &label.view);
 
-    static nk_dock_tab_t doc_tab_1;
-    doc_tab_1.title = "example1.dbc";
-    nk_dock_add_tab(&workbench.dock, &doc_tab_1, DOCK_TAB_MAIN_AREA);
-
-
-
-    static nk_dock_tab_t doc_tab_2;
-    doc_tab_2.title = "example2.dbc";
-    nk_dock_add_tab(&workbench.dock, &doc_tab_2, DOCK_TAB_MAIN_AREA);
-
-    static nk_dock_tab_t doc_tab_3;
-    doc_tab_3.title = "example3.dbc";
-    nk_dock_add_tab(&workbench.dock, &doc_tab_3, DOCK_TAB_MAIN_AREA);
+    /* Document tabs are opened on demand by the editor. */
 
     /* Create window */
 
@@ -229,12 +221,20 @@ static void file_open_callback(bool accepted, const char **paths, size_t path_co
 {
     if (accepted && path_count > 0)
     {
-        printf("Selected file: %s\n", paths[0]);
+        editor_open(paths[0]);
+        nk_window_request_redraw(&window);
     }
     else
     {
         printf("File selection canceled.\n");
     }
+}
+
+static void explorer_file_selected(const char *path)
+{
+    /* Reached from a click already inside a frame, so the redraw that follows
+       picks the new tab up on its own. */
+    editor_open(path);
 }
 
 static void directory_open_callback(bool accepted, const char *path)
