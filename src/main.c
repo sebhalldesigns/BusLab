@@ -138,6 +138,10 @@ static void app_launched(void)
     problems_tab.title = "Problems";
     nk_dock_add_tab(&workbench.dock, &problems_tab, DOCK_TAB_BOTTOM_AREA);
 
+    /* The bottom panel starts out of the way; the titlebar toggle brings it
+       back with its tabs intact. */
+    nk_dock_set_area_visible(&workbench.dock, DOCK_TAB_BOTTOM_AREA, false);
+
     static nk_dock_tab_t welcome_tab;
     welcome_tab.title = "Welcome";
     nk_dock_add_tab(&workbench.dock, &welcome_tab, DOCK_TAB_MAIN_AREA);
