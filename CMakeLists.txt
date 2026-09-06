@@ -8,11 +8,12 @@ add_subdirectory(nanokit)
 
 add_executable(BusLab
     src/main.c
-    src/explorer.c
+    src/explorer/explorer.c
     src/data/dbc/can_database.c
     src/data/dbc/database_reader.c
     src/data/dbc/database_writer.c
-    src/editor.c
+    src/editor/editor.c
+    src/dbc_editor/dbc_editor.c
 )
 
 target_include_directories(BusLab PRIVATE src)

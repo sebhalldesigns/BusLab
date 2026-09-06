@@ -17,8 +17,11 @@
 
 #include "editor.h"
 
+#include "dbc_editor/dbc_editor.h"
+
 #include <nanokit.h>
 
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,6 +94,7 @@ static const char placeholder_error[]  = "(could not be read)";
 ***************************************************************/
 
 static const char *path_basename(const char *path);
+static bool path_has_extension(const char *path, const char *extension);
 
 static void document_release(editor_document_t *document);
 static void reclaim_closed_documents(void);
@@ -110,11 +114,23 @@ static void document_focus(editor_document_t *document);
 void editor_init(nk_dock_t *target_dock)
 {
     dock = target_dock;
+    dbc_editor_init(target_dock);
 }
 
 void editor_open(const char *path)
 {
-    if (!dock || !path)
+    if (!path)
+    {
+        return;
+    }
+
+    if (path_has_extension(path, ".dbc"))
+    {
+        dbc_editor_open(path);
+        return;
+    }
+
+    if (!dock)
     {
         return;
     }
@@ -184,6 +200,30 @@ static const char *path_basename(const char *path)
     }
 
     return (*name != '\0') ? name : path;
+}
+
+/* Case-insensitive suffix check, so "FILE.DBC" routes the same as "file.dbc". */
+static bool path_has_extension(const char *path, const char *extension)
+{
+    size_t path_length = strlen(path);
+    size_t extension_length = strlen(extension);
+
+    if (extension_length > path_length)
+    {
+        return false;
+    }
+
+    const char *suffix = path + (path_length - extension_length);
+
+    for (size_t i = 0; i < extension_length; i++)
+    {
+        if (tolower((unsigned char)suffix[i]) != tolower((unsigned char)extension[i]))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 static void document_release(editor_document_t *document)

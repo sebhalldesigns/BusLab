@@ -20,8 +20,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "editor.h"
-#include "explorer.h"
+#include "editor/editor.h"
+#include "explorer/explorer.h"
 
 /***************************************************************
 ** MARK: CONSTANTS & MACROS
